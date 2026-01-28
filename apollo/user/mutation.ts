@@ -12,19 +12,28 @@ export const SIGN_UP = gql`
 			memberStatus
 			memberAuthType
 			memberPhone
+			memberEmail
 			memberNick
 			memberFullName
 			memberImage
 			memberAddress
 			memberDesc
-			memberWarnings
-			memberBlocks
-			memberProperties
-			memberRank
+			agentStoreName
+			agentStoreAddress
+			agentStoreLocation
+			agentStoreDesc
+			agentStoreImage
+			memberProducts
+			memberEvents
 			memberArticles
-			memberPoints
+			memberFollowers
+			memberFollowings
 			memberLikes
 			memberViews
+			memberComments
+			memberRank
+			memberWarnings
+			memberBlocks
 			deletedAt
 			createdAt
 			updatedAt
@@ -41,18 +50,28 @@ export const LOGIN = gql`
 			memberStatus
 			memberAuthType
 			memberPhone
+			memberEmail
 			memberNick
 			memberFullName
 			memberImage
 			memberAddress
 			memberDesc
-			memberWarnings
-			memberBlocks
-			memberProperties
-			memberRank
-			memberPoints
+			agentStoreName
+			agentStoreAddress
+			agentStoreLocation
+			agentStoreDesc
+			agentStoreImage
+			memberProducts
+			memberEvents
+			memberArticles
+			memberFollowers
+			memberFollowings
 			memberLikes
 			memberViews
+			memberComments
+			memberRank
+			memberWarnings
+			memberBlocks
 			deletedAt
 			createdAt
 			updatedAt
@@ -69,17 +88,26 @@ export const UPDATE_MEMBER = gql`
 			memberStatus
 			memberAuthType
 			memberPhone
+			memberEmail
 			memberNick
 			memberFullName
 			memberImage
 			memberAddress
 			memberDesc
-			memberProperties
-			memberRank
+			agentStoreName
+			agentStoreAddress
+			agentStoreLocation
+			agentStoreDesc
+			agentStoreImage
+			memberProducts
+			memberEvents
 			memberArticles
-			memberPoints
+			memberFollowers
+			memberFollowings
 			memberLikes
 			memberViews
+			memberComments
+			memberRank
 			memberWarnings
 			memberBlocks
 			deletedAt
@@ -98,18 +126,28 @@ export const LIKE_TARGET_MEMBER = gql`
 			memberStatus
 			memberAuthType
 			memberPhone
+			memberEmail
 			memberNick
 			memberFullName
 			memberImage
 			memberAddress
 			memberDesc
-			memberWarnings
-			memberBlocks
-			memberProperties
-			memberRank
-			memberPoints
+			agentStoreName
+			agentStoreAddress
+			agentStoreLocation
+			agentStoreDesc
+			agentStoreImage
+			memberProducts
+			memberEvents
+			memberArticles
+			memberFollowers
+			memberFollowings
 			memberLikes
 			memberViews
+			memberComments
+			memberRank
+			memberWarnings
+			memberBlocks
 			deletedAt
 			createdAt
 			updatedAt
@@ -119,90 +157,295 @@ export const LIKE_TARGET_MEMBER = gql`
 `;
 
 /**************************
- *        PROPERTY        *
+ *      AGENT STORE       *
  *************************/
 
-export const CREATE_PROPERTY = gql`
-	mutation CreateProperty($input: PropertyInput!) {
-		createProperty(input: $input) {
+export const CREATE_AGENT_STORE = gql`
+	mutation CreateAgentStore($input: AgentStoreInput!) {
+		createAgentStore(input: $input) {
 			_id
-			propertyType
-			propertyStatus
-			propertyLocation
-			propertyAddress
-			propertyTitle
-			propertyPrice
-			propertySquare
-			propertyBeds
-			propertyRooms
-			propertyViews
-			propertyLikes
-			propertyImages
-			propertyDesc
-			propertyBarter
-			propertyRent
+			memberType
+			memberStatus
+			memberAuthType
+			memberPhone
+			memberEmail
+			memberNick
+			memberFullName
+			memberImage
+			memberAddress
+			memberDesc
+			agentStoreName
+			agentStoreAddress
+			agentStoreLocation
+			agentStoreDesc
+			agentStoreImage
+			memberProducts
+			memberEvents
+			memberArticles
+			memberFollowers
+			memberFollowings
+			memberLikes
+			memberViews
+			memberComments
+			memberRank
+			memberWarnings
+			memberBlocks
+			deletedAt
+			createdAt
+			updatedAt
+			accessToken
+		}
+	}
+`;
+
+export const UPDATE_AGENT_STORE = gql`
+	mutation UpdateAgentStore($input: AgentStoreUpdate!) {
+		updateAgentStore(input: $input) {
+			_id
+			memberType
+			memberStatus
+			memberAuthType
+			memberPhone
+			memberEmail
+			memberNick
+			memberFullName
+			memberImage
+			memberAddress
+			memberDesc
+			agentStoreName
+			agentStoreAddress
+			agentStoreLocation
+			agentStoreDesc
+			agentStoreImage
+			memberProducts
+			memberEvents
+			memberArticles
+			memberFollowers
+			memberFollowings
+			memberLikes
+			memberViews
+			memberComments
+			memberRank
+			memberWarnings
+			memberBlocks
+			deletedAt
+			createdAt
+			updatedAt
+			accessToken
+		}
+	}
+`;
+
+/**************************
+ *        PRODUCT         *
+ *************************/
+
+export const CREATE_PRODUCT = gql`
+	mutation CreateProduct($input: ProductInput!) {
+		createProduct(input: $input) {
+			_id
+			productCategory
+			productStatus
+			productName
+			productPrice
+			productImages
+			productDesc
+			productQuantity
+			productSizes
+			productBrand
+			productViews
+			productLikes
+			productComments
+			productRank
 			memberId
 			soldAt
 			deletedAt
-			constructedAt
 			createdAt
 			updatedAt
 		}
 	}
 `;
 
-export const UPDATE_PROPERTY = gql`
-	mutation UpdateProperty($input: PropertyUpdate!) {
-		updateProperty(input: $input) {
+export const UPDATE_PRODUCT = gql`
+	mutation UpdateProduct($input: ProductUpdate!) {
+		updateProduct(input: $input) {
 			_id
-			propertyType
-			propertyStatus
-			propertyLocation
-			propertyAddress
-			propertyTitle
-			propertyPrice
-			propertySquare
-			propertyBeds
-			propertyRooms
-			propertyViews
-			propertyLikes
-			propertyImages
-			propertyDesc
-			propertyBarter
-			propertyRent
+			productCategory
+			productStatus
+			productName
+			productPrice
+			productImages
+			productDesc
+			productQuantity
+			productSizes
+			productBrand
+			productViews
+			productLikes
+			productComments
+			productRank
 			memberId
 			soldAt
 			deletedAt
-			constructedAt
 			createdAt
 			updatedAt
 		}
 	}
 `;
 
-export const LIKE_TARGET_PROPERTY = gql`
-	mutation LikeTargetProperty($input: String!) {
-		likeTargetProperty(propertyId: $input) {
+export const LIKE_TARGET_PRODUCT = gql`
+	mutation LikeTargetProduct($input: String!) {
+		likeTargetProduct(productId: $input) {
 			_id
-			propertyType
-			propertyStatus
-			propertyLocation
-			propertyAddress
-			propertyTitle
-			propertyPrice
-			propertySquare
-			propertyBeds
-			propertyRooms
-			propertyViews
-			propertyLikes
-			propertyImages
-			propertyDesc
-			propertyBarter
-			propertyRent
+			productCategory
+			productStatus
+			productName
+			productPrice
+			productImages
+			productDesc
+			productQuantity
+			productSizes
+			productBrand
+			productViews
+			productLikes
+			productComments
+			productRank
 			memberId
 			soldAt
 			deletedAt
-			constructedAt
+			createdAt
+			updatedAt
+		}
+	}
+`;
+
+/**************************
+ *         EVENT          *
+ *************************/
+
+export const CREATE_EVENT = gql`
+	mutation CreateEvent($input: EventInput!) {
+		createEvent(input: $input) {
+			_id
+			eventType
+			eventStatus
+			eventTitle
+			eventLocation
+			eventAddress
+			eventDesc
+			eventImages
+			eventPeriod {
+				startDate
+				endDate
+			}
+			eventAvailableDates {
+				date
+				startTime
+				endTime
+				capacity
+				booked
+			}
+			eventViews
+			eventLikes
+			eventComments
+			memberId
+			createdAt
+			updatedAt
+		}
+	}
+`;
+
+export const UPDATE_EVENT = gql`
+	mutation UpdateEvent($input: EventUpdate!) {
+		updateEvent(input: $input) {
+			_id
+			eventType
+			eventStatus
+			eventTitle
+			eventLocation
+			eventAddress
+			eventDesc
+			eventImages
+			eventPeriod {
+				startDate
+				endDate
+			}
+			eventAvailableDates {
+				date
+				startTime
+				endTime
+				capacity
+				booked
+			}
+			eventViews
+			eventLikes
+			eventComments
+			memberId
+			createdAt
+			updatedAt
+		}
+	}
+`;
+
+export const LIKE_TARGET_EVENT = gql`
+	mutation LikeTargetEvent($input: String!) {
+		likeTargetEvent(eventId: $input) {
+			_id
+			eventType
+			eventStatus
+			eventTitle
+			eventLocation
+			eventAddress
+			eventDesc
+			eventImages
+			eventPeriod {
+				startDate
+				endDate
+			}
+			eventAvailableDates {
+				date
+				startTime
+				endTime
+				capacity
+				booked
+			}
+			eventViews
+			eventLikes
+			eventComments
+			memberId
+			createdAt
+			updatedAt
+		}
+	}
+`;
+
+/**************************
+ *   EVENT RESERVATION    *
+ *************************/
+
+export const CREATE_EVENT_RESERVATION = gql`
+	mutation CreateEventReservation($input: EventReservationInput!) {
+		createEventReservation(input: $input) {
+			_id
+			memberId
+			eventId
+			participationDate
+			numberOfPeople
+			reservationStatus
+			createdAt
+			updatedAt
+		}
+	}
+`;
+
+export const UPDATE_EVENT_RESERVATION = gql`
+	mutation UpdateEventReservation($input: EventReservationUpdate!) {
+		updateEventReservation(input: $input) {
+			_id
+			memberId
+			eventId
+			participationDate
+			numberOfPeople
+			reservationStatus
 			createdAt
 			updatedAt
 		}
@@ -224,6 +467,7 @@ export const CREATE_BOARD_ARTICLE = gql`
 			articleImage
 			articleViews
 			articleLikes
+			articleComments
 			memberId
 			createdAt
 			updatedAt
@@ -242,6 +486,7 @@ export const UPDATE_BOARD_ARTICLE = gql`
 			articleImage
 			articleViews
 			articleLikes
+			articleComments
 			memberId
 			createdAt
 			updatedAt
@@ -260,6 +505,7 @@ export const LIKE_TARGET_BOARD_ARTICLE = gql`
 			articleImage
 			articleViews
 			articleLikes
+			articleComments
 			memberId
 			createdAt
 			updatedAt
@@ -302,7 +548,7 @@ export const UPDATE_COMMENT = gql`
 `;
 
 /**************************
- *         FOLLOW        *
+ *         FOLLOW         *
  *************************/
 
 export const SUBSCRIBE = gql`

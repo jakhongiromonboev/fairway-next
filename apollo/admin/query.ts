@@ -13,23 +13,31 @@ export const GET_ALL_MEMBERS_BY_ADMIN = gql`
 				memberStatus
 				memberAuthType
 				memberPhone
+				memberEmail
 				memberNick
 				memberFullName
 				memberImage
 				memberAddress
 				memberDesc
-				memberWarnings
-				memberBlocks
-				memberProperties
-				memberRank
+				agentStoreName
+				agentStoreAddress
+				agentStoreLocation
+				agentStoreDesc
+				agentStoreImage
+				memberProducts
+				memberEvents
 				memberArticles
-				memberPoints
+				memberFollowers
+				memberFollowings
 				memberLikes
 				memberViews
+				memberComments
+				memberRank
+				memberWarnings
+				memberBlocks
 				deletedAt
 				createdAt
 				updatedAt
-				accessToken
 			}
 			metaCounter {
 				total
@@ -39,33 +47,30 @@ export const GET_ALL_MEMBERS_BY_ADMIN = gql`
 `;
 
 /**************************
- *        PROPERTY        *
+ *        PRODUCT         *
  *************************/
 
-export const GET_ALL_PROPERTIES_BY_ADMIN = gql`
-	query GetAllPropertiesByAdmin($input: AllPropertiesInquiry!) {
-		getAllPropertiesByAdmin(input: $input) {
+export const GET_ALL_PRODUCTS_BY_ADMIN = gql`
+	query GetAllProductsByAdmin($input: AllProductsInquiry!) {
+		getAllProductsByAdmin(input: $input) {
 			list {
 				_id
-				propertyType
-				propertyStatus
-				propertyLocation
-				propertyAddress
-				propertyTitle
-				propertyPrice
-				propertySquare
-				propertyBeds
-				propertyRooms
-				propertyViews
-				propertyLikes
-				propertyImages
-				propertyDesc
-				propertyBarter
-				propertyRent
+				productCategory
+				productStatus
+				productName
+				productPrice
+				productImages
+				productDesc
+				productQuantity
+				productSizes
+				productBrand
+				productViews
+				productLikes
+				productComments
+				productRank
 				memberId
 				soldAt
 				deletedAt
-				constructedAt
 				createdAt
 				updatedAt
 				memberData {
@@ -74,22 +79,104 @@ export const GET_ALL_PROPERTIES_BY_ADMIN = gql`
 					memberStatus
 					memberAuthType
 					memberPhone
+					memberEmail
 					memberNick
 					memberFullName
 					memberImage
 					memberAddress
 					memberDesc
-					memberWarnings
-					memberBlocks
-					memberProperties
-					memberRank
-					memberPoints
+					agentStoreName
+					agentStoreAddress
+					agentStoreLocation
+					agentStoreDesc
+					agentStoreImage
+					memberProducts
+					memberEvents
+					memberArticles
+					memberFollowers
+					memberFollowings
 					memberLikes
 					memberViews
+					memberComments
+					memberRank
+					memberWarnings
+					memberBlocks
 					deletedAt
 					createdAt
 					updatedAt
-					accessToken
+				}
+			}
+			metaCounter {
+				total
+			}
+		}
+	}
+`;
+
+/**************************
+ *         EVENT          *
+ *************************/
+
+export const GET_ALL_EVENTS_BY_ADMIN = gql`
+	query GetAllEventsByAdmin($input: AllEventsInquiry!) {
+		getAllEventsByAdmin(input: $input) {
+			list {
+				_id
+				eventType
+				eventStatus
+				eventTitle
+				eventLocation
+				eventAddress
+				eventDesc
+				eventImages
+				eventPeriod {
+					startDate
+					endDate
+				}
+				eventAvailableDates {
+					date
+					startTime
+					endTime
+					capacity
+					booked
+				}
+				eventViews
+				eventLikes
+				eventComments
+				memberId
+				createdAt
+				updatedAt
+				memberData {
+					_id
+					memberType
+					memberStatus
+					memberAuthType
+					memberPhone
+					memberEmail
+					memberNick
+					memberFullName
+					memberImage
+					memberAddress
+					memberDesc
+					agentStoreName
+					agentStoreAddress
+					agentStoreLocation
+					agentStoreDesc
+					agentStoreImage
+					memberProducts
+					memberEvents
+					memberArticles
+					memberFollowers
+					memberFollowings
+					memberLikes
+					memberViews
+					memberComments
+					memberRank
+					memberWarnings
+					memberBlocks
+					deletedAt
+					createdAt
+					updatedAt
 				}
 			}
 			metaCounter {
@@ -115,6 +202,7 @@ export const GET_ALL_BOARD_ARTICLES_BY_ADMIN = gql`
 				articleImage
 				articleViews
 				articleLikes
+				articleComments
 				memberId
 				createdAt
 				updatedAt
@@ -124,22 +212,31 @@ export const GET_ALL_BOARD_ARTICLES_BY_ADMIN = gql`
 					memberStatus
 					memberAuthType
 					memberPhone
+					memberEmail
 					memberNick
 					memberFullName
 					memberImage
 					memberAddress
 					memberDesc
-					memberWarnings
-					memberBlocks
-					memberProperties
-					memberRank
-					memberPoints
+					agentStoreName
+					agentStoreAddress
+					agentStoreLocation
+					agentStoreDesc
+					agentStoreImage
+					memberProducts
+					memberEvents
+					memberArticles
+					memberFollowers
+					memberFollowings
 					memberLikes
 					memberViews
+					memberComments
+					memberRank
+					memberWarnings
+					memberBlocks
 					deletedAt
 					createdAt
 					updatedAt
-					accessToken
 				}
 			}
 			metaCounter {
@@ -171,22 +268,31 @@ export const GET_COMMENTS = gql`
 					memberStatus
 					memberAuthType
 					memberPhone
+					memberEmail
 					memberNick
 					memberFullName
 					memberImage
 					memberAddress
 					memberDesc
-					memberWarnings
-					memberBlocks
-					memberProperties
-					memberRank
-					memberPoints
+					agentStoreName
+					agentStoreAddress
+					agentStoreLocation
+					agentStoreDesc
+					agentStoreImage
+					memberProducts
+					memberEvents
+					memberArticles
+					memberFollowers
+					memberFollowings
 					memberLikes
 					memberViews
+					memberComments
+					memberRank
+					memberWarnings
+					memberBlocks
 					deletedAt
 					createdAt
 					updatedAt
-					accessToken
 				}
 			}
 			metaCounter {
