@@ -4,9 +4,10 @@ export enum Message {
 	CREATE_FAILED = 'Create failed!',
 	UPDATE_FAILED = 'Update failed!',
 	REMOVE_FAILED = 'Remove failed!',
+	UPLOAD_FAILED = 'Upload failed!',
+	BAD_REQUEST = 'Bad Request',
 
-	USED_NICK_PHONE = 'You are inserting already used nick or phone!',
-	TOKEN_CREATION_FAILED = 'Token creation error!',
+	USED_MEMBER_NICK_OR_PHONE = 'Already used member nick or phone',
 	NO_MEMBER_NICK = 'No member with that member nick!',
 	BLOCKED_USER = 'You have been blocked!',
 	WRONG_PASSWORD = 'Wrong password, try again!',
@@ -14,7 +15,19 @@ export enum Message {
 	TOKEN_NOT_EXIST = 'Bearer Token is not provided!',
 	ONLY_SPECIFIC_ROLES_ALLOWED = 'Allowed only for members with specific roles!',
 	NOT_ALLOWED_REQUEST = 'Not Allowed Request!',
-	INSERT_ALL_INPUTS = 'Please provide all inputs',
+	PROVIDE_ALLOWED_FORMAT = 'Please provide jpg, jpeg or png images!',
+	SELF_SUBSCRIPTION_DENIED = 'Self subscription is denied!',
+
+	STORE_INCOMPLETE = 'Please complete your store profile before adding products',
+	SIZE_REQUIRED = 'Clothing and shoes must include at least one size option',
+
+	INVALID_DATE_RANGE = 'Event start date must be before end date',
+	EVENT_HAS_ACTIVE_BOOKINGS = 'Cannot update event details when active bookings exist',
+
+	RESERVATION_DATE_NOT_AVAILABLE = 'Selected date is not available for this event',
+	RESERVATION_INSUFFICIENT_CAPACITY = 'Not enough spots remaining for this date',
+	RESERVATION_NOT_FOUND = 'Reservation not found',
+	RESERVATION_ALREADY_CANCELLED = 'Reservation is already cancelled',
 }
 
 export enum Direction {

@@ -101,7 +101,7 @@ const requestSignUpJwtToken = async ({
 			fetchPolicy: 'network-only',
 		});
 
-		console.log('---------- login ----------');
+		console.log('---------- signup ----------');
 		const { accessToken } = result?.data?.signup;
 
 		return { jwtToken: accessToken };
@@ -142,14 +142,25 @@ export const updateUserInfo = (jwtToken: any) => {
 				: `${claims.memberImage}`,
 		memberAddress: claims.memberAddress ?? '',
 		memberDesc: claims.memberDesc ?? '',
-		memberProperties: claims.memberProperties,
-		memberRank: claims.memberRank,
-		memberArticles: claims.memberArticles,
-		memberPoints: claims.memberPoints,
-		memberLikes: claims.memberLikes,
-		memberViews: claims.memberViews,
-		memberWarnings: claims.memberWarnings,
-		memberBlocks: claims.memberBlocks,
+
+		// Agent Store Info (for AGENT )
+		agentStoreName: claims.agentStoreName ?? '',
+		agentStoreAddress: claims.agentStoreAddress ?? '',
+		agentStoreLocation: claims.agentStoreLocation ?? '',
+		agentStoreDesc: claims.agentStoreDesc ?? '',
+		agentStoreImage: claims.agentStoreImage ?? '',
+
+		memberProducts: claims.memberProducts ?? 0,
+		memberEvents: claims.memberEvents ?? 0,
+		memberArticles: claims.memberArticles ?? 0,
+		memberFollowers: claims.memberFollowers ?? 0,
+		memberFollowings: claims.memberFollowings ?? 0,
+		memberLikes: claims.memberLikes ?? 0,
+		memberViews: claims.memberViews ?? 0,
+		memberComments: claims.memberComments ?? 0,
+		memberRank: claims.memberRank ?? 0,
+		memberWarnings: claims.memberWarnings ?? 0,
+		memberBlocks: claims.memberBlocks ?? 0,
 	});
 };
 
@@ -175,12 +186,23 @@ const deleteUserInfo = () => {
 		memberImage: '',
 		memberAddress: '',
 		memberDesc: '',
-		memberProperties: 0,
-		memberRank: 0,
+
+		// Agent Store Info
+		agentStoreName: '',
+		agentStoreAddress: '',
+		agentStoreLocation: '',
+		agentStoreDesc: '',
+		agentStoreImage: '',
+
+		memberProducts: 0,
+		memberEvents: 0,
 		memberArticles: 0,
-		memberPoints: 0,
+		memberFollowers: 0,
+		memberFollowings: 0,
 		memberLikes: 0,
 		memberViews: 0,
+		memberComments: 0,
+		memberRank: 0,
 		memberWarnings: 0,
 		memberBlocks: 0,
 	});

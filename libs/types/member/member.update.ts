@@ -5,6 +5,7 @@ export interface MemberUpdate {
 	memberType?: MemberType;
 	memberStatus?: MemberStatus;
 	memberPhone?: string;
+	memberEmail?: string;
 	memberNick?: string;
 	memberPassword?: string;
 	memberFullName?: string;
@@ -19,6 +20,7 @@ export interface AdminMemberUpdate {
 	memberType?: MemberType;
 	memberStatus?: MemberStatus;
 	memberPhone?: string;
+	memberEmail?: string;
 	memberNick?: string;
 	memberFullName?: string;
 	memberImage?: string;
