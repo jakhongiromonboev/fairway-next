@@ -1,94 +1,89 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Stack, Box } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 
-interface EventData {
-	eventTitle: string;
-	city: string;
-	description: string;
-	imageSrc: string;
-}
-const eventsData: EventData[] = [
-	{
-		eventTitle: 'Paradise City Theme Park',
-		city: 'Incheon',
-		description:
-			'Experience magic and wonder in Incheon with a visit to the night-themed indoor theme park Wonderbox at Paradise City!',
-		imageSrc: '/img/events/INCHEON.webp',
-	},
-	{
-		eventTitle: 'Taebaeksan Snow Festival',
-		city: 'Seoul',
-		description: 'If you have the opportunity to travel to South Korea, do not miss the Taebaeksan Snow Festival!',
-		imageSrc: '/img/events/SEOUL.webp',
-	},
-	{
-		eventTitle: 'Suseong Lake Event',
-		city: 'Daegu',
-		description: 'The Suseong Lake Festival is a culture and arts festival held alongside Suseongmot Lake!',
-		imageSrc: '/img/events/DAEGU.webp',
-	},
-	{
-		eventTitle: 'Sand Festival',
-		city: 'Busan',
-		description:
-			'Haeundae Sand Festival, the nation’s largest eco-friendly exhibition on sand, is held at Haeundae Beach!',
-		imageSrc: '/img/events/BUSAN.webp',
-	},
-];
+import { Event } from '../../types/event/event';
+import { EventsInquiry } from '../../types/event/event.input';
+import { useQuery } from '@apollo/client';
+import { GET_EVENTS } from '../../../apollo/user/query';
+import { T } from '../../types/common';
+import { useRouter } from 'next/router';
+import EventCard from './EventCard';
 
-const EventCard = ({ event }: { event: EventData }) => {
+interface EventsProps {
+	initialInput: EventsInquiry;
+}
+
+const Events = (props: EventsProps) => {
+	const { initialInput } = props;
 	const device = useDeviceDetect();
+	const router = useRouter();
+	const [upcomingEvents, setUpcomingEvents] = useState<Event[]>([]);
+
+	/** APOLLO REQUESTS **/
+	const {
+		loading: getEventsLoading,
+		data: getEventsData,
+		error: getEventsError,
+		refetch: getEventsRefetch,
+	} = useQuery(GET_EVENTS, {
+		fetchPolicy: 'cache-and-network',
+		variables: { input: initialInput },
+		notifyOnNetworkStatusChange: true,
+		onCompleted: (data: T) => {
+			setUpcomingEvents(data?.getEvents?.list);
+		},
+	});
+
+	/** HANDLERS **/
+	const handleViewAll = () => {
+		router.push('/events');
+	};
 
 	if (device === 'mobile') {
-		return <div>EVENT CARD</div>;
+		return <div>EVENTS (MOBILE)</div>;
 	} else {
 		return (
-			<Stack
-				className="event-card"
-				style={{
-					backgroundImage: `url(${event?.imageSrc})`,
-					backgroundSize: 'cover',
-					backgroundPosition: 'center',
-					backgroundRepeat: 'no-repeat',
-				}}
-			>
-				<Box component={'div'} className={'info'}>
-					<strong>{event?.city}</strong>
-					<span>{event?.eventTitle}</span>
-				</Box>
-				<Box component={'div'} className={'more'}>
-					<span>{event?.description}</span>
-				</Box>
+			<Stack className={'events-section'}>
+				<Stack className={'container'}>
+					<Stack className={'info-box'}>
+						<Box component={'div'} className={'left'}>
+							<span>Upcoming Events</span>
+							<p>Join tournaments, workshops, and exclusive golf experiences</p>
+						</Box>
+						<Box component={'div'} className={'right'}>
+							<div className={'more-box'} onClick={handleViewAll}>
+								<span>See All Events</span>
+								<img src="/img/icons/rightup.svg" alt="" />
+							</div>
+						</Box>
+					</Stack>
+
+					{upcomingEvents.length === 0 ? (
+						<Box component={'div'} className={'empty-list'}>
+							No upcoming events
+						</Box>
+					) : (
+						<Stack className={'events-grid'}>
+							{upcomingEvents.slice(0, 4).map((event: Event) => {
+								return <EventCard event={event} key={event._id} />;
+							})}
+						</Stack>
+					)}
+				</Stack>
 			</Stack>
 		);
 	}
 };
 
-const Events = () => {
-	const device = useDeviceDetect();
-
-	if (device === 'mobile') {
-		return <div>EVENT CARD</div>;
-	} else {
-		return (
-			<Stack className={'events'}>
-				<Stack className={'container'}>
-					<Stack className={'info-box'}>
-						<Box component={'div'} className={'left'}>
-							<span className={'white'}>Events</span>
-							<p className={'white'}>Events waiting your attention!</p>
-						</Box>
-					</Stack>
-					<Stack className={'card-wrapper'}>
-						{eventsData.map((event: EventData) => {
-							return <EventCard event={event} key={event?.eventTitle} />;
-						})}
-					</Stack>
-				</Stack>
-			</Stack>
-		);
-	}
+Events.defaultProps = {
+	initialInput: {
+		page: 1,
+		limit: 4,
+		sort: 'eventViews',
+		direction: 'DESC',
+		search: {},
+	},
 };
 
 export default Events;

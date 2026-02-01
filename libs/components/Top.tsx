@@ -1,5 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react';
-import { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useRouter, withRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { getJwtToken, logOut, updateUserInfo } from '../auth';
@@ -27,10 +26,7 @@ const Top = () => {
 	const [lang, setLang] = useState<string | null>('en');
 	const drop = Boolean(anchorEl2);
 	const [colorChange, setColorChange] = useState(false);
-	const [anchorEl, setAnchorEl] = React.useState<any | HTMLElement>(null);
-	let open = Boolean(anchorEl);
-	const [bgColor, setBgColor] = useState<boolean>(false);
-	const [logoutAnchor, setLogoutAnchor] = React.useState<null | HTMLElement>(null);
+	const [logoutAnchor, setLogoutAnchor] = useState<null | HTMLElement>(null);
 	const logoutOpen = Boolean(logoutAnchor);
 
 	/** LIFECYCLES **/
@@ -40,16 +36,6 @@ const Top = () => {
 			setLang('en');
 		} else {
 			setLang(localStorage.getItem('locale'));
-		}
-	}, [router]);
-
-	useEffect(() => {
-		switch (router.pathname) {
-			case '/property/detail':
-				setBgColor(true);
-				break;
-			default:
-				break;
 		}
 	}, [router]);
 
@@ -82,18 +68,6 @@ const Top = () => {
 			setColorChange(true);
 		} else {
 			setColorChange(false);
-		}
-	};
-
-	const handleClose = () => {
-		setAnchorEl(null);
-	};
-
-	const handleHover = (event: any) => {
-		if (anchorEl !== event.currentTarget) {
-			setAnchorEl(event.currentTarget);
-		} else {
-			setAnchorEl(null);
 		}
 	};
 
@@ -145,75 +119,108 @@ const Top = () => {
 				<Link href={'/'}>
 					<div>{t('Home')}</div>
 				</Link>
-				<Link href={'/property'}>
-					<div>{t('Properties')}</div>
+				<Link href={'/products'}>
+					<div>{t('Products')}</div>
 				</Link>
-				<Link href={'/agent'}>
-					<div> {t('Agents')} </div>
+				<Link href={'/events'}>
+					<div>{t('Events')}</div>
+				</Link>
+				<Link href={'/agents'}>
+					<div>{t('Agents')}</div>
 				</Link>
 				<Link href={'/community?articleCategory=FREE'}>
-					<div> {t('Community')} </div>
+					<div>{t('Community')}</div>
 				</Link>
 				<Link href={'/cs'}>
-					<div> {t('CS')} </div>
+					<div>{t('CS')}</div>
 				</Link>
 			</Stack>
 		);
 	} else {
 		return (
 			<Stack className={'navbar'}>
-				<Stack className={`navbar-main ${colorChange ? 'transparent' : ''} ${bgColor ? 'transparent' : ''}`}>
+				<Stack className={`navbar-main ${colorChange ? 'scrolled' : ''}`}>
 					<Stack className={'container'}>
+						{/* LOGO */}
 						<Box component={'div'} className={'logo-box'}>
 							<Link href={'/'}>
-								<img src="/img/logo/logoWhite.svg" alt="" />
+								<img src="/img/logo/Fairway-logo_main.png" alt="Fairway" />
 							</Link>
 						</Box>
+
+						{/* NAVIGATION LINKS */}
 						<Box component={'div'} className={'router-box'}>
 							<Link href={'/'}>
-								<div>{t('Home')}</div>
+								<div className={router.pathname === '/' ? 'active' : ''}>{t('Home')}</div>
 							</Link>
-							<Link href={'/property'}>
-								<div>{t('Properties')}</div>
+							<Link href={'/products'}>
+								<div className={router.pathname.includes('/product') ? 'active' : ''}>{t('Products')}</div>
 							</Link>
-							<Link href={'/agent'}>
-								<div> {t('Agents')} </div>
+							<Link href={'/events'}>
+								<div className={router.pathname.includes('/event') ? 'active' : ''}>{t('Events')}</div>
 							</Link>
-							<Link href={'/community?articleCategory=FREE'}>
-								<div> {t('Community')} </div>
+							<Link href={'/agents'}>
+								<div className={router.pathname.includes('/agent') ? 'active' : ''}>{t('Agents')}</div>
 							</Link>
+
+							{/* SHOW COMMUNITY ONLY WHEN LOGGED IN */}
 							{user?._id && (
-								<Link href={'/mypage'}>
-									<div> {t('My Page')} </div>
+								<Link href={'/community?articleCategory=FREE'}>
+									<div className={router.pathname.includes('/community') ? 'active' : ''}>{t('Community')}</div>
 								</Link>
 							)}
-							<Link href={'/cs'}>
-								<div> {t('CS')} </div>
-							</Link>
+
+							{/* SHOW CS ONLY WHEN NOT LOGGED IN */}
+							{!user?._id && (
+								<Link href={'/cs'}>
+									<div className={router.pathname === '/cs' ? 'active' : ''}>{t('CS')}</div>
+								</Link>
+							)}
+
+							{/* SHOW MY PAGE ONLY WHEN LOGGED IN */}
+							{user?._id && (
+								<Link href={'/mypage'}>
+									<div className={router.pathname.includes('/mypage') ? 'active' : ''}>{t('My Page')}</div>
+								</Link>
+							)}
 						</Box>
+
+						{/* USER & LANGUAGE BOX */}
 						<Box component={'div'} className={'user-box'}>
 							{user?._id ? (
 								<>
+									{/* NOTIFICATION ICON - ONLY WHEN LOGGED IN */}
+									<div className={'notification-box'}>
+										<NotificationsOutlinedIcon className={'notification-icon'} />
+									</div>
+
+									{/* USER PROFILE WITH DROPDOWN */}
 									<div className={'login-user'} onClick={(event: any) => setLogoutAnchor(event.currentTarget)}>
 										<img
 											src={
 												user?.memberImage ? `${REACT_APP_API_URL}/${user?.memberImage}` : '/img/profile/defaultUser.svg'
 											}
-											alt=""
+											alt="Profile"
 										/>
 									</div>
 
 									<Menu
-										id="basic-menu"
+										id="profile-menu"
 										anchorEl={logoutAnchor}
 										open={logoutOpen}
-										onClose={() => {
-											setLogoutAnchor(null);
-										}}
+										onClose={() => setLogoutAnchor(null)}
 										sx={{ mt: '5px' }}
 									>
+										<MenuItem
+											onClick={() => {
+												router.push('/cs');
+												setLogoutAnchor(null);
+											}}
+										>
+											CS / Help
+										</MenuItem>
 										<MenuItem onClick={() => logOut()}>
-											<Logout fontSize="small" style={{ color: 'blue', marginRight: '10px' }} />
+											<Logout fontSize="small" style={{ color: '#2d5016', marginRight: '10px' }} />
 											Logout
 										</MenuItem>
 									</Menu>
@@ -222,38 +229,36 @@ const Top = () => {
 								<Link href={'/account/join'}>
 									<div className={'join-box'}>
 										<AccountCircleOutlinedIcon />
-										<span>
-											{t('Login')} / {t('Register')}
-										</span>
+										<span>{t('Login')}</span>
 									</div>
 								</Link>
 							)}
 
+							{/* LANGUAGE SELECTOR */}
 							<div className={'lan-box'}>
-								{user?._id && <NotificationsOutlinedIcon className={'notification-icon'} />}
 								<Button
 									disableRipple
 									className="btn-lang"
 									onClick={langClick}
-									endIcon={<CaretDown size={14} color="#616161" weight="fill" />}
+									endIcon={<CaretDown size={14} color="#ffffff" weight="fill" />}
 								>
 									<Box component={'div'} className={'flag'}>
 										{lang !== null ? (
-											<img src={`/img/flag/lang${lang}.png`} alt={'usaFlag'} />
+											<img src={`/img/flag/lang${lang}.png`} alt={'flag'} />
 										) : (
-											<img src={`/img/flag/langen.png`} alt={'usaFlag'} />
+											<img src={`/img/flag/langen.png`} alt={'flag'} />
 										)}
 									</Box>
 								</Button>
 
-								<StyledMenu anchorEl={anchorEl2} open={drop} onClose={langClose} sx={{ position: 'absolute' }}>
+								<StyledMenu anchorEl={anchorEl2} open={drop} onClose={langClose}>
 									<MenuItem disableRipple onClick={langChoice} id="en">
 										<img
 											className="img-flag"
 											src={'/img/flag/langen.png'}
 											onClick={langChoice}
 											id="en"
-											alt={'usaFlag'}
+											alt={'English'}
 										/>
 										{t('English')}
 									</MenuItem>
@@ -262,8 +267,8 @@ const Top = () => {
 											className="img-flag"
 											src={'/img/flag/langkr.png'}
 											onClick={langChoice}
-											id="uz"
-											alt={'koreanFlag'}
+											id="kr"
+											alt={'Korean'}
 										/>
 										{t('Korean')}
 									</MenuItem>
@@ -273,7 +278,7 @@ const Top = () => {
 											src={'/img/flag/langru.png'}
 											onClick={langChoice}
 											id="ru"
-											alt={'russiaFlag'}
+											alt={'Russian'}
 										/>
 										{t('Russian')}
 									</MenuItem>
