@@ -151,7 +151,7 @@ body::-webkit-scrollbar {
 								position: relative;
 								color: #181a20;
 								font-family: $font;
-								font-size: 12px;
+								font-size: 11px;
 								font-weight: 500;
 								text-transform: uppercase;
 								letter-spacing: 2px;
@@ -193,7 +193,7 @@ body::-webkit-scrollbar {
 								color: #181a20;
 								font-family: $font;
 								font-size: 22px;
-								font-weight: 400;
+								font-weight: 300;
 								letter-spacing: 6px;
 								text-transform: uppercase;
 								transition: all 0.3s ease;
@@ -235,7 +235,7 @@ body::-webkit-scrollbar {
 						.nav-account {
 							color: #181a20;
 							font-family: $font;
-							font-size: 12px;
+							font-size: 11px;
 							font-weight: 500;
 							text-transform: uppercase;
 							letter-spacing: 2px;
@@ -816,161 +816,249 @@ body::-webkit-scrollbar {
 
 	#footer {
 		position: relative;
-		padding: 60px 0px 18px 0px;
 		width: 100%;
 		height: auto;
 		display: flex;
 		flex-direction: row;
 		background: #181a20;
+		background-image: radial-gradient(circle at center, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+		background-size: 20px 20px;
+
 		.footer-container {
 			width: 1300px;
 			height: auto;
 			margin: 0 auto;
+			padding: 80px 60px 40px 60px;
+
 			.main {
 				display: flex;
+				gap: 100px;
+				padding-bottom: 60px;
+				border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 				flex-direction: row;
 				justify-content: space-between;
+
 				.left {
-					height: 360px;
 					display: flex;
 					flex-direction: column;
-					justify-content: space-between;
+					gap: 40px;
+
 					.footer-box {
 						display: flex;
 						flex-direction: column;
+						gap: 12px;
+
 						.logo {
-							width: 128px;
-							height: 52px;
+							width: 170px;
+							height: auto;
 							cursor: pointer;
 						}
-						span {
-							color: #bebdbd;
+
+						.tagline {
+							color: rgba(255, 255, 255, 0.5);
 							font-family: $font;
 							font-size: 14px;
-							font-style: normal;
 							font-weight: 400;
-							text-transform: capitalize;
+							line-height: 1.6;
+							max-width: 280px;
 						}
-						p {
-							color: #fff;
-							font-family: $font;
-							font-size: 15px;
-							font-style: normal;
-							font-weight: 600;
-							line-height: normal;
-							text-transform: capitalize;
-						}
+
 						.media-box {
-							margin-top: 12px;
-							color: #929495;
+							display: flex;
+							gap: 16px;
+							margin-top: 8px;
+
 							svg {
-								font-size: 32px;
-								margin-right: 22px;
+								width: 36px;
+								height: 36px;
+								padding: 8px;
+								background: rgba(255, 255, 255, 0.08);
+								border-radius: 50%;
+								color: rgba(255, 255, 255, 0.6);
 								cursor: pointer;
+								transition: all 0.3s ease;
+
+								&:hover {
+									background: #d4af37;
+									color: #000;
+									transform: translateY(-3px);
+								}
 							}
 						}
 					}
 				}
+
 				.right {
 					display: flex;
 					flex-direction: column;
-					.top {
-						display: flex;
-						flex-direction: column;
-						strong {
-							color: #fff;
-							font-family: $font;
-							font-size: 15px;
-							font-style: normal;
-							font-weight: 600;
-							line-height: normal;
-							text-transform: capitalize;
-						}
-						div {
-							padding: 20px 30px;
-							margin-top: 20px;
-							width: 667px;
-							height: 70px;
+					gap: 50px;
+					justify-content: space-around;
+
+					.bottom {
+						display: grid;
+						grid-template-columns: repeat(4, 1fr);
+						gap: 60px;
+
+						.footer-column {
 							display: flex;
-							flex-direction: row;
-							align-items: center;
-							box-sizing: border-box;
-							border-radius: 12px;
-							background: #212329;
-							input {
-								margin-right: 10px;
-								width: 85%;
-								border: none;
-								outline: none;
+							flex-direction: column;
+							gap: 20px;
+
+							strong {
 								color: #fff;
+								font-family: $font;
+								font-size: 13px;
+								font-weight: 600;
+								letter-spacing: 1.5px;
+								text-transform: uppercase;
+								margin-bottom: 4px;
+							}
+
+							span {
+								color: rgba(255, 255, 255, 0.5);
 								font-family: $font;
 								font-size: 14px;
-								font-style: normal;
 								font-weight: 400;
-								line-height: 26px;
-								background: none;
-							}
-							span {
-								color: #fff;
-								font-family: $font;
-								font-size: 15px;
-								font-style: normal;
-								font-weight: 600;
-								line-height: normal;
 								cursor: pointer;
+								transition: all 0.3s ease;
+								margin: 0;
+
+								&:hover {
+									color: #d4af37;
+									padding-left: 4px;
+								}
+							}
+
+							.contact-info {
+								color: rgba(255, 255, 255, 0.5);
+								font-family: $font;
+								font-size: 14px;
+								font-weight: 400;
+								line-height: 1.6;
+								margin: 0;
+
+								.contact-label {
+									color: rgba(255, 255, 255, 0.8);
+									display: block;
+									margin-bottom: 4px;
+									font-size: 14px;
+									font-weight: 400;
+								}
 							}
 						}
 					}
-					.bottom {
-						margin-top: 60px;
+
+					.newsletter-box {
 						display: flex;
-						flex-direction: row;
-						justify-content: space-between;
-						div {
+						flex-direction: column;
+						gap: 12px;
+
+						.section-title {
+							color: #fff;
+							font-family: $font;
+							font-size: 13px;
+							font-weight: 600;
+							letter-spacing: 1.5px;
+							text-transform: uppercase;
+							margin: 0;
+						}
+
+						.newsletter-input {
 							display: flex;
-							flex-direction: column;
-							strong {
-								margin-bottom: 3px;
+							gap: 8px;
+							margin: 0;
+							padding: 0;
+							background: transparent;
+							border-radius: 0;
+							width: auto;
+							height: auto;
+							box-sizing: border-box;
+							max-width: 600px;
+
+							input {
+								flex: 1;
+								padding: 12px 16px;
+								background: rgba(255, 255, 255, 0.08);
+								border: 1px solid rgba(255, 255, 255, 0.1);
+								border-radius: 6px;
 								color: #fff;
 								font-family: $font;
-								font-size: 15px;
-								font-style: normal;
-								font-weight: 600;
+								font-size: 14px;
+								outline: none;
+								transition: all 0.3s ease;
+								margin: 0;
+								width: auto;
 								line-height: normal;
-								text-transform: capitalize;
+
+								&:focus {
+									background: rgba(255, 255, 255, 0.12);
+									border-color: rgba(255, 255, 255, 0.3);
+								}
+
+								&::placeholder {
+									color: rgba(255, 255, 255, 0.3);
+								}
 							}
-							span {
-								margin-top: 25px;
-								color: #bebdbd;
+
+							.subscribe-btn {
+								padding: 12px 32px;
+								background: #ffffff;
+								border: none;
+								border-radius: 6px;
+								color: #000;
 								font-family: $font;
 								font-size: 14px;
-								font-style: normal;
-								font-weight: 400;
+								font-weight: 600;
 								cursor: pointer;
+								transition: all 0.3s ease;
+								white-space: nowrap;
+
 								&:hover {
-									color: #ffffff;
-									text-decoration-line: underline;
+									background: #f5f5f5;
+									transform: translateY(-2px);
+									box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
 								}
 							}
 						}
 					}
 				}
 			}
+
 			.second {
-				margin-top: 60px;
-				height: 45px;
-				border-top: 1px solid #212329;
+				padding-top: 20px;
 				display: flex;
-				flex-direction: row;
 				justify-content: space-between;
-				align-items: flex-end;
+				align-items: center;
+
 				span {
-					color: #bebdbd;
+					color: rgba(255, 255, 255, 0.4);
 					font-family: $font;
-					font-size: 14px;
-					font-style: normal;
+					font-size: 13px;
 					font-weight: 400;
-					line-height: normal;
+					cursor: pointer;
+					transition: color 0.3s ease;
+
+					&:hover {
+						color: #d4af37;
+					}
+				}
+
+				.footer-bottom-links {
+					display: flex;
+					gap: 24px;
+
+					span {
+						color: rgba(255, 255, 255, 0.4);
+						font-family: $font;
+						font-size: 13px;
+						font-weight: 400;
+						cursor: pointer;
+						transition: color 0.3s ease;
+
+						&:hover {
+							color: #d4af37;
+						}
+					}
 				}
 			}
 		}
