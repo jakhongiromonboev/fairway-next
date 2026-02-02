@@ -8,7 +8,7 @@ import Button from '@mui/material/Button';
 import { alpha, styled } from '@mui/material/styles';
 import Menu, { MenuProps } from '@mui/material/Menu';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import { CaretDown } from 'phosphor-react';
+import { CaretDown, MagnifyingGlass } from 'phosphor-react';
 import useDeviceDetect from '../hooks/useDeviceDetect';
 import Link from 'next/link';
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
@@ -26,6 +26,7 @@ const Top = () => {
 	const [lang, setLang] = useState<string | null>('en');
 	const drop = Boolean(anchorEl2);
 	const [colorChange, setColorChange] = useState(false);
+	const [showAnnouncement, setShowAnnouncement] = useState(true);
 	const [logoutAnchor, setLogoutAnchor] = useState<null | HTMLElement>(null);
 	const logoutOpen = Boolean(logoutAnchor);
 
@@ -139,22 +140,29 @@ const Top = () => {
 	} else {
 		return (
 			<Stack className={'navbar'}>
+				{/* ANNOUNCEMENT BAR */}
+				{showAnnouncement && (
+					<Box className={'announcement-bar'}>
+						<p>
+							{t('New arrivals in premium golf clubs this season —')}
+							<span onClick={() => router.push('/products')}>{t('EXPLORE NOW')}</span>
+						</p>
+						<div className={'announcement-close'} onClick={() => setShowAnnouncement(false)}>
+							✕
+						</div>
+					</Box>
+				)}
+
+				{/* MAIN NAVBAR */}
 				<Stack className={`navbar-main ${colorChange ? 'scrolled' : ''}`}>
 					<Stack className={'container'}>
-						{/* LOGO */}
-						<Box component={'div'} className={'logo-box'}>
-							<Link href={'/'}>
-								<img src="/img/logo/Fairway-logo_main.png" alt="Fairway" />
-							</Link>
-						</Box>
-
-						{/* NAVIGATION LINKS */}
-						<Box component={'div'} className={'router-box'}>
+						{/* LEFT LINKS */}
+						<Box component={'div'} className={'nav-left'}>
 							<Link href={'/'}>
 								<div className={router.pathname === '/' ? 'active' : ''}>{t('Home')}</div>
 							</Link>
 							<Link href={'/products'}>
-								<div className={router.pathname.includes('/product') ? 'active' : ''}>{t('Products')}</div>
+								<div className={router.pathname.includes('/product') ? 'active' : ''}>{t('Shop')}</div>
 							</Link>
 							<Link href={'/events'}>
 								<div className={router.pathname.includes('/event') ? 'active' : ''}>{t('Events')}</div>
@@ -162,39 +170,23 @@ const Top = () => {
 							<Link href={'/agents'}>
 								<div className={router.pathname.includes('/agent') ? 'active' : ''}>{t('Agents')}</div>
 							</Link>
-
-							{/* SHOW COMMUNITY ONLY WHEN LOGGED IN */}
-							{user?._id && (
-								<Link href={'/community?articleCategory=FREE'}>
-									<div className={router.pathname.includes('/community') ? 'active' : ''}>{t('Community')}</div>
-								</Link>
-							)}
-
-							{/* SHOW CS ONLY WHEN NOT LOGGED IN */}
-							{!user?._id && (
-								<Link href={'/cs'}>
-									<div className={router.pathname === '/cs' ? 'active' : ''}>{t('CS')}</div>
-								</Link>
-							)}
-
-							{/* SHOW MY PAGE ONLY WHEN LOGGED IN */}
-							{user?._id && (
-								<Link href={'/mypage'}>
-									<div className={router.pathname.includes('/mypage') ? 'active' : ''}>{t('My Page')}</div>
-								</Link>
-							)}
 						</Box>
 
-						{/* USER & LANGUAGE BOX */}
-						<Box component={'div'} className={'user-box'}>
+						{/* CENTER LOGO - TEXT ONLY like Manors */}
+						<Box component={'div'} className={'logo-box'}>
+							<Link href={'/'}>
+								<span className={'logo-text'}>FAIRWAY</span>
+							</Link>
+						</Box>
+
+						{/* RIGHT LINKS */}
+						<Box component={'div'} className={'nav-right'}>
 							{user?._id ? (
 								<>
-									{/* NOTIFICATION ICON - ONLY WHEN LOGGED IN */}
 									<div className={'notification-box'}>
 										<NotificationsOutlinedIcon className={'notification-icon'} />
 									</div>
 
-									{/* USER PROFILE WITH DROPDOWN */}
 									<div className={'login-user'} onClick={(event: any) => setLogoutAnchor(event.currentTarget)}>
 										<img
 											src={
@@ -213,25 +205,32 @@ const Top = () => {
 									>
 										<MenuItem
 											onClick={() => {
+												router.push('/mypage');
+												setLogoutAnchor(null);
+											}}
+										>
+											{t('My Page')}
+										</MenuItem>
+										<MenuItem
+											onClick={() => {
 												router.push('/cs');
 												setLogoutAnchor(null);
 											}}
 										>
-											CS / Help
+											{t('CS / Help')}
 										</MenuItem>
 										<MenuItem onClick={() => logOut()}>
 											<Logout fontSize="small" style={{ color: '#2d5016', marginRight: '10px' }} />
-											Logout
+											{t('Logout')}
 										</MenuItem>
 									</Menu>
 								</>
 							) : (
-								<Link href={'/account/join'}>
-									<div className={'join-box'}>
-										<AccountCircleOutlinedIcon />
-										<span>{t('Login')}</span>
-									</div>
-								</Link>
+								<>
+									<Link href={'/account/join'}>
+										<div className={'nav-account'}>{t('LOGIN')}</div>
+									</Link>
+								</>
 							)}
 
 							{/* LANGUAGE SELECTOR */}
@@ -240,7 +239,7 @@ const Top = () => {
 									disableRipple
 									className="btn-lang"
 									onClick={langClick}
-									endIcon={<CaretDown size={14} color="#ffffff" weight="fill" />}
+									endIcon={<CaretDown size={12} color="#181a20" weight="fill" />}
 								>
 									<Box component={'div'} className={'flag'}>
 										{lang !== null ? (
@@ -283,6 +282,11 @@ const Top = () => {
 										{t('Russian')}
 									</MenuItem>
 								</StyledMenu>
+							</div>
+
+							{/* SEARCH ICON */}
+							<div className={'search-icon'} onClick={() => router.push('/products')}>
+								<MagnifyingGlass size={18} color="#181a20" weight="regular" />
 							</div>
 						</Box>
 					</Stack>

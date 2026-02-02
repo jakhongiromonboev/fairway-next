@@ -25,16 +25,11 @@ const withLayoutMain = (Component: any) => {
 			if (jwt) updateUserInfo(jwt);
 		}, []);
 
-		/** HANDLERS **/
-		const handleNavigation = (path: string) => {
-			router.push(path);
-		};
-
 		if (device == 'mobile') {
 			return (
 				<>
 					<Head>
-						<title>Fairway - Premium Golf Equipment & Events</title>
+						<title>Fairway</title>
 						<meta name={'title'} content={`Fairway`} />
 						<meta name={'description'} content={'Premium golf equipment, expert coaching, and exciting tournaments'} />
 					</Head>
@@ -55,7 +50,7 @@ const withLayoutMain = (Component: any) => {
 			return (
 				<>
 					<Head>
-						<title>Fairway - Premium Golf Equipment & Events</title>
+						<title>Fairway</title>
 						<meta name={'title'} content={`Fairway`} />
 						<meta name={'description'} content={'Premium golf equipment, expert coaching, and exciting tournaments'} />
 					</Head>
@@ -67,17 +62,22 @@ const withLayoutMain = (Component: any) => {
 						{/* HERO SECTION */}
 						<Stack className={'hero-section'}>
 							<Box className={'hero-overlay'} />
-							<Stack className={'container hero-content'}>
-								<h1 className={'hero-title'}>Elevate Your Golf Game</h1>
-								<p className={'hero-subtitle'}>Premium Equipment • Expert Coaching • Exciting Tournaments</p>
-								<Box className={'hero-links'}>
-									<span className={'hero-link'} onClick={() => handleNavigation('/products')}>
-										Products
-									</span>
-									<span className={'hero-divider'}>•</span>
-									<span className={'hero-link'} onClick={() => handleNavigation('/events')}>
-										Events
-									</span>
+							<Stack className={'hero-content'}>
+								<Box className={'hero-left'}>
+									<h1 className={'hero-title'}>ELEVATE YOUR GOLF GAME</h1>
+									<div className={'hero-subtitle'}>
+										<p>PREMIUM EQUIPMENT</p>
+										<p>EXPERT COACHING</p>
+										<p>EXCITING TOURNAMENTS</p>
+									</div>
+								</Box>
+								<Box className={'hero-right'}>
+									<div className={'hero-link'} onClick={() => router.push('/products')}>
+										PRODUCTS <span className={'arrow'}>→</span>
+									</div>
+									<div className={'hero-link'} onClick={() => router.push('/events')}>
+										EVENTS <span className={'arrow'}>→</span>
+									</div>
 								</Box>
 							</Stack>
 						</Stack>
