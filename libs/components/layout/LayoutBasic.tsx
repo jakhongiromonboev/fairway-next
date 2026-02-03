@@ -4,12 +4,11 @@ import useDeviceDetect from '../../hooks/useDeviceDetect';
 import Head from 'next/head';
 import Top from '../Top';
 import Footer from '../Footer';
-import { Stack } from '@mui/material';
+import { Stack, Box } from '@mui/material';
 import { getJwtToken, updateUserInfo } from '../../auth';
 import Chat from '../Chat';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
-import { useTranslation } from 'next-i18next';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
@@ -17,68 +16,52 @@ import 'swiper/css/navigation';
 const withLayoutBasic = (Component: any) => {
 	return (props: any) => {
 		const router = useRouter();
-		const { t, i18n } = useTranslation('common');
 		const device = useDeviceDetect();
-		const [authHeader, setAuthHeader] = useState<boolean>(false);
 		const user = useReactiveVar(userVar);
 
 		const memoizedValues = useMemo(() => {
 			let title = '',
-				desc = '',
-				bgImage = '';
+				bgImage = '',
+				mediaType: 'image' | 'video' | 'none' = 'none',
+				videoSrc = '';
 
 			switch (router.pathname) {
-				case '/property':
-					title = 'Property Search';
-					desc = 'We are glad to see you again!';
-					bgImage = '/img/banner/properties.png';
+				case '/products':
+					title = 'DISCOVER PREMIUM EQUIPMENT';
+					bgImage = '/img/banner/shop_hero_main.avif';
+					mediaType = 'image';
+					break;
+				case '/events':
+					title = 'JOIN EXCITING TOURNAMENTS';
+					bgImage = '/img/banner/hero2.jpg';
+					mediaType = 'video';
+					videoSrc = '/video/events-hero3.mp4';
 					break;
 				case '/agent':
-					title = 'Agents';
-					desc = 'Home / For Rent';
-					bgImage = '/img/banner/agents.webp';
+					title = 'MEET OUR PRO SHOPS';
+					bgImage = '/img/banner/hero-agent1.jpg';
+					mediaType = 'image';
 					break;
+				case '/about':
+					title = 'ABOUT FAIRWAY';
+					bgImage = '/img/banner/hero_shop.jpg';
+					mediaType = 'video';
+					videoSrc = '/videos/about-hero.mp4';
+					break;
+
 				case '/agent/detail':
-					title = 'Agent Page';
-					desc = 'Home / For Rent';
-					bgImage = '/img/banner/header2.svg';
-					break;
 				case '/mypage':
-					title = 'my page';
-					desc = 'Home / For Rent';
-					bgImage = '/img/banner/header1.svg';
-					break;
 				case '/community':
-					title = 'Community';
-					desc = 'Home / For Rent';
-					bgImage = '/img/banner/header2.svg';
-					break;
 				case '/community/detail':
-					title = 'Community Detail';
-					desc = 'Home / For Rent';
-					bgImage = '/img/banner/header2.svg';
-					break;
 				case '/cs':
-					title = 'CS';
-					desc = 'We are glad to see you again!';
-					bgImage = '/img/banner/header2.svg';
-					break;
 				case '/account/join':
-					title = 'Login/Signup';
-					desc = 'Authentication Process';
-					bgImage = '/img/banner/header2.svg';
-					setAuthHeader(true);
-					break;
 				case '/member':
-					title = 'Member Page';
-					desc = 'Home / For Rent';
-					bgImage = '/img/banner/header1.svg';
-					break;
 				default:
+					mediaType = 'none';
 					break;
 			}
 
-			return { title, desc, bgImage };
+			return { title, bgImage, mediaType, videoSrc };
 		}, [router.pathname]);
 
 		/** LIFECYCLES **/
@@ -87,24 +70,20 @@ const withLayoutBasic = (Component: any) => {
 			if (jwt) updateUserInfo(jwt);
 		}, []);
 
-		/** HANDLERS **/
-
 		if (device == 'mobile') {
 			return (
 				<>
 					<Head>
-						<title>Nestar</title>
-						<meta name={'title'} content={`Nestar`} />
+						<title>Fairway</title>
+						<meta name={'title'} content={`Fairway`} />
 					</Head>
 					<Stack id="mobile-wrap">
 						<Stack id={'top'}>
 							<Top />
 						</Stack>
-
 						<Stack id={'main'}>
 							<Component {...props} />
 						</Stack>
-
 						<Stack id={'footer'}>
 							<Footer />
 						</Stack>
@@ -115,34 +94,43 @@ const withLayoutBasic = (Component: any) => {
 			return (
 				<>
 					<Head>
-						<title>Nestar</title>
-						<meta name={'title'} content={`Nestar`} />
+						<title>Fairway</title>
+						<meta name={'title'} content={`Fairway`} />
 					</Head>
 					<Stack id="pc-wrap">
 						<Stack id={'top'}>
 							<Top />
 						</Stack>
 
-						<Stack
-							className={`header-basic ${authHeader && 'auth'}`}
-							style={{
-								backgroundImage: `url(${memoizedValues.bgImage})`,
-								backgroundSize: 'cover',
-								boxShadow: 'inset 10px 40px 150px 40px rgb(24 22 36)',
-							}}
-						>
-							<Stack className={'container'}>
-								<strong>{t(memoizedValues.title)}</strong>
-								<span>{t(memoizedValues.desc)}</span>
+						{memoizedValues.mediaType !== 'none' && (
+							<Stack
+								className={`header-basic ${memoizedValues.mediaType === 'video' ? 'has-video' : ''}`}
+								style={
+									memoizedValues.mediaType === 'image'
+										? {
+												backgroundImage: `url(${memoizedValues.bgImage})`,
+										  }
+										: {}
+								}
+							>
+								{memoizedValues.mediaType === 'video' && memoizedValues.videoSrc && (
+									<video className="header-video" autoPlay muted loop playsInline poster={memoizedValues.bgImage}>
+										<source src={memoizedValues.videoSrc} type="video/mp4" />
+									</video>
+								)}
+
+								<Box className={'header-overlay'} />
+
+								<Box className={'container'}>
+									<strong>{memoizedValues.title}</strong>
+								</Box>
 							</Stack>
-						</Stack>
+						)}
 
 						<Stack id={'main'}>
 							<Component {...props} />
 						</Stack>
-
 						{user?._id && <Chat />}
-
 						<Stack id={'footer'}>
 							<Footer />
 						</Stack>

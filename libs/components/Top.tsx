@@ -126,7 +126,7 @@ const Top = () => {
 				<Link href={'/events'}>
 					<div>{t('Events')}</div>
 				</Link>
-				<Link href={'/agents'}>
+				<Link href={'/agent'}>
 					<div>{t('Agents')}</div>
 				</Link>
 				<Link href={'/community?articleCategory=FREE'}>
@@ -167,7 +167,7 @@ const Top = () => {
 							<Link href={'/events'}>
 								<div className={router.pathname.includes('/event') ? 'active' : ''}>{t('Events')}</div>
 							</Link>
-							<Link href={'/agents'}>
+							<Link href={'/agent'}>
 								<div className={router.pathname.includes('/agent') ? 'active' : ''}>{t('Agents')}</div>
 							</Link>
 						</Box>
