@@ -28,6 +28,7 @@ export interface Event {
 	eventAvailableDates: EventAvailableDate[];
 	eventViews: number;
 	eventLikes: number;
+	eventRank: number;
 	eventComments: number;
 	memberId: string;
 	createdAt: Date;

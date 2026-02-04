@@ -27,9 +27,8 @@ const Home: NextPage = () => {
 				<TrustedBrands />
 				<PopularProducts />
 				<Advertisement />
-				<Events />
-				<TopAgents />
 				<CommunityBoards />
+				<Events />
 			</Stack>
 		);
 	} else {
@@ -39,9 +38,8 @@ const Home: NextPage = () => {
 				<TrustedBrands />
 				<PopularProducts />
 				<Advertisement />
-				<Events />
-				<TopAgents />
 				<CommunityBoards />
+				<Events />
 			</Stack>
 		);
 	}

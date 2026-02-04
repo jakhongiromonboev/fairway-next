@@ -1,25 +1,42 @@
+// UpcomingEventCard.tsx (SAME AS BEFORE, NO CHANGES)
 import React from 'react';
-import { Stack, Box } from '@mui/material';
+import { Stack, Box, IconButton } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { Event } from '../../types/event/event';
 import { REACT_APP_API_URL } from '../../config';
 import { useRouter } from 'next/router';
-import Moment from 'react-moment';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import { useReactiveVar } from '@apollo/client';
+import { userVar } from '../../../apollo/store';
+import { T } from '../../types/common';
 
-interface EventCardProps {
+interface UpcomingEventCardProps {
 	event: Event;
+	likeEventHandler: (user: T, id: string) => void;
 }
 
-const EventCard = (props: EventCardProps) => {
-	const { event } = props;
+const UpcomingEventCard = (props: UpcomingEventCardProps) => {
+	const { event, likeEventHandler } = props;
 	const device = useDeviceDetect();
 	const router = useRouter();
+	const user = useReactiveVar(userVar);
 
-	const eventImage = event?.eventImages?.[0]
-		? `${REACT_APP_API_URL}/${event.eventImages[0]}`
-		: '/img/event/default.svg';
+	// const eventImage = event?.eventImages?.[0]
+	// 	? `${REACT_APP_API_URL}/${event.eventImages[0]}`
+	// 	: '/img/events/default.webp';
 
-	/** HANDLERS **/
+	const eventImage = '/img/events/event-example2.webp';
+
+	const formatDate = (date: Date) => {
+		return new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+	};
+
+	const startDate = formatDate(event.eventPeriod.startDate);
+	const endDate = formatDate(event.eventPeriod.endDate);
+	const dateRange = `${startDate} - ${endDate}`;
+
 	const handleEventClick = () => {
 		router.push(`/event/${event._id}`);
 	};
@@ -28,31 +45,50 @@ const EventCard = (props: EventCardProps) => {
 		return <div>EVENT CARD (MOBILE)</div>;
 	} else {
 		return (
-			<Stack className="event-card-journal" onClick={handleEventClick}>
-				{/* EVENT IMAGE */}
+			<Stack className="upcoming-event-card">
 				<Box
 					component={'div'}
 					className={'event-image'}
-					style={{
-						backgroundImage: `url(${eventImage})`,
-					}}
+					style={{ backgroundImage: `url(${eventImage})` }}
+					onClick={handleEventClick}
 				>
-					{/* OVERLAY WITH EVENT INFO */}
-					<Box className={'event-overlay'}>
-						<Box className={'event-info'}>
-							<span className={'event-type'}>{event.eventType}</span>
-							<h3 className={'event-title'}>{event.eventTitle}</h3>
-							<Box className={'event-details'}>
-								<span className={'event-location'}> {event.eventLocation}</span>
-								<span className={'event-date'}>
-									<Moment format="MMM DD, YYYY">{event?.eventPeriod?.startDate}</Moment>
-									{' - '}
-									<Moment format="MMM DD, YYYY">{event?.eventPeriod?.endDate}</Moment>
-								</span>
+					<Box component={'div'} className={'event-overlay'}>
+						<Box component={'div'} className={'event-top'}>
+							<Box component={'div'} className={'event-type-badge'}>
+								{event.eventType}
+							</Box>
+							<Box component={'div'} className={'engagement-box'}>
+								<Box component={'div'} className={'engagement-item'}>
+									<IconButton
+										color={'default'}
+										onClick={(e: any) => {
+											e.stopPropagation();
+											likeEventHandler(user, event._id);
+										}}
+									>
+										{event?.meLiked && event?.meLiked[0]?.myFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+									</IconButton>
+									<span>{event.eventLikes}</span>
+								</Box>
+								<Box component={'div'} className={'engagement-item'}>
+									<RemoveRedEyeIcon />
+									<span>{event.eventViews}</span>
+								</Box>
 							</Box>
 						</Box>
-						<Box className={'event-action'}>
-							<span className={'view-event'}>View Event</span>
+
+						<Box component={'div'} className={'event-info'}>
+							<h3 className={'event-title'}>{event.eventTitle}</h3>
+							<Box component={'div'} className={'event-details'}>
+								<Box component={'div'} className={'detail-item'}>
+									<img src="/img/icons/calendar.svg" alt="" />
+									<span>{dateRange}</span>
+								</Box>
+								<Box component={'div'} className={'detail-item'}>
+									<img src="/img/icons/location.svg" alt="" />
+									<span>{event.eventLocation}</span>
+								</Box>
+							</Box>
 						</Box>
 					</Box>
 				</Box>
@@ -61,4 +97,4 @@ const EventCard = (props: EventCardProps) => {
 	}
 };
 
-export default EventCard;
+export default UpcomingEventCard;

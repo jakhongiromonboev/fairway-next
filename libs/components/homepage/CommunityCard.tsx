@@ -1,55 +1,46 @@
+// CommunityCard.tsx
 import React from 'react';
-import Link from 'next/link';
+import { Stack, Box } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import { Box } from '@mui/material';
-import Moment from 'react-moment';
 import { BoardArticle } from '../../types/board-article/board-article';
+import { useRouter } from 'next/router';
+import Moment from 'react-moment';
 
 interface CommunityCardProps {
-	vertical: boolean;
 	article: BoardArticle;
-	index: number;
 }
 
 const CommunityCard = (props: CommunityCardProps) => {
-	const { vertical, article, index } = props;
+	const { article } = props;
 	const device = useDeviceDetect();
-	const articleImage = article?.articleImage
-		? `${process.env.REACT_APP_API_URL}/${article?.articleImage}`
-		: '/img/event.svg';
+	const router = useRouter();
+
+	// const articleImage = article?.articleImage
+	// 	? `${process.env.REACT_APP_API_URL}/${article.articleImage}`
+	// 	: '/img/community/default.webp';
+
+	const articleImage = '/img/events/event-example2.webp';
+
+	/** HANDLERS **/
+	const handleArticleClick = () => {
+		router.push(`/community/detail?articleCategory=${article.articleCategory}&id=${article._id}`);
+	};
 
 	if (device === 'mobile') {
 		return <div>COMMUNITY CARD (MOBILE)</div>;
 	} else {
-		if (vertical) {
-			return (
-				<Link href={`/community/detail?articleCategory=${article?.articleCategory}&id=${article?._id}`}>
-					<Box component={'div'} className={'vertical-card'}>
-						<div className={'community-img'} style={{ backgroundImage: `url(${articleImage})` }}>
-							<div>{index + 1}</div>
-						</div>
-						<strong>{article?.articleTitle}</strong>
-						<span>Free Board</span>
-					</Box>
-				</Link>
-			);
-		} else {
-			return (
-				<>
-					<Link href={`/community/detail?articleCategory=${article?.articleCategory}&id=${article?._id}`}>
-						<Box component={'div'} className="horizontal-card">
-							<img src={articleImage} alt="" />
-							<div>
-								<strong>{article.articleTitle}</strong>
-								<span>
-									<Moment format="DD.MM.YY">{article?.createdAt}</Moment>
-								</span>
-							</div>
+		return (
+			<Stack className="community-card" onClick={handleArticleClick}>
+				<Box component={'div'} className={'card-image'} style={{ backgroundImage: `url(${articleImage})` }}>
+					<Box component={'div'} className={'card-overlay'}>
+						<Box component={'div'} className={'card-info'}>
+							<h4 className={'card-title'}>{article.articleTitle}</h4>
+							<span className={'read-more'}>Read more</span>
 						</Box>
-					</Link>
-				</>
-			);
-		}
+					</Box>
+				</Box>
+			</Stack>
+		);
 	}
 };
 

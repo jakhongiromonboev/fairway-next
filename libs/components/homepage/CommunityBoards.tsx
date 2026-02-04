@@ -1,90 +1,198 @@
+// CommunityBoards.tsx
 import React, { useState } from 'react';
-import Link from 'next/link';
+import { Stack, Box } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import { Stack, Typography } from '@mui/material';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Navigation, Mousewheel } from 'swiper';
+import WestIcon from '@mui/icons-material/West';
+import EastIcon from '@mui/icons-material/East';
 import CommunityCard from './CommunityCard';
 import { BoardArticle } from '../../types/board-article/board-article';
-import { useQuery } from '@apollo/client';
-import { GET_BOARD_ARTICLES } from '../../../apollo/user/query';
-import { T } from '../../types/common';
-import { BoardArticleCategory } from '../../enums/board-article.enum';
+import { BoardArticleCategory, BoardArticleStatus } from '../../enums/board-article.enum';
+import { useRouter } from 'next/router';
+
+// TODO: Uncomment after Apollo setup
+// import { useQuery } from '@apollo/client';
+// import { GET_BOARD_ARTICLES } from '../../../apollo/user/query';
 
 const CommunityBoards = () => {
 	const device = useDeviceDetect();
-	const [searchCommunity, setSearchCommunity] = useState({
-		page: 1,
-		sort: 'articleViews',
-		direction: 'DESC',
-	});
-	const [newsArticles, setNewsArticles] = useState<BoardArticle[]>([]);
-	const [freeArticles, setFreeArticles] = useState<BoardArticle[]>([]);
+	const router = useRouter();
+
+	// STATIC MOCK DATA
+	const [communityArticles] = useState<BoardArticle[]>([
+		{
+			_id: '1',
+			articleCategory: BoardArticleCategory.NEWS,
+			articleStatus: BoardArticleStatus.ACTIVE,
+			articleTitle: 'Breaking Par in Every Era',
+			articleContent: 'Exploring the evolution of golf equipment and techniques...',
+			articleImage: '/img/events/event-example2.webp',
+			articleViews: 1240,
+			articleLikes: 89,
+			articleComments: 20,
+			memberId: 'member1',
+			createdAt: new Date('2026-02-01'),
+			updatedAt: new Date('2026-02-01'),
+		},
+		{
+			_id: '2',
+			articleCategory: BoardArticleCategory.HUMOR,
+			articleStatus: BoardArticleStatus.ACTIVE,
+			articleTitle: 'A New King Inside the M25',
+			articleContent: 'Tiger Woods discusses his latest comeback...',
+			articleImage: '/img/events/event-example2.webp',
+			articleViews: 2340,
+			articleLikes: 156,
+			articleComments: 20,
+			memberId: 'member2',
+			createdAt: new Date('2026-01-28'),
+			updatedAt: new Date('2026-01-28'),
+		},
+		{
+			_id: '2',
+			articleCategory: BoardArticleCategory.HUMOR,
+			articleStatus: BoardArticleStatus.ACTIVE,
+			articleTitle: 'A New King Inside the M25',
+			articleContent: 'Tiger Woods discusses his latest comeback...',
+			articleImage: '/img/events/event-example2.webp',
+			articleViews: 2340,
+			articleLikes: 156,
+			articleComments: 20,
+			memberId: 'member2',
+			createdAt: new Date('2026-01-28'),
+			updatedAt: new Date('2026-01-28'),
+		},
+		{
+			_id: '2',
+			articleCategory: BoardArticleCategory.HUMOR,
+			articleStatus: BoardArticleStatus.ACTIVE,
+			articleTitle: 'A New King Inside the M25',
+			articleContent: 'Tiger Woods discusses his latest comeback...',
+			articleImage: '/img/events/event-example2.webp',
+			articleViews: 2340,
+			articleLikes: 156,
+			articleComments: 20,
+			memberId: 'member2',
+			createdAt: new Date('2026-01-28'),
+			updatedAt: new Date('2026-01-28'),
+		},
+		{
+			_id: '2',
+			articleCategory: BoardArticleCategory.HUMOR,
+			articleStatus: BoardArticleStatus.ACTIVE,
+			articleTitle: 'A New King Inside the M25',
+			articleContent: 'Tiger Woods discusses his latest comeback...',
+			articleImage: '/img/events/event-example2.webp',
+			articleViews: 2340,
+			articleLikes: 156,
+			articleComments: 20,
+			memberId: 'member2',
+			createdAt: new Date('2026-01-28'),
+			updatedAt: new Date('2026-01-28'),
+		},
+		{
+			_id: '2',
+			articleCategory: BoardArticleCategory.HUMOR,
+			articleStatus: BoardArticleStatus.ACTIVE,
+			articleTitle: 'A New King Inside the M25',
+			articleContent: 'Tiger Woods discusses his latest comeback...',
+			articleImage: '/img/events/event-example2.webp',
+			articleViews: 2340,
+			articleLikes: 156,
+			articleComments: 20,
+			memberId: 'member2',
+			createdAt: new Date('2026-01-28'),
+			updatedAt: new Date('2026-01-28'),
+		},
+	]);
 
 	/** APOLLO REQUESTS **/
+	// TODO: Uncomment after Apollo setup
+	// const {
+	// 	loading: getArticlesLoading,
+	// 	data: getArticlesData,
+	// 	error: getArticlesError,
+	// 	refetch: getArticlesRefetch,
+	// } = useQuery(GET_BOARD_ARTICLES, {
+	// 	fetchPolicy: 'network-only',
+	// 	variables: { input: { page: 1, limit: 6, sort: 'articleViews', direction: 'DESC', search: {} } },
+	// 	notifyOnNetworkStatusChange: true,
+	// 	onCompleted: (data: T) => {
+	// 		setCommunityArticles(data?.getBoardArticles?.list);
+	// 	},
+	// });
 
-	const {
-		loading: getNewArticleLoading,
-		data: getNewArticleData,
-		error: getNewArticleError,
-		refetch: getNewArticleRefetch,
-	} = useQuery(GET_BOARD_ARTICLES, {
-		fetchPolicy: 'network-only',
-		variables: { input: { ...searchCommunity, limit: 6, search: { articleCategory: BoardArticleCategory.NEWS } } },
-		notifyOnNetworkStatusChange: true,
-		onCompleted: (data: T) => {
-			setNewsArticles(data?.getBoardArticles?.list);
-		},
-	});
-
-	const {
-		loading: getFreeArticlesLoading,
-		data: getFreeArticleData,
-		error: getFreeArticleError,
-		refetch: getFreeArticleRefetch,
-	} = useQuery(GET_BOARD_ARTICLES, {
-		fetchPolicy: 'network-only',
-		variables: { input: { ...searchCommunity, limit: 3, search: { articleCategory: BoardArticleCategory.FREE } } },
-		notifyOnNetworkStatusChange: true,
-		onCompleted: (data: T) => {
-			setFreeArticles(data?.getBoardArticles?.list);
-		},
-	});
+	/** HANDLERS **/
+	const handleViewAll = () => {
+		router.push('/community');
+	};
 
 	if (device === 'mobile') {
-		return <div>COMMUNITY BOARDS (MOBILE)</div>;
+		return (
+			<Stack className={'community-board'}>
+				<Stack className={'container'}>
+					<Box component={'div'} className={'title-box'}>
+						<h2>Community Highlights</h2>
+					</Box>
+					<Stack className={'card-box'}>
+						<Swiper
+							className={'community-swiper'}
+							slidesPerView={'auto'}
+							centeredSlides={true}
+							spaceBetween={20}
+							modules={[Autoplay]}
+						>
+							{communityArticles.map((article: BoardArticle) => (
+								<SwiperSlide key={article._id} className={'community-slide'}>
+									<CommunityCard article={article} />
+								</SwiperSlide>
+							))}
+						</Swiper>
+					</Stack>
+				</Stack>
+			</Stack>
+		);
 	} else {
 		return (
 			<Stack className={'community-board'}>
 				<Stack className={'container'}>
-					<Stack>
-						<Typography variant={'h1'}>COMMUNITY BOARD HIGHLIGHTS</Typography>
+					<Stack className={'info-box'}>
+						<Box component={'div'} className={'left'}>
+							<span>Community Highlights</span>
+							<p>Latest stories and insights from our golf community</p>
+						</Box>
+						<Box component={'div'} className={'right'}>
+							<Stack className={'pagination-box'}>
+								<WestIcon className={'swiper-community-prev'} />
+								<EastIcon className={'swiper-community-next'} />
+							</Stack>
+						</Box>
 					</Stack>
-					<Stack className="community-main">
-						<Stack className={'community-left'}>
-							<Stack className={'content-top'}>
-								<Link href={'/community?articleCategory=NEWS'}>
-									<span>News</span>
-								</Link>
-								<img src="/img/icons/arrowBig.svg" alt="" />
-							</Stack>
-							<Stack className={'card-wrap'}>
-								{newsArticles.map((article, index) => {
-									return <CommunityCard vertical={true} article={article} index={index} key={article?._id} />;
-								})}
-							</Stack>
-						</Stack>
-						<Stack className={'community-right'}>
-							<Stack className={'content-top'}>
-								<Link href={'/community?articleCategory=FREE'}>
-									<span>Free</span>
-								</Link>
-								<img src="/img/icons/arrowBig.svg" alt="" />
-							</Stack>
-							<Stack className={'card-wrap vertical'}>
-								{freeArticles.map((article, index) => {
-									return <CommunityCard vertical={false} article={article} index={index} key={article?._id} />;
-								})}
-							</Stack>
-						</Stack>
+
+					<Stack className={'card-box'}>
+						<Swiper
+							className={'community-swiper'}
+							slidesPerView={'auto'}
+							spaceBetween={25}
+							modules={[Autoplay, Navigation, Mousewheel]}
+							navigation={{
+								nextEl: '.swiper-community-next',
+								prevEl: '.swiper-community-prev',
+							}}
+							mousewheel={{
+								forceToAxis: true,
+								sensitivity: 1,
+								releaseOnEdges: true,
+							}}
+							grabCursor={true}
+						>
+							{communityArticles.map((article: BoardArticle) => (
+								<SwiperSlide key={article._id} className={'community-slide'}>
+									<CommunityCard article={article} />
+								</SwiperSlide>
+							))}
+						</Swiper>
 					</Stack>
 				</Stack>
 			</Stack>

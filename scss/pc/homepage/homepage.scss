@@ -476,8 +476,6 @@
 			}
 		}
 
-		/** Inside .home-page **/
-
 		/** POPULAR PRODUCTS - SAME STYLE AS TRENDING **/
 		.popular-products {
 			padding: 100px 0;
@@ -654,67 +652,128 @@
 			padding: 0;
 			overflow: hidden;
 		}
-
-		/** EVENTS SECTION - MANORS JOURNAL STYLE **/
-		.events-section {
+		/** UPCOMING EVENTS - DARK BG WITH SWIPER **/
+		.upcoming-events {
 			padding: 100px 0;
 			width: 100%;
-			background: #f9fafb;
+			background: #1a1a1a;
 
 			.container {
+				display: flex;
 				flex-direction: column;
 
-				.events-grid {
-					margin-top: 60px;
-					display: grid;
-					grid-template-columns: repeat(2, 1fr);
-					gap: 30px;
+				.info-box {
 					width: 100%;
+					display: flex;
+					flex-direction: row;
+					justify-content: space-between;
+					align-items: flex-end;
+					margin-bottom: 60px;
+
+					.left {
+						display: flex;
+						flex-direction: column;
+						gap: 8px;
+
+						span {
+							font-family: $font;
+							font-size: 32px;
+							font-weight: 600;
+							color: #ffffff;
+							letter-spacing: -0.5px;
+						}
+
+						p {
+							font-family: $font;
+							font-size: 16px;
+							font-weight: 400;
+							color: rgba(255, 255, 255, 0.7);
+							margin: 0;
+						}
+					}
+
+					.right {
+						.pagination-box {
+							display: flex;
+							flex-direction: row;
+							gap: 16px;
+
+							svg {
+								width: 40px;
+								height: 40px;
+								padding: 8px;
+								background: rgba(255, 255, 255, 0.1);
+								border-radius: 50%;
+								color: #ffffff;
+								cursor: pointer;
+								transition: all 0.3s ease;
+
+								&:hover {
+									background: #ffffff;
+									color: #1a1a1a;
+									transform: scale(1.1);
+								}
+
+								&.swiper-button-disabled {
+									opacity: 0.3;
+									cursor: not-allowed;
+									&:hover {
+										background: rgba(255, 255, 255, 0.1);
+										color: #ffffff;
+										transform: scale(1);
+									}
+								}
+							}
+						}
+					}
 				}
 
-				.empty-list {
-					width: 100%;
-					height: 280px;
+				.card-box {
+					position: relative;
 					display: flex;
-					justify-content: center;
-					align-items: center;
-					color: #bdbdbd;
-					font-family: $font;
-					font-size: 16px;
+					flex-direction: column;
+
+					.upcoming-event-swiper {
+						width: 100%;
+						padding: 10px 0;
+
+						.upcoming-event-slide {
+							width: auto;
+							height: auto;
+						}
+					}
 				}
 			}
 		}
 
-		/** EVENT CARD - MANORS JOURNAL STYLE **/
-		.event-card-journal {
-			position: relative;
-			width: 100%;
-			height: 500px;
-			border-radius: 8px;
-			overflow: hidden;
+		/** UPCOMING EVENT CARD **/
+		.upcoming-event-card {
+			width: 450px;
 			cursor: pointer;
 			transition: all 0.3s ease;
 
 			&:hover {
 				transform: translateY(-8px);
-				box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
 
-				.event-overlay {
-					background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.8));
-				}
+				.event-image {
+					box-shadow: 0 16px 32px rgba(0, 0, 0, 0.5);
 
-				.event-action {
-					opacity: 1;
-					transform: translateY(0);
+					.event-overlay {
+						background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.7) 100%);
+					}
 				}
 			}
 
 			.event-image {
 				width: 100%;
-				height: 100%;
+				height: 550px;
 				background-size: cover;
 				background-position: center;
+				background-repeat: no-repeat;
+				border-radius: 12px;
+				overflow: hidden;
 				position: relative;
+				transition: all 0.3s ease;
 
 				.event-overlay {
 					position: absolute;
@@ -722,27 +781,86 @@
 					left: 0;
 					right: 0;
 					bottom: 0;
-					background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.7));
+					background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.6) 100%);
 					display: flex;
 					flex-direction: column;
 					justify-content: space-between;
 					padding: 30px;
 					transition: all 0.3s ease;
 
-					.event-info {
-						.event-type {
+					.event-top {
+						display: flex;
+						flex-direction: row;
+						justify-content: space-between;
+						align-items: flex-start;
+
+						.event-type-badge {
 							display: inline-block;
-							padding: 6px 12px;
-							background: rgba(45, 80, 22, 0.9);
+							padding: 8px 16px;
+							background: rgba(45, 80, 22, 0.95);
 							color: #ffffff;
 							font-family: $font;
 							font-size: 12px;
 							font-weight: 600;
 							text-transform: uppercase;
 							letter-spacing: 1px;
-							border-radius: 4px;
-							margin-bottom: 16px;
+							border-radius: 6px;
+							box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 						}
+
+						.engagement-box {
+							display: flex;
+							flex-direction: row;
+							gap: 16px;
+
+							.engagement-item {
+								display: flex;
+								flex-direction: row;
+								align-items: center;
+								gap: 6px;
+								background: rgba(255, 255, 255, 0.15);
+								padding: 6px 12px;
+								border-radius: 20px;
+								backdrop-filter: blur(10px);
+
+								.MuiIconButton-root {
+									padding: 0;
+									width: 24px;
+									height: 24px;
+
+									svg {
+										width: 20px;
+										height: 20px;
+										color: #ffffff;
+									}
+
+									&:hover {
+										background: transparent;
+										transform: scale(1.2);
+									}
+								}
+
+								svg {
+									width: 20px;
+									height: 20px;
+									color: #ffffff;
+								}
+
+								span {
+									color: #ffffff;
+									font-family: $font;
+									font-size: 14px;
+									font-weight: 600;
+									text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+								}
+							}
+						}
+					}
+
+					.event-info {
+						display: flex;
+						flex-direction: column;
+						gap: 16px;
 
 						.event-title {
 							color: #ffffff;
@@ -750,44 +868,35 @@
 							font-size: 28px;
 							font-weight: 600;
 							line-height: 1.3;
-							margin: 0 0 16px 0;
-							text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+							margin: 0;
+							text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
 						}
 
 						.event-details {
 							display: flex;
 							flex-direction: column;
-							gap: 8px;
+							gap: 10px;
 
-							span {
-								color: rgba(255, 255, 255, 0.9);
-								font-family: $font;
-								font-size: 14px;
-								font-weight: 400;
-								text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
-							}
-						}
-					}
+							.detail-item {
+								display: flex;
+								flex-direction: row;
+								align-items: center;
+								gap: 10px;
 
-					.event-action {
-						opacity: 0;
-						transform: translateY(10px);
-						transition: all 0.3s ease;
+								img {
+									width: 18px;
+									height: 18px;
+									filter: brightness(0) invert(1);
+									opacity: 0.9;
+								}
 
-						.view-event {
-							display: inline-block;
-							padding: 12px 24px;
-							background: #ffffff;
-							color: #2d5016;
-							font-family: $font;
-							font-size: 14px;
-							font-weight: 600;
-							border-radius: 6px;
-							transition: all 0.3s ease;
-
-							&:hover {
-								background: #2d5016;
-								color: #ffffff;
+								span {
+									color: rgba(255, 255, 255, 0.95);
+									font-family: $font;
+									font-size: 15px;
+									font-weight: 500;
+									text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+								}
 							}
 						}
 					}
@@ -920,184 +1029,168 @@
 			}
 		}
 
-		/** COMMUNITY BOARDS SECTION **/
+		/** COMMUNITY BOARD - WHITE BG, SMALL CARDS **/
 		.community-board {
-			position: relative;
 			padding: 100px 0;
 			width: 100%;
 			background: #ffffff;
 
 			.container {
+				display: flex;
 				flex-direction: column;
-				align-items: center;
 
-				h1 {
-					color: #181a20;
-					font-family: $font-heading;
-					font-size: 42px;
-					font-weight: 600;
-					margin: 0;
-				}
-
-				.community-main {
+				.info-box {
 					width: 100%;
-					margin-top: 60px;
 					display: flex;
 					flex-direction: row;
 					justify-content: space-between;
-					gap: 40px;
+					align-items: flex-end;
+					margin-bottom: 60px;
 
-					.content-top {
-						margin-bottom: 26px;
-						width: 100%;
+					.left {
 						display: flex;
-						flex-direction: row;
-						justify-content: flex-end;
-						align-items: center;
+						flex-direction: column;
+						gap: 8px;
 
 						span {
 							font-family: $font;
-							font-size: 15px;
+							font-size: 32px;
 							font-weight: 600;
-							color: #6b7280;
-							cursor: pointer;
-							transition: color 0.3s ease;
-
-							&:hover {
-								color: #2d5016;
-							}
+							color: #181a20;
+							letter-spacing: -0.5px;
 						}
 
-						img {
-							margin-left: 10px;
-							width: 12px;
-							height: 12px;
+						p {
+							font-family: $font;
+							font-size: 16px;
+							font-weight: 400;
+							color: #6b7280;
+							margin: 0;
 						}
 					}
 
-					.community-left {
-						flex: 1;
-						display: flex;
-						flex-direction: column;
-
-						.card-wrap {
+					.right {
+						.pagination-box {
 							display: flex;
 							flex-direction: row;
-							flex-wrap: wrap;
-							gap: 18px;
+							gap: 16px;
 
-							.vertical-card {
-								width: 202px;
-								display: flex;
-								flex-direction: column;
+							svg {
+								width: 40px;
+								height: 40px;
+								padding: 8px;
+								background: #f5f5f5;
+								border-radius: 50%;
+								color: #181a20;
 								cursor: pointer;
 								transition: all 0.3s ease;
 
 								&:hover {
-									transform: translateY(-4px);
+									background: #181a20;
+									color: #ffffff;
+									transform: scale(1.1);
+								}
 
-									.community-img {
-										box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+								&.swiper-button-disabled {
+									opacity: 0.3;
+									cursor: not-allowed;
+									&:hover {
+										background: #f5f5f5;
+										color: #181a20;
+										transform: scale(1);
 									}
-								}
-
-								.community-img {
-									width: 100%;
-									height: 141px;
-									background-size: cover;
-									background-position: center;
-									border-radius: 8px;
-									transition: all 0.3s ease;
-
-									div {
-										width: 32px;
-										height: 32px;
-										display: flex;
-										justify-content: center;
-										align-items: center;
-										background: #2d5016;
-										border-radius: 5px 0;
-										color: #ffffff;
-										font-family: $font;
-										font-size: 16px;
-										font-weight: 600;
-									}
-								}
-
-								strong {
-									margin-top: 12px;
-									color: #181a20;
-									font-family: $font;
-									font-size: 15px;
-									font-weight: 600;
-									line-height: 1.4;
-								}
-
-								span {
-									margin-top: 4px;
-									color: #6b7280;
-									font-family: $font;
-									font-size: 13px;
-									font-weight: 400;
 								}
 							}
 						}
 					}
+				}
 
-					.community-right {
-						flex: 1;
+				.card-box {
+					position: relative;
+					display: flex;
+					flex-direction: column;
+
+					.community-swiper {
+						width: 100%;
+						padding: 10px 0;
+
+						.community-slide {
+							width: auto;
+							height: auto;
+						}
+					}
+				}
+			}
+		}
+
+		/** COMMUNITY CARD - SMALL JOURNAL STYLE **/
+		.community-card {
+			width: 320px;
+			cursor: pointer;
+			transition: all 0.3s ease;
+
+			&:hover {
+				transform: translateY(-6px);
+
+				.card-image {
+					box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+
+					.card-overlay {
+						background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.65) 100%);
+					}
+				}
+			}
+
+			.card-image {
+				width: 100%;
+				height: 380px;
+				background-size: cover;
+				background-position: center;
+				background-repeat: no-repeat;
+				border-radius: 8px;
+				overflow: hidden;
+				position: relative;
+				transition: all 0.3s ease;
+
+				.card-overlay {
+					position: absolute;
+					top: 0;
+					left: 0;
+					right: 0;
+					bottom: 0;
+					background: linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.55) 100%);
+					display: flex;
+					flex-direction: column;
+					justify-content: flex-end;
+					padding: 25px;
+					transition: all 0.3s ease;
+
+					.card-info {
 						display: flex;
 						flex-direction: column;
+						gap: 10px;
 
-						.horizontal-card {
-							display: flex;
-							flex-direction: row;
-							cursor: pointer;
-							margin-bottom: 24px;
-							transition: all 0.3s ease;
+						.card-title {
+							color: #ffffff;
+							font-family: $font;
+							font-size: 20px;
+							font-weight: 500;
+							line-height: 1.3;
+							margin: 0;
+							text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+						}
+
+						.read-more {
+							color: rgba(255, 255, 255, 0.9);
+							font-family: $font;
+							font-size: 13px;
+							font-weight: 400;
+							text-decoration: underline;
+							text-underline-offset: 3px;
+							transition: color 0.3s ease;
 
 							&:hover {
-								transform: translateX(4px);
-
-								img {
-									box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-								}
-
-								strong {
-									color: #2d5016;
-								}
-							}
-
-							img {
-								width: 180px;
-								height: 111px;
-								border-radius: 8px;
-								object-fit: cover;
-								transition: all 0.3s ease;
-							}
-
-							div {
-								margin-left: 20px;
-								display: flex;
-								flex-direction: column;
-								justify-content: center;
-
-								strong {
-									color: #181a20;
-									font-family: $font;
-									font-size: 15px;
-									font-weight: 600;
-									line-height: 1.4;
-									transition: color 0.3s ease;
-								}
-
-								span {
-									margin-top: 8px;
-									color: #6b7280;
-									font-family: $font;
-									font-size: 13px;
-									font-weight: 400;
-								}
+								color: #ffffff;
 							}
 						}
 					}
