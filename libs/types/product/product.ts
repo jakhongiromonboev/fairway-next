@@ -22,15 +22,15 @@ export interface Product {
 	productQuantity: number;
 	productSizes: string[];
 	productBrand?: string;
-	productViews: number;
-	productLikes: number;
-	productComments: number;
-	productRank: number;
-	memberId: string;
+	productViews?: number;
+	productLikes?: number;
+	productComments?: number;
+	productRank?: number;
+	memberId?: string;
 	soldAt?: Date;
 	deletedAt?: Date;
-	createdAt: Date;
-	updatedAt: Date;
+	createdAt?: Date;
+	updatedAt?: Date;
 	/** from aggregation **/
 	meLiked?: MeLiked[];
 	memberData?: Member;

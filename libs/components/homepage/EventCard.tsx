@@ -43,7 +43,7 @@ const EventCard = (props: EventCardProps) => {
 							<span className={'event-type'}>{event.eventType}</span>
 							<h3 className={'event-title'}>{event.eventTitle}</h3>
 							<Box className={'event-details'}>
-								<span className={'event-location'}>📍 {event.eventLocation}</span>
+								<span className={'event-location'}> {event.eventLocation}</span>
 								<span className={'event-date'}>
 									<Moment format="MMM DD, YYYY">{event?.eventPeriod?.startDate}</Moment>
 									{' - '}

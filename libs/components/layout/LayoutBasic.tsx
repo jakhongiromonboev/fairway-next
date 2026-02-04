@@ -44,7 +44,7 @@ const withLayoutBasic = (Component: any) => {
 					break;
 				case '/about':
 					title = 'ABOUT FAIRWAY';
-					bgImage = '/img/banner/hero_shop.jpg';
+					bgImage = '/img/banner/hero2.jpg';
 					mediaType = 'video';
 					videoSrc = '/videos/about-hero.mp4';
 					break;

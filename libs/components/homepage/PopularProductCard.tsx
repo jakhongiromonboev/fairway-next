@@ -5,11 +5,11 @@ import { Product } from '../../types/product/product';
 import { REACT_APP_API_URL } from '../../config';
 import { useRouter } from 'next/router';
 
-interface TrendingProductCardProps {
+interface PopularProductCardProps {
 	product: Product;
 }
 
-const TrendingProductCard = (props: TrendingProductCardProps) => {
+const PopularProductCard = (props: PopularProductCardProps) => {
 	const { product } = props;
 	const device = useDeviceDetect();
 	const router = useRouter();
@@ -18,8 +18,7 @@ const TrendingProductCard = (props: TrendingProductCardProps) => {
 	// Get primary and secondary images
 	// const primaryImage = product?.productImages?.[0]
 	// 	? `${REACT_APP_API_URL}/${product.productImages[0]}`
-	// 	: '/img/products/default-product.jpg';
-
+	// 	: '/img/product/default.svg';
 	// const secondaryImage = product?.productImages?.[1]
 	// 	? `${REACT_APP_API_URL}/${product.productImages[1]}`
 	// 	: primaryImage;
@@ -34,11 +33,11 @@ const TrendingProductCard = (props: TrendingProductCardProps) => {
 	};
 
 	if (device === 'mobile') {
-		return <div>PRODUCT CARD (MOBILE)</div>;
+		return <div>POPULAR PRODUCT CARD (MOBILE)</div>;
 	} else {
 		return (
 			<Stack
-				className="trending-product-card"
+				className="popular-product-card"
 				onMouseEnter={() => setIsHovered(true)}
 				onMouseLeave={() => setIsHovered(false)}
 				onClick={handleProductClick}
@@ -58,4 +57,4 @@ const TrendingProductCard = (props: TrendingProductCardProps) => {
 	}
 };
 
-export default TrendingProductCard;
+export default PopularProductCard;

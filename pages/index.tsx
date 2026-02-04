@@ -8,6 +8,8 @@ import TopAgents from '../libs/components/homepage/TopAgents';
 import CommunityBoards from '../libs/components/homepage/CommunityBoards';
 import { Stack } from '@mui/material';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import TrustedBrands from '../libs/components/homepage/TrustedBrands';
+import PopularProducts from '../libs/components/homepage/PopularProducts';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -22,6 +24,8 @@ const Home: NextPage = () => {
 		return (
 			<Stack className={'home-page'}>
 				<TrendingProducts />
+				<TrustedBrands />
+				<PopularProducts />
 				<Advertisement />
 				<Events />
 				<TopAgents />
@@ -31,19 +35,12 @@ const Home: NextPage = () => {
 	} else {
 		return (
 			<Stack className={'home-page'}>
-				{/* TRENDING PRODUCTS - Manors style cards */}
 				<TrendingProducts />
-
-				{/* ADVERTISEMENT VIDEO */}
+				<TrustedBrands />
+				<PopularProducts />
 				<Advertisement />
-
-				{/* UPCOMING EVENTS - Manors journal style */}
 				<Events />
-
-				{/* TOP AGENTS */}
 				<TopAgents />
-
-				{/* COMMUNITY BOARDS */}
 				<CommunityBoards />
 			</Stack>
 		);
