@@ -4,7 +4,6 @@ import withLayoutMain from '../libs/components/layout/LayoutHome';
 import TrendingProducts from '../libs/components/homepage/TrendingProducts';
 import Advertisement from '../libs/components/homepage/Advertisement';
 import Events from '../libs/components/homepage/Events';
-import TopAgents from '../libs/components/homepage/TopAgents';
 import CommunityBoards from '../libs/components/homepage/CommunityBoards';
 import { Stack } from '@mui/material';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
