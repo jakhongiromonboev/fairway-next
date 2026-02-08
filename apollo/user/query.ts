@@ -109,6 +109,7 @@ export const GET_PRODUCT = gql`
 			productDesc
 			productQuantity
 			productSizes
+			productGender
 			productBrand
 			productViews
 			productLikes
@@ -173,6 +174,7 @@ export const GET_PRODUCTS = gql`
 				productDesc
 				productQuantity
 				productSizes
+				productGender
 				productBrand
 				productViews
 				productLikes
@@ -241,6 +243,7 @@ export const GET_AGENT_PRODUCTS = gql`
 				productDesc
 				productQuantity
 				productSizes
+				productGender
 				productBrand
 				productViews
 				productLikes
@@ -259,6 +262,12 @@ export const GET_AGENT_PRODUCTS = gql`
 	}
 `;
 
+export const GET_AVAILABLE_BRANDS = gql`
+	query GetAvailableBrands {
+		getAvailableBrands
+	}
+`;
+
 export const GET_FAVORITES = gql`
 	query GetFavorites($input: OrdinaryInquiry!) {
 		getFavorites(input: $input) {
@@ -272,6 +281,7 @@ export const GET_FAVORITES = gql`
 				productDesc
 				productQuantity
 				productSizes
+				productGender
 				productBrand
 				productViews
 				productLikes
@@ -335,6 +345,7 @@ export const GET_VISITED = gql`
 				productDesc
 				productQuantity
 				productSizes
+				productGender
 				productBrand
 				productViews
 				productLikes

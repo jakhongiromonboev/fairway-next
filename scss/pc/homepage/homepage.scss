@@ -1028,8 +1028,7 @@
 				}
 			}
 		}
-
-		/** COMMUNITY BOARD - WHITE BG, MODERN CARD LAYOUT **/
+		/** COMMUNITY BOARD - WHITE BG, SIMPLE CARDS **/
 		.community-board {
 			padding: 100px 0;
 			width: 100%;
@@ -1123,32 +1122,35 @@
 			}
 		}
 
-		/** COMMUNITY CARD - JOURNAL STYLE MATCHING SCREENSHOT **/
+		/** COMMUNITY CARD - MANORS SIMPLE STYLE WITH VARIANTS **/
 		.community-card {
 			cursor: pointer;
-			transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-			position: relative;
+			transition: all 0.3s ease;
 
-			// Small card variant (default)
 			&.small {
 				width: 380px;
 
 				.card-image {
-					height: 480px;
-				}
-			}
-
-			// Large card variant (for featured/middle cards)
-			&.large {
-				width: 480px;
-
-				.card-image {
-					height: 600px;
+					height: 460px;
 				}
 
 				.card-content {
 					.card-title {
-						font-size: 28px;
+						font-size: 22px;
+					}
+				}
+			}
+
+			&.large {
+				width: 480px;
+
+				.card-image {
+					height: 580px;
+				}
+
+				.card-content {
+					.card-title {
+						font-size: 26px;
 					}
 				}
 			}
@@ -1157,25 +1159,15 @@
 				transform: translateY(-8px);
 
 				.card-image {
-					&::before {
-						opacity: 0.25;
-					}
+					box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
 
 					.card-overlay {
-						background: linear-gradient(
-							to bottom,
-							rgba(0, 0, 0, 0) 0%,
-							rgba(0, 0, 0, 0.15) 40%,
-							rgba(0, 0, 0, 0.75) 100%
-						);
+						background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.7) 100%);
 					}
+				}
 
-					.card-content {
-						.read-more {
-							opacity: 1;
-							transform: translateY(0);
-						}
-					}
+				.read-more {
+					text-decoration-thickness: 2px;
 				}
 			}
 
@@ -1184,29 +1176,11 @@
 				background-size: cover;
 				background-position: center;
 				background-repeat: no-repeat;
-				border-radius: 12px;
+				border-radius: 8px;
 				overflow: hidden;
 				position: relative;
-				transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-				box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-
-				// Subtle overlay for depth
-				&::before {
-					content: '';
-					position: absolute;
-					top: 0;
-					left: 0;
-					right: 0;
-					bottom: 0;
-					background: rgba(0, 0, 0, 0.15);
-					opacity: 0.5;
-					transition: opacity 0.4s ease;
-					z-index: 1;
-				}
-
-				&:hover {
-					box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-				}
+				transition: all 0.3s ease;
+				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 
 				.card-overlay {
 					position: absolute;
@@ -1214,29 +1188,26 @@
 					left: 0;
 					right: 0;
 					bottom: 0;
-					background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.1) 40%, rgba(0, 0, 0, 0.65) 100%);
+					background: linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.6) 100%);
 					display: flex;
 					flex-direction: column;
 					justify-content: flex-end;
-					padding: 32px;
-					transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-					z-index: 2;
+					padding: 30px;
+					transition: all 0.3s ease;
 
 					.card-content {
 						display: flex;
 						flex-direction: column;
 						gap: 12px;
-						position: relative;
 
 						.card-title {
 							color: #ffffff;
 							font-family: $font;
-							font-size: 22px;
 							font-weight: 500;
 							line-height: 1.3;
 							margin: 0;
-							text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
-							letter-spacing: -0.3px;
+							text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+							transition: all 0.3s ease;
 						}
 
 						.read-more {
@@ -1244,90 +1215,14 @@
 							font-family: $font;
 							font-size: 14px;
 							font-weight: 400;
-							text-decoration: none;
-							position: relative;
-							display: inline-block;
+							text-decoration: underline;
+							text-underline-offset: 4px;
+							text-decoration-thickness: 1px;
 							width: fit-content;
-							opacity: 0.85;
-							transform: translateY(4px);
 							transition: all 0.3s ease;
 
-							&::after {
-								content: '';
-								position: absolute;
-								bottom: -2px;
-								left: 0;
-								width: 100%;
-								height: 1px;
-								background: rgba(255, 255, 255, 0.95);
-								transform: scaleX(1);
-								transform-origin: left;
-								transition: transform 0.3s ease;
-							}
-
-							&:hover::after {
-								transform: scaleX(1.1);
-							}
-						}
-					}
-				}
-			}
-		}
-
-		// Mobile styles
-		@media (max-width: 768px) {
-			.community-board {
-				padding: 60px 0;
-
-				.container {
-					.info-box {
-						margin-bottom: 40px;
-
-						.left {
-							span {
-								font-size: 24px;
-							}
-
-							p {
-								font-size: 14px;
-							}
-						}
-
-						.right {
-							.pagination-box {
-								gap: 12px;
-
-								svg {
-									width: 36px;
-									height: 36px;
-								}
-							}
-						}
-					}
-				}
-			}
-
-			.community-card {
-				&.small,
-				&.large {
-					width: 280px;
-
-					.card-image {
-						height: 360px;
-					}
-				}
-
-				.card-image {
-					.card-overlay {
-						padding: 24px;
-
-						.card-content {
-							.card-title {
-								font-size: 18px;
-							}
-
-							.read-more {
-								font-size: 13px;
+							&:hover {
+								color: #ffffff;
 							}
 						}
 					}

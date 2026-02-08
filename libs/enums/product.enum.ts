@@ -14,3 +14,9 @@ export enum ProductStatus {
 	OUT_OF_STOCK = 'OUT_OF_STOCK',
 	DELETE = 'DELETE',
 }
+
+export enum ProductGender {
+	MEN = 'MEN',
+	WOMEN = 'WOMEN',
+	UNISEX = 'UNISEX',
+}

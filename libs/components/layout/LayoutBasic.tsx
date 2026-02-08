@@ -26,14 +26,14 @@ const withLayoutBasic = (Component: any) => {
 				videoSrc = '';
 
 			switch (router.pathname) {
-				case '/products':
+				case '/product':
 					title = 'DISCOVER PREMIUM EQUIPMENT';
 					bgImage = '/img/banner/shop_hero_main.avif';
 					mediaType = 'image';
 					break;
 				case '/events':
 					title = 'JOIN EXCITING TOURNAMENTS';
-					bgImage = '/img/banner/hero2.jpg';
+					bgImage = '/img/banner/golf-hero.jpg';
 					mediaType = 'video';
 					videoSrc = '/video/events-hero3.mp4';
 					break;
@@ -44,7 +44,7 @@ const withLayoutBasic = (Component: any) => {
 					break;
 				case '/about':
 					title = 'ABOUT FAIRWAY';
-					bgImage = '/img/banner/hero2.jpg';
+					bgImage = '/img/banner/about.jpg';
 					mediaType = 'video';
 					videoSrc = '/videos/about-hero.mp4';
 					break;

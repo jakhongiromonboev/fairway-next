@@ -1,4 +1,4 @@
-import { ProductCategory, ProductStatus } from '../../enums/product.enum';
+import { ProductCategory, ProductStatus, ProductGender } from '../../enums/product.enum';
 import { Member } from '../member/member';
 
 export interface MeLiked {
@@ -21,6 +21,7 @@ export interface Product {
 	productDesc?: string;
 	productQuantity: number;
 	productSizes: string[];
+	productGender?: ProductGender;
 	productBrand?: string;
 	productViews?: number;
 	productLikes?: number;

@@ -1,4 +1,4 @@
-import { ProductStatus } from '../../enums/product.enum';
+import { ProductGender, ProductStatus } from '../../enums/product.enum';
 
 export interface ProductUpdate {
 	_id: string;
@@ -9,6 +9,7 @@ export interface ProductUpdate {
 	productDesc?: string;
 	productQuantity?: number;
 	productSizes?: string[];
+	productGender?: ProductGender;
 	productBrand?: string;
 	soldAt?: Date;
 	deletedAt?: Date;

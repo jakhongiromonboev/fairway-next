@@ -1,4 +1,4 @@
-import { ProductCategory, ProductStatus } from '../../enums/product.enum';
+import { ProductCategory, ProductGender, ProductStatus } from '../../enums/product.enum';
 import { Direction } from '../../enums/common.enum';
 
 export interface ProductInput {
@@ -9,6 +9,7 @@ export interface ProductInput {
 	productDesc?: string;
 	productQuantity?: number;
 	productSizes?: string[];
+	productGender?: ProductGender;
 	productBrand?: string;
 	memberId?: string;
 }
@@ -22,6 +23,7 @@ interface PISearch {
 	memberId?: string;
 	categoryList?: ProductCategory[];
 	brandList?: string[];
+	genderList?: ProductGender[];
 	pricesRange?: PricesRange;
 	text?: string;
 }

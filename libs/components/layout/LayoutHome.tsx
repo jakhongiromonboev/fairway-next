@@ -59,7 +59,6 @@ const withLayoutMain = (Component: any) => {
 							<Top />
 						</Stack>
 
-						{/* HERO SECTION */}
 						<Stack className={'hero-section'}>
 							<Box className={'hero-overlay'} />
 							<Stack className={'hero-content'}>
@@ -72,7 +71,7 @@ const withLayoutMain = (Component: any) => {
 									</div>
 								</Box>
 								<Box className={'hero-right'}>
-									<div className={'hero-link'} onClick={() => router.push('/products')}>
+									<div className={'hero-link'} onClick={() => router.push('/product')}>
 										PRODUCTS <span className={'arrow'}>→</span>
 									</div>
 									<div className={'hero-link'} onClick={() => router.push('/events')}>

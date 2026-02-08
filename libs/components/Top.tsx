@@ -145,7 +145,7 @@ const Top = () => {
 					<Box className={'announcement-bar'}>
 						<p>
 							{t('New arrivals in premium golf clubs this season —')}
-							<span onClick={() => router.push('/products')}>{t('EXPLORE NOW')}</span>
+							<span onClick={() => router.push('/product')}>{t('EXPLORE NOW')}</span>
 						</p>
 						<div className={'announcement-close'} onClick={() => setShowAnnouncement(false)}>
 							✕
@@ -161,7 +161,7 @@ const Top = () => {
 							<Link href={'/'}>
 								<div className={router.pathname === '/' ? 'active' : ''}>{t('Home')}</div>
 							</Link>
-							<Link href={'/products'}>
+							<Link href={'/product'}>
 								<div className={router.pathname.includes('/product') ? 'active' : ''}>{t('Shop')}</div>
 							</Link>
 							<Link href={'/events'}>
@@ -172,7 +172,7 @@ const Top = () => {
 							</Link>
 						</Box>
 
-						{/* CENTER LOGO - TEXT ONLY like Manors */}
+						{/* CENTER LOGO*/}
 						<Box component={'div'} className={'logo-box'}>
 							<Link href={'/'}>
 								<span className={'logo-text'}>FAIRWAY</span>
