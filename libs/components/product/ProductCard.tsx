@@ -1,3 +1,4 @@
+// ProductCard.tsx - FIXED VERSION
 import React, { useState } from 'react';
 import { Stack, Typography, IconButton } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
@@ -5,7 +6,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { Product } from '../../types/product/product';
-import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { formatterStr } from '../../utils';
 import { REACT_APP_API_URL } from '../../config';
 import { useReactiveVar } from '@apollo/client';
@@ -20,21 +21,27 @@ interface ProductCardProps {
 const ProductCard = (props: ProductCardProps) => {
 	const { product, likeProductHandler, myFavorites } = props;
 	const device = useDeviceDetect();
+	const router = useRouter();
 	const user = useReactiveVar(userVar);
 	const [isHovered, setIsHovered] = useState(false);
 
-	// Primary image
 	const primaryImage: string = product?.productImages[0]
 		? `${REACT_APP_API_URL}/${product?.productImages[0]}`
 		: '/img/products/default.webp';
 
-	// Secondary image for hover (if exists)
 	const secondaryImage: string =
 		product?.productImages[1] && product?.productImages[1] !== product?.productImages[0]
 			? `${REACT_APP_API_URL}/${product?.productImages[1]}`
 			: primaryImage;
 
 	const hasMultipleImages = product?.productImages?.length > 1;
+
+	const handleProductClick = () => {
+		router.push({
+			pathname: '/product/detail',
+			query: { id: product._id },
+		});
+	};
 
 	if (device === 'mobile') {
 		return <div>PRODUCT CARD (MOBILE)</div>;
@@ -45,21 +52,17 @@ const ProductCard = (props: ProductCardProps) => {
 				onMouseEnter={() => hasMultipleImages && setIsHovered(true)}
 				onMouseLeave={() => setIsHovered(false)}
 			>
-				<Stack className="image-wrapper">
-					<Link
-						href={{
-							pathname: '/product/detail',
-							query: { id: product?._id },
-						}}
-					>
-						<img src={isHovered ? secondaryImage : primaryImage} alt={product.productName} className="product-image" />
-					</Link>
+				<Stack className="image-wrapper" onClick={handleProductClick} style={{ cursor: 'pointer' }}>
+					<img src={isHovered ? secondaryImage : primaryImage} alt={product.productName} className="product-image" />
 
 					<Stack className="action-buttons">
 						<IconButton
 							className="action-btn"
 							size="small"
-							onClick={() => likeProductHandler && likeProductHandler(user, product?._id)}
+							onClick={(e: any) => {
+								e.stopPropagation();
+								likeProductHandler && likeProductHandler(user, product?._id);
+							}}
 						>
 							{myFavorites ? (
 								<FavoriteIcon fontSize="small" sx={{ color: '#181A20' }} />
@@ -74,14 +77,10 @@ const ProductCard = (props: ProductCardProps) => {
 
 				<Stack className="product-info">
 					<Stack className="product-header">
-						<Link
-							href={{
-								pathname: '/product/detail',
-								query: { id: product?._id },
-							}}
-						>
-							<Typography className="product-name">{product.productName}</Typography>
-						</Link>
+						{/* Keep text link as is */}
+						<Typography className="product-name" onClick={handleProductClick} style={{ cursor: 'pointer' }}>
+							{product.productName}
+						</Typography>
 						{product.productBrand && <Typography className="product-brand">{product.productBrand}</Typography>}
 					</Stack>
 
