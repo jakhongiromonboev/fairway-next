@@ -63,6 +63,7 @@ export const GET_ALL_PRODUCTS_BY_ADMIN = gql`
 				productDesc
 				productQuantity
 				productSizes
+				productGender
 				productBrand
 				productViews
 				productLikes

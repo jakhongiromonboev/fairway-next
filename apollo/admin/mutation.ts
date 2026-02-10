@@ -58,6 +58,7 @@ export const UPDATE_PRODUCT_BY_ADMIN = gql`
 			productDesc
 			productQuantity
 			productSizes
+			productGenders
 			productBrand
 			productViews
 			productLikes
@@ -84,6 +85,7 @@ export const REMOVE_PRODUCT_BY_ADMIN = gql`
 			productDesc
 			productQuantity
 			productSizes
+			productGender
 			productBrand
 			productViews
 			productLikes
