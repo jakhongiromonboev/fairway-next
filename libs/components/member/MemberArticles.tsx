@@ -1,83 +1,94 @@
 import React, { useEffect, useState } from 'react';
-import { NextPage } from 'next';
-import { Pagination, Stack, Typography } from '@mui/material';
-import useDeviceDetect from '../../hooks/useDeviceDetect';
+import { Pagination, Stack, Typography, Box } from '@mui/material';
 import { useRouter } from 'next/router';
-import CommunityCard from '../common/CommunityCard';
+import { useQuery } from '@apollo/client';
+import { GET_BOARD_ARTICLES } from '../../../apollo/user/query';
 import { T } from '../../types/common';
 import { BoardArticle } from '../../types/board-article/board-article';
-import { BoardArticlesInquiry } from '../../types/board-article/board-article.input';
+import { REACT_APP_API_URL } from '../../config';
+import moment from 'moment';
 
-const MemberArticles: NextPage = ({ initialInput, ...props }: any) => {
-	const device = useDeviceDetect();
+const MemberArticles = ({ initialInput }: any) => {
 	const router = useRouter();
-	const [total, setTotal] = useState<number>(0);
 	const { memberId } = router.query;
-	const [searchFilter, setSearchFilter] = useState<BoardArticlesInquiry>(initialInput);
-	const [memberBoArticles, setMemberBoArticles] = useState<BoardArticle[]>([]);
+	const [articles, setArticles] = useState<BoardArticle[]>([]);
+	const [total, setTotal] = useState(0);
+	const [searchFilter, setSearchFilter] = useState({
+		...initialInput,
+		search: { memberId: memberId as string },
+	});
 
-	/** APOLLO REQUESTS **/
+	useQuery(GET_BOARD_ARTICLES, {
+		fetchPolicy: 'cache-and-network',
+		variables: { input: searchFilter },
+		skip: !memberId,
+		onCompleted: (data: T) => {
+			setArticles(data?.getBoardArticles?.list || []);
+			setTotal(data?.getBoardArticles?.metaCounter[0]?.total || 0);
+		},
+	});
 
-	/** LIFECYCLES **/
 	useEffect(() => {
-		if (memberId) setSearchFilter({ ...initialInput, search: { memberId: memberId } });
+		if (memberId) setSearchFilter((prev: any) => ({ ...prev, search: { memberId } }));
 	}, [memberId]);
 
-	/** HANDLERS **/
-	const paginationHandler = (e: T, value: number) => {
-		setSearchFilter({ ...searchFilter, page: value });
-	};
+	return (
+		<div id="member-articles">
+			<Stack className="section-header">
+				<Typography className="section-title">Articles</Typography>
+				<Typography className="section-count">{total} articles</Typography>
+			</Stack>
 
-	if (device === 'mobile') {
-		return <div>MEMBER ARTICLES MOBILE</div>;
-	} else {
-		return (
-			<div id="member-articles-page">
-				<Stack className="main-title-box">
-					<Stack className="right-box">
-						<Typography className="main-title">Articles</Typography>
-					</Stack>
-				</Stack>
-				<Stack className="articles-list-box">
-					{memberBoArticles?.length === 0 && (
-						<div className={'no-data'}>
-							<img src="/img/icons/icoAlert.svg" alt="" />
-							<p>No Articles found!</p>
-						</div>
-					)}
-					{memberBoArticles?.map((boardArticle: BoardArticle) => {
-						return <CommunityCard boardArticle={boardArticle} key={boardArticle?._id} size={'small'} />;
-					})}
-				</Stack>
-				{memberBoArticles?.length !== 0 && (
-					<Stack className="pagination-config">
-						<Stack className="pagination-box">
-							<Pagination
-								count={Math.ceil(total / searchFilter.limit) || 1}
-								page={searchFilter.page}
-								shape="circular"
-								color="primary"
-								onChange={paginationHandler}
-							/>
-						</Stack>
-						<Stack className="total-result">
-							<Typography>{total} property available</Typography>
-						</Stack>
+			<Stack className="content-list">
+				{articles.length === 0 && (
+					<Stack className="no-data">
+						<img src="/img/icons/icoAlert.svg" alt="" />
+						<Typography>No articles found!</Typography>
 					</Stack>
 				)}
-			</div>
-		);
-	}
+				{articles.map((article: BoardArticle) => {
+					const img = article?.articleImage
+						? `${REACT_APP_API_URL}/${article.articleImage}`
+						: '/img/banner/golf-hero.jpg';
+					return (
+						<Stack
+							key={article._id}
+							className="content-row"
+							onClick={() => router.push(`/community/detail?id=${article._id}`)}
+						>
+							<Box className="row-image">
+								<img src={img} alt={article.articleTitle} />
+							</Box>
+							<Stack className="row-info">
+								<Typography className="row-name">{article.articleTitle}</Typography>
+								<Typography className="row-meta">{article.articleCategory}</Typography>
+								<Typography className="row-date">{moment(article.createdAt).format('MMM DD, YYYY')}</Typography>
+							</Stack>
+							<Stack className="row-stats-simple">
+								<span>👁 {article.articleViews}</span>
+								<span>❤️ {article.articleLikes}</span>
+								<span>💬 {article.articleComments}</span>
+							</Stack>
+						</Stack>
+					);
+				})}
+			</Stack>
+			{total > searchFilter.limit && (
+				<Stack className="pagination-config">
+					<Pagination
+						count={Math.ceil(total / searchFilter.limit)}
+						page={searchFilter.page}
+						shape="circular"
+						color="primary"
+						onChange={(e, val) => setSearchFilter({ ...searchFilter, page: val })}
+					/>
+				</Stack>
+			)}
+		</div>
+	);
 };
 
 MemberArticles.defaultProps = {
-	initialInput: {
-		page: 1,
-		limit: 6,
-		sort: 'createdAt',
-		direction: 'DESC',
-		search: {},
-	},
+	initialInput: { page: 1, limit: 6, sort: 'createdAt', direction: 'DESC', search: {} },
 };
-
 export default MemberArticles;

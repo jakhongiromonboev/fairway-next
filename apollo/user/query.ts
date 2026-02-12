@@ -737,6 +737,42 @@ export const GET_EVENT_RESERVATIONS = gql`
 	}
 `;
 
+export const GET_MY_RESERVATIONS = gql`
+	query GetMyReservations($input: EventReservationsInquiry!) {
+		getMyReservations(input: $input) {
+			list {
+				_id
+				memberId
+				eventId
+				participationDate
+				numberOfPeople
+				reservationStatus
+				createdAt
+				updatedAt
+				eventData {
+					_id
+					eventType
+					eventStatus
+					eventTitle
+					eventLocation
+					eventAddress
+					eventImages
+					eventPeriod {
+						startDate
+						endDate
+					}
+					eventViews
+					eventLikes
+					memberId
+				}
+			}
+			metaCounter {
+				total
+			}
+		}
+	}
+`;
+
 /**************************
  *      BOARD-ARTICLE     *
  *************************/

@@ -1,161 +1,135 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
-import { Box, Button, Pagination, Stack, Typography } from '@mui/material';
-import useDeviceDetect from '../../hooks/useDeviceDetect';
+import React, { useEffect, useState } from 'react';
+import { Pagination, Stack, Typography, Box, Button } from '@mui/material';
 import { useRouter } from 'next/router';
-import { FollowInquiry } from '../../types/follow/follow.input';
-import { useReactiveVar } from '@apollo/client';
+import { useQuery, useReactiveVar } from '@apollo/client';
+import { GET_MEMBER_FOLLOWERS } from '../../../apollo/user/query';
 import { Follower } from '../../types/follow/follow';
 import { REACT_APP_API_URL } from '../../config';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { userVar } from '../../../apollo/store';
 import { T } from '../../types/common';
 
-interface MemberFollowsProps {
-	initialInput: FollowInquiry;
-	subscribeHandler: any;
-	unsubscribeHandler: any;
-	redirectToMemberPageHandler: any;
+interface FollowerInquiry {
+	page: number;
+	limit: number;
+	search: { followingId: string };
 }
 
-const MemberFollowers = (props: MemberFollowsProps) => {
-	const { initialInput, subscribeHandler, unsubscribeHandler, redirectToMemberPageHandler } = props;
-	const device = useDeviceDetect();
+interface Props {
+	initialInput: FollowerInquiry;
+	subscribeHandler: (id: string, refetch: any, inquiry: FollowerInquiry) => void;
+	unsubscribeHandler: (id: string, refetch: any, inquiry: FollowerInquiry) => void;
+	redirectToMemberPageHandler: (id: string) => void;
+}
+
+const MemberFollowers = ({
+	initialInput,
+	subscribeHandler,
+	unsubscribeHandler,
+	redirectToMemberPageHandler,
+}: Props) => {
 	const router = useRouter();
-	const [total, setTotal] = useState<number>(0);
-	const category: any = router.query?.category ?? 'properties';
-	const [followInquiry, setFollowInquiry] = useState<FollowInquiry>(initialInput);
-	const [memberFollowers, setMemberFollowers] = useState<Follower[]>([]);
+	const { memberId } = router.query;
 	const user = useReactiveVar(userVar);
+	const [followers, setFollowers] = useState<Follower[]>([]);
+	const [total, setTotal] = useState<number>(0);
+	const [followInquiry, setFollowInquiry] = useState<FollowerInquiry>({
+		...initialInput,
+		search: { followingId: (memberId as string) || user._id },
+	});
 
-	/** APOLLO REQUESTS **/
+	const { refetch } = useQuery(GET_MEMBER_FOLLOWERS, {
+		fetchPolicy: 'cache-and-network',
+		variables: { input: followInquiry },
+		skip: !followInquiry.search.followingId,
+		onCompleted: (data: T) => {
+			setFollowers(data?.getMemberFollowers?.list || []);
+			setTotal(data?.getMemberFollowers?.metaCounter[0]?.total || 0);
+		},
+	});
 
-	/** LIFECYCLES **/
 	useEffect(() => {
-		if (router.query.memberId)
-			setFollowInquiry({ ...followInquiry, search: { followingId: router.query.memberId as string } });
-		else setFollowInquiry({ ...followInquiry, search: { followingId: user?._id } });
-	}, [router]);
+		if (memberId || user._id) {
+			setFollowInquiry((prev) => ({
+				...prev,
+				search: { followingId: (memberId as string) || user._id },
+			}));
+		}
+	}, [memberId, user._id]);
 
-	useEffect(() => {}, [followInquiry]);
+	return (
+		<div id="member-follows">
+			<Stack className="section-header">
+				<Typography className="section-title">Followers</Typography>
+				<Typography className="section-count">{total} followers</Typography>
+			</Stack>
 
-	/** HANDLERS **/
-	const paginationHandler = async (event: ChangeEvent<unknown>, value: number) => {
-		followInquiry.page = value;
-		setFollowInquiry({ ...followInquiry });
-	};
-
-	if (device === 'mobile') {
-		return <div>NESTAR FOLLOWS MOBILE</div>;
-	} else {
-		return (
-			<div id="member-follows-page">
-				<Stack className="main-title-box">
-					<Stack className="right-box">
-						<Typography className="main-title">{category === 'followers' ? 'Followers' : 'Followings'}</Typography>
-					</Stack>
+			{followers.length === 0 && (
+				<Stack className="no-data">
+					<img src="/img/icons/icoAlert.svg" alt="" />
+					<Typography>No followers yet!</Typography>
 				</Stack>
-				<Stack className="follows-list-box">
-					<Stack className="listing-title-box">
-						<Typography className="title-text">Name</Typography>
-						<Typography className="title-text">Details</Typography>
-						<Typography className="title-text">Subscription</Typography>
-					</Stack>
-					{memberFollowers?.length === 0 && (
-						<div className={'no-data'}>
-							<img src="/img/icons/icoAlert.svg" alt="" />
-							<p>No Followers yet!</p>
-						</div>
-					)}
-					{memberFollowers.map((follower: Follower) => {
-						const imagePath: string = follower?.followerData?.memberImage
-							? `${REACT_APP_API_URL}/${follower?.followerData?.memberImage}`
-							: '/img/profile/defaultUser.svg';
-						return (
-							<Stack className="follows-card-box" key={follower._id}>
-								<Stack className={'info'} onClick={() => redirectToMemberPageHandler(follower?.followerData?._id)}>
-									<Stack className="image-box">
-										<img src={imagePath} alt="" />
-									</Stack>
-									<Stack className="information-box">
-										<Typography className="name">{follower?.followerData?.memberNick}</Typography>
-									</Stack>
-								</Stack>
-								<Stack className={'details-box'}>
-									<Box className={'info-box'} component={'div'}>
-										<p>Followers</p>
-										<span>({follower?.followerData?.memberFollowers})</span>
-									</Box>
-									<Box className={'info-box'} component={'div'}>
-										<p>Followings</p>
-										<span>({follower?.followerData?.memberFollowings})</span>
-									</Box>
-									<Box className={'info-box'} component={'div'}>
-										{follower?.meLiked && follower?.meLiked[0]?.myFavorite ? (
-											<FavoriteIcon color="primary" />
-										) : (
-											<FavoriteBorderIcon />
-										)}
-										<span>({follower?.followerData?.memberLikes})</span>
-									</Box>
-								</Stack>
-								{user?._id !== follower?.followerId && (
-									<Stack className="action-box">
-										{follower.meFollowed && follower.meFollowed[0]?.myFollowing ? (
-											<>
-												<Typography>Following</Typography>
-												<Button
-													variant="outlined"
-													sx={{ background: '#ed5858', ':hover': { background: '#ee7171' } }}
-													onClick={() => unsubscribeHandler(follower?.followerData?._id, null, followInquiry)}
-												>
-													Unfollow
-												</Button>
-											</>
-										) : (
-											<Button
-												variant="contained"
-												sx={{ background: '#60eb60d4', ':hover': { background: '#60eb60d4' } }}
-												onClick={() => subscribeHandler(follower?.followerData?._id, null, followInquiry)}
-											>
-												Follow
-											</Button>
-										)}
-									</Stack>
-								)}
+			)}
+
+			<Stack className="follow-cards-grid">
+				{followers.map((follower: Follower) => {
+					const img = follower?.followerData?.memberImage
+						? `${REACT_APP_API_URL}/${follower.followerData.memberImage}`
+						: '/img/profile/defaultUser.svg';
+					const isFollowing = follower?.meFollowed?.[0]?.myFollowing;
+					const followerId = follower?.followerData?._id;
+
+					return (
+						<Stack key={follower._id} className="follow-card">
+							<Box className="follow-card-avatar" onClick={() => followerId && redirectToMemberPageHandler(followerId)}>
+								<img src={img} alt={follower?.followerData?.memberNick} />
+							</Box>
+
+							<Stack className="follow-card-info" onClick={() => followerId && redirectToMemberPageHandler(followerId)}>
+								<Typography className="follow-card-nick">{follower?.followerData?.memberNick}</Typography>
+								<Typography className="follow-card-type">{follower?.followerData?.memberType}</Typography>
+								<Typography className="follow-card-stats">
+									{follower?.followerData?.memberFollowers ?? 0} followers
+								</Typography>
 							</Stack>
-						);
-					})}
+
+							{user?._id !== follower?.followerId && followerId && (
+								<Box className="follow-card-action">
+									{isFollowing ? (
+										<Button
+											className="btn-unfollow"
+											onClick={() => unsubscribeHandler(followerId, refetch, followInquiry)}
+										>
+											Unfollow
+										</Button>
+									) : (
+										<Button className="btn-follow" onClick={() => subscribeHandler(followerId, refetch, followInquiry)}>
+											Follow
+										</Button>
+									)}
+								</Box>
+							)}
+						</Stack>
+					);
+				})}
+			</Stack>
+
+			{total > followInquiry.limit && (
+				<Stack className="pagination-config">
+					<Pagination
+						page={followInquiry.page}
+						count={Math.ceil(total / followInquiry.limit)}
+						shape="circular"
+						color="primary"
+						onChange={(_e, val) => setFollowInquiry({ ...followInquiry, page: val })}
+					/>
 				</Stack>
-				{memberFollowers.length !== 0 && (
-					<Stack className="pagination-config">
-						<Stack className="pagination-box">
-							<Pagination
-								page={followInquiry.page}
-								count={Math.ceil(total / followInquiry.limit)}
-								onChange={paginationHandler}
-								shape="circular"
-								color="primary"
-							/>
-						</Stack>
-						<Stack className="total-result">
-							<Typography>{total} followers</Typography>
-						</Stack>
-					</Stack>
-				)}
-			</div>
-		);
-	}
+			)}
+		</div>
+	);
 };
 
 MemberFollowers.defaultProps = {
-	initialInput: {
-		page: 1,
-		limit: 5,
-		search: {
-			followingId: '',
-		},
-	},
+	initialInput: { page: 1, limit: 8, search: { followingId: '' } },
 };
 
 export default MemberFollowers;
