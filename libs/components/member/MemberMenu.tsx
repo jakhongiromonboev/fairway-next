@@ -20,6 +20,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import { ConnectingAirportsOutlined } from '@mui/icons-material';
 
 interface MemberMenuProps {
 	subscribeHandler: (id: string, refetch: any, inquiry: any) => void;
@@ -101,7 +102,7 @@ const MemberMenu = (props: MemberMenuProps) => {
 		: '/img/banner/hero_shop6.jpg';
 
 	const isFollowing = member?.meFollowed?.[0]?.myFollowing;
-	const isLiked = member?.meLiked?.[0]?.myFavorite;
+	const isLiked = member?.meLiked?.[0]?.myFavorite ?? false;
 	const isMyProfile = !memberId || user._id === (memberId as string);
 
 	return (
@@ -171,7 +172,9 @@ const MemberMenu = (props: MemberMenuProps) => {
 							{isFollowing ? 'Following' : 'Follow'}
 						</Button>
 						<Box className={`like-btn ${isLiked ? 'liked' : ''}`} onClick={handleLike}>
-							{isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+							{isLiked ? <FavoriteIcon sx={{ color: '#e74c3c' }} /> : <FavoriteBorderIcon sx={{ color: '#8f8f8f' }} />}
+							{console.log(isLiked)}
+							{console.log(member)}
 						</Box>
 					</Stack>
 				)}

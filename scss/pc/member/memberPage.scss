@@ -243,6 +243,7 @@
 									cursor: pointer;
 									transition: all 0.2s ease;
 									flex-shrink: 0;
+									color: #8f8f8f;
 
 									svg {
 										width: 18px;
@@ -253,6 +254,7 @@
 
 									&:hover {
 										border-color: #e74c3c;
+										color: #e74c3c;
 
 										svg {
 											color: #e74c3c;
@@ -264,7 +266,7 @@
 										border-color: #e74c3c;
 
 										svg {
-											color: #e74c3c;
+											color: #e74c3c !important;
 										}
 									}
 								}
