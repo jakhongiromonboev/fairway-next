@@ -544,7 +544,7 @@ export const GET_EVENTS = gql`
 `;
 
 export const GET_AGENT_EVENTS = gql`
-	query GetAgentEvents($input: AgentProductsInquiry!) {
+	query GetAgentEvents($input: EventsInquiry!) {
 		getAgentEvents(input: $input) {
 			list {
 				_id
