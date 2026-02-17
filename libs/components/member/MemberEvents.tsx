@@ -111,9 +111,7 @@ const MemberEvents = ({ initialInput }: MemberEventsProps) => {
 				<Stack className="events-blocks">
 					{reservations.map((reservation: EventReservation) => {
 						const event = reservation.eventData;
-						const img = event?.eventImages?.[0]
-							? `${REACT_APP_API_URL}/${event.eventImages[0]}`
-							: '/img/banner/hero_shop6.jpg';
+						const img = event?.eventImages?.[0] ? `${event.eventImages[0]}` : '/img/banner/hero_shop6.jpg';
 
 						return (
 							<Stack
@@ -178,9 +176,7 @@ const MemberEvents = ({ initialInput }: MemberEventsProps) => {
 
 			<Stack className="events-blocks">
 				{events.map((event: Event) => {
-					const img = event.eventImages?.[0]
-						? `${REACT_APP_API_URL}/${event.eventImages[0]}`
-						: '/img/banner/hero_shop6.jpg';
+					const img = event.eventImages?.[0] ? `${event.eventImages[0]}` : '/img/banner/hero_shop6.jpg';
 					const isLiked = event?.meLiked?.[0]?.myFavorite;
 
 					return (

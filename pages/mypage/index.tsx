@@ -8,10 +8,10 @@ import MyProfile from '../../libs/components/mypage/MyProfile';
 import MyProducts from '../../libs/components/mypage/MyProducts';
 import AddProduct from '../../libs/components/mypage/AddProduct';
 import MyEvents from '../../libs/components/mypage/MyEvents';
-// import AddEvent from '../../libs/components/mypage/AddEvent';
+import AddEvent from '../../libs/components/mypage/AddEvent';
 import MyFavorites from '../../libs/components/mypage/MyFavorites';
-// import MyVisited from '../../libs/components/mypage/MyVisited';
-// import MyReservations from '../../libs/components/mypage/MyReservations';
+import MyVisited from '../../libs/components/mypage/MyVisited';
+import MyReservations from '../../libs/components/mypage/MyReservations';
 import MyArticles from '../../libs/components/mypage/MyArticles';
 import WriteArticle from '../../libs/components/mypage/WriteArticle';
 import MyMenu from '../../libs/components/mypage/MyMenu';
@@ -94,10 +94,10 @@ const MyPage: NextPage = () => {
 							{category === 'myProducts' && <MyProducts />}
 							{category === 'addProduct' && <AddProduct />}
 							{category === 'myEvents' && <MyEvents />}
-							{/* {category === 'addEvent' && <AddEvent />} */}
-							{/* {category === 'myFavorites' && <MyFavorites />} */}
-							{/* {category === 'myVisited' && <MyVisited />} */}
-							{/* {category === 'myReservations' && <MyReservations />} */}
+							{category === 'addEvent' && <AddEvent />}
+							{category === 'myFavorites' && <MyFavorites />}
+							{category === 'myVisited' && <MyVisited />}
+							{category === 'myReservations' && <MyReservations />}
 							{category === 'myArticles' && <MyArticles />}
 							{category === 'writeArticle' && <WriteArticle />}
 							{category === 'followers' && (

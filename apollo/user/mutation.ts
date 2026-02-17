@@ -452,6 +452,21 @@ export const UPDATE_EVENT_RESERVATION = gql`
 	}
 `;
 
+export const CANCEL_RESERVATION = gql`
+	mutation CancelReservation($input: String!) {
+		cancelReservation(input: $input) {
+			_id
+			memberId
+			eventId
+			participationDate
+			numberOfPeople
+			reservationStatus
+			createdAt
+			updatedAt
+		}
+	}
+`;
+
 /**************************
  *      BOARD-ARTICLE     *
  *************************/

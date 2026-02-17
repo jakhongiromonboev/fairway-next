@@ -7,7 +7,6 @@ import { LIKE_TARGET_PRODUCT } from '../../../apollo/user/mutation';
 import { T } from '../../types/common';
 import { Product } from '../../types/product/product';
 import { userVar } from '../../../apollo/store';
-import { REACT_APP_API_URL } from '../../config';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
 import { Message } from '../../enums/common.enum';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -69,12 +68,9 @@ const MemberProducts = ({ initialInput }: any) => {
 				</Stack>
 			)}
 
-			{/* BLOCK STYLE - 2 per row */}
 			<Stack className="products-blocks">
 				{products.map((product: Product) => {
-					const img = product.productImages?.[0]
-						? `${REACT_APP_API_URL}/${product.productImages[0]}`
-						: '/img/products/default.webp';
+					const img = product.productImages?.[0] ? `${product.productImages[0]}` : '/img/products/default.webp';
 					const isLiked = product?.meLiked?.[0]?.myFavorite;
 
 					return (
@@ -83,10 +79,8 @@ const MemberProducts = ({ initialInput }: any) => {
 							className="product-block"
 							onClick={() => router.push(`/product/detail?id=${product._id}`)}
 						>
-							{/* Image */}
 							<Box className="block-image">
 								<img src={img} alt={product.productName} />
-								{/* Like overlay */}
 								<Box
 									className={`block-like ${isLiked ? 'liked' : ''}`}
 									onClick={(e: any) => likeHandler(e, product._id)}
@@ -96,7 +90,6 @@ const MemberProducts = ({ initialInput }: any) => {
 								</Box>
 							</Box>
 
-							{/* Info */}
 							<Stack className="block-info">
 								<Typography className="block-name">{product.productName}</Typography>
 								<Typography className="block-meta">

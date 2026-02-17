@@ -221,7 +221,6 @@ const AddProduct = ({ initialValues, ...props }: any) => {
 
 	return (
 		<div id="add-product-page">
-			{/* HEADER */}
 			<Stack className="page-header">
 				<Stack className="header-left">
 					<Typography className="page-title">{productId ? 'Edit Product' : 'Add Product'}</Typography>
@@ -232,7 +231,6 @@ const AddProduct = ({ initialValues, ...props }: any) => {
 			</Stack>
 
 			<Stack className="form-container">
-				{/* LEFT — IMAGES */}
 				<Stack className="form-left">
 					<Typography className="section-title">Product Images</Typography>
 					<Typography className="section-hint">Upload up to 5 images. First image is the cover.</Typography>
@@ -265,9 +263,7 @@ const AddProduct = ({ initialValues, ...props }: any) => {
 					</Stack>
 				</Stack>
 
-				{/* RIGHT — FORM */}
 				<Stack className="form-right">
-					{/* CATEGORY */}
 					<Stack className="form-group">
 						<Typography className="form-label">Category</Typography>
 						<Stack className="category-grid">
@@ -283,7 +279,6 @@ const AddProduct = ({ initialValues, ...props }: any) => {
 						</Stack>
 					</Stack>
 
-					{/* PRODUCT NAME */}
 					<Stack className="form-group">
 						<Typography className="form-label">Product Name *</Typography>
 						<input
@@ -295,7 +290,6 @@ const AddProduct = ({ initialValues, ...props }: any) => {
 						/>
 					</Stack>
 
-					{/* PRICE + QUANTITY */}
 					<Stack className="form-row">
 						<Stack className="form-group flex-1">
 							<Typography className="form-label">Price (USD) *</Typography>
@@ -325,7 +319,6 @@ const AddProduct = ({ initialValues, ...props }: any) => {
 						</Stack>
 					</Stack>
 
-					{/* BRAND */}
 					<Stack className="form-group">
 						<Typography className="form-label">Brand</Typography>
 						<input
@@ -337,7 +330,6 @@ const AddProduct = ({ initialValues, ...props }: any) => {
 						/>
 					</Stack>
 
-					{/* GENDER — only CLOTHING / SHOES */}
 					{needsSizeAndGender && (
 						<Stack className="form-group">
 							<Typography className="form-label">Gender *</Typography>
@@ -355,7 +347,6 @@ const AddProduct = ({ initialValues, ...props }: any) => {
 						</Stack>
 					)}
 
-					{/* SIZES — only CLOTHING / SHOES */}
 					{needsSizeAndGender && (
 						<Stack className="form-group">
 							<Typography className="form-label">{isShoes ? 'Available Sizes (mm) *' : 'Available Sizes *'}</Typography>
@@ -373,7 +364,6 @@ const AddProduct = ({ initialValues, ...props }: any) => {
 						</Stack>
 					)}
 
-					{/* DESCRIPTION */}
 					<Stack className="form-group">
 						<Typography className="form-label">Description</Typography>
 						<textarea
@@ -384,7 +374,6 @@ const AddProduct = ({ initialValues, ...props }: any) => {
 						/>
 					</Stack>
 
-					{/* SUBMIT */}
 					<Box
 						className={`submit-btn ${doDisabledCheck() || loading ? 'disabled' : ''}`}
 						onClick={

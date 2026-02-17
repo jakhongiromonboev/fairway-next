@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Stack, Typography, Box, Pagination } from '@mui/material';
 import { useQuery, useReactiveVar } from '@apollo/client';
 import { useRouter } from 'next/router';
-import { GET_FAVORITES } from '../../../apollo/user/query';
+import { GET_VISITED } from '../../../apollo/user/query';
 import { userVar } from '../../../apollo/store';
 import { Product } from '../../types/product/product';
 import { OrdinaryInquiry } from '../../types/product/product.input';
@@ -11,26 +11,26 @@ import useDeviceDetect from '../../hooks/useDeviceDetect';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
-const MyFavorites = ({ initialInput, ...props }: any) => {
+const MyVisited = ({ initialInput, ...props }: any) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
-	const [favorites, setFavorites] = useState<Product[]>([]);
+	const [visited, setVisited] = useState<Product[]>([]);
 	const [total, setTotal] = useState<number>(0);
 	const [searchFilter, setSearchFilter] = useState<OrdinaryInquiry>(initialInput);
 
 	/** APOLLO **/
 	const {
-		loading: getFavoritesLoading,
-		data: getFavoritesData,
-		refetch: getFavoritesRefetch,
-	} = useQuery(GET_FAVORITES, {
+		loading: getVisitedLoading,
+		data: getVisitedData,
+		refetch: getVisitedRefetch,
+	} = useQuery(GET_VISITED, {
 		fetchPolicy: 'cache-and-network',
 		variables: { input: searchFilter },
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			setFavorites(data?.getFavorites?.list || []);
-			setTotal(data?.getFavorites?.metaCounter[0]?.total || 0);
+			setVisited(data?.getVisited?.list || []);
+			setTotal(data?.getVisited?.metaCounter[0]?.total || 0);
 		},
 	});
 
@@ -43,38 +43,36 @@ const MyFavorites = ({ initialInput, ...props }: any) => {
 	};
 
 	if (device === 'mobile') {
-		return <div>MY FAVORITES MOBILE</div>;
+		return <div>MY VISITED MOBILE</div>;
 	}
 
 	return (
-		<div id="my-favorites-page">
+		<div id="my-visited-page">
 			<Stack className="page-header">
 				<Stack className="header-left">
-					<Typography className="page-title">My Favorites</Typography>
-					<Typography className="page-subtitle">{total} products saved</Typography>
+					<Typography className="page-title">Recently Visited</Typography>
+					<Typography className="page-subtitle">{total} products viewed</Typography>
 				</Stack>
 			</Stack>
 
-			{favorites.length === 0 && (
+			{visited.length === 0 && (
 				<Stack className="no-data">
 					<img src="/img/icons/icoAlert.svg" alt="" />
-					<Typography>No favorites yet!</Typography>
+					<Typography>No visited products yet!</Typography>
 				</Stack>
 			)}
 
-			{favorites.length > 0 && (
-				<Stack className="favorites-grid">
-					{favorites.map((product: Product) => {
+			{visited.length > 0 && (
+				<Stack className="visited-grid">
+					{visited.map((product: Product) => {
 						const img = product.productImages?.[0] ? product.productImages[0] : '/img/banner/hero_shop6.jpg';
 
 						return (
 							<Stack key={product._id} className="product-card" onClick={() => viewProductHandler(product._id)}>
-								{/* IMAGE */}
 								<Box className="card-image">
 									<img src={img} alt={product.productName} />
 								</Box>
 
-								{/* INFO */}
 								<Stack className="card-info">
 									<Typography className="card-name">{product.productName}</Typography>
 									<Typography className="card-meta">
@@ -116,11 +114,11 @@ const MyFavorites = ({ initialInput, ...props }: any) => {
 	);
 };
 
-MyFavorites.defaultProps = {
+MyVisited.defaultProps = {
 	initialInput: {
 		page: 1,
 		limit: 9,
 	},
 };
 
-export default MyFavorites;
+export default MyVisited;

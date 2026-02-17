@@ -9,7 +9,6 @@ import { Event } from '../../types/event/event';
 import { EventsInquiry } from '../../types/event/event.input';
 import { EventStatus } from '../../enums/event.enum';
 import { T } from '../../types/common';
-import { REACT_APP_API_URL } from '../../config';
 import { sweetConfirmAlert, sweetErrorHandling, sweetTopSmallSuccessAlert } from '../../sweetAlert';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
@@ -124,9 +123,7 @@ const MyEvents = ({ initialInput, ...props }: any) => {
 			{events.length > 0 && (
 				<Stack className="events-grid">
 					{events.map((event: Event) => {
-						const img = event.eventImages?.[0]
-							? `${REACT_APP_API_URL}/${event.eventImages[0]}`
-							: '/img/banner/event.webp';
+						const img = event.eventImages?.[0] ? event.eventImages[0] : '/img/banner/event.webp';
 
 						const startDate = moment(event.eventPeriod.startDate).format('MMM DD');
 						const endDate = moment(event.eventPeriod.endDate).format('MMM DD, YYYY');

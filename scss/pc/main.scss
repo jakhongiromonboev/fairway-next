@@ -16,8 +16,11 @@
 @import '/scss/pc/mypage/mypage.scss';
 @import '/scss/pc/mypage/myProducts.scss';
 @import '/scss/pc/mypage/addProduct.scss';
+@import '/scss/pc/mypage/addEvent.scss';
 @import '/scss/pc/mypage/myEvents.scss';
+@import '/scss/pc/mypage/myReservations.scss';
 @import '/scss/pc/mypage/myFavorites.scss';
+@import '/scss/pc/mypage/myVisited.scss';
 @import '/scss/pc/mypage/myProfile.scss';
 @import '/scss/pc/mypage/myArticles.scss';
 @import '/scss/pc/mypage/writeArticle.scss';
@@ -33,6 +36,8 @@
 @import '/scss/pc/admin/admin.scss';
 
 @import '/scss/pc/member/memberPage.scss';
+@import '/scss/pc/member/memberFollowers.scss';
+@import '/scss/pc/member/memberFollowings.scss';
 
 body {
 	-ms-overflow-style: none;
@@ -60,7 +65,7 @@ body::-webkit-scrollbar {
 			display: flex;
 			flex-direction: column;
 
-			/* ============ ANNOUNCEMENT BAR ============ */
+			/** ANNOUNCEMENT BAR **/
 			.announcement-bar {
 				width: 100%;
 				height: 38px;
@@ -110,7 +115,7 @@ body::-webkit-scrollbar {
 				}
 			}
 
-			/* ============ MAIN NAVBAR ============ */
+			/** MAIN NAVBAR **/
 			.navbar-main {
 				width: 100%;
 				height: 70px;
@@ -179,7 +184,7 @@ body::-webkit-scrollbar {
 						}
 					}
 
-					/* CENTER LOGO - TEXT */
+					/** CENTER LOGO **/
 					.logo-box {
 						display: flex;
 						align-items: center;
@@ -329,7 +334,6 @@ body::-webkit-scrollbar {
 							}
 						}
 
-						/* SEARCH ICON */
 						.search-icon {
 							display: flex;
 							align-items: center;

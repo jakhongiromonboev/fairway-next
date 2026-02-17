@@ -1,0 +1,293 @@
+#pc-wrap {
+	#my-page {
+		#my-reservations-page {
+			width: 100%;
+			display: flex;
+			flex-direction: column;
+			gap: 24px;
+
+			.page-header {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				justify-content: space-between;
+
+				.header-left {
+					display: flex;
+					flex-direction: column;
+					gap: 4px;
+
+					.page-title {
+						color: #181a20;
+						font-family: $font-heading;
+						font-size: 26px;
+						font-weight: 600;
+						margin: 0;
+					}
+
+					.page-subtitle {
+						color: #8f8f8f;
+						font-family: $font;
+						font-size: 14px;
+						margin: 0;
+					}
+				}
+			}
+
+			.status-tabs {
+				display: flex;
+				flex-direction: row;
+				gap: 0;
+				border-bottom: 1px solid #f0f0f0;
+
+				.status-tab {
+					padding: 10px 24px;
+					font-family: $font;
+					font-size: 13px;
+					font-weight: 500;
+					color: #8f8f8f;
+					cursor: pointer;
+					border-bottom: 2px solid transparent;
+					margin-bottom: -1px;
+					transition: all 0.2s ease;
+					text-transform: capitalize;
+
+					&:hover {
+						color: #181a20;
+					}
+
+					&.active {
+						color: #181a20;
+						font-weight: 600;
+						border-bottom-color: #2d5016;
+					}
+				}
+			}
+
+			.no-data {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				gap: 16px;
+				padding: 80px 0;
+				background: #ffffff;
+				border-radius: 16px;
+
+				img {
+					width: 48px;
+					height: 48px;
+					opacity: 0.25;
+				}
+
+				p {
+					color: #8f8f8f;
+					font-family: $font;
+					font-size: 15px;
+					margin: 0;
+				}
+			}
+
+			.reservations-grid {
+				display: flex;
+				flex-direction: row;
+				flex-wrap: wrap;
+				gap: 16px;
+
+				.reservation-card {
+					width: calc((100% - 32px) / 3);
+					background: #ffffff;
+					border-radius: 14px;
+					overflow: hidden;
+					border: 1px solid #f0f0f0;
+					transition: all 0.25s ease;
+					display: flex;
+					flex-direction: column;
+
+					&:hover {
+						box-shadow: 0 8px 24px rgba(0, 0, 0, 0.09);
+						transform: translateY(-3px);
+
+						.card-image img {
+							transform: scale(1.04);
+						}
+					}
+
+					.card-image {
+						position: relative;
+						width: 100%;
+						height: 180px;
+						overflow: hidden;
+						background: #f5f5f5;
+						flex-shrink: 0;
+						cursor: pointer;
+
+						img {
+							width: 100%;
+							height: 100%;
+							object-fit: cover;
+							transition: transform 0.35s ease;
+						}
+
+						.card-status {
+							position: absolute;
+							top: 10px;
+							left: 10px;
+							padding: 3px 10px;
+							border-radius: 20px;
+							font-family: $font;
+							font-size: 10px;
+							font-weight: 600;
+							text-transform: uppercase;
+							letter-spacing: 0.3px;
+
+							&.confirmed {
+								background: rgba(67, 97, 238, 0.85);
+								color: #ffffff;
+							}
+
+							&.attended {
+								background: rgba(45, 80, 22, 0.85);
+								color: #ffffff;
+							}
+
+							&.cancelled {
+								background: rgba(231, 76, 60, 0.85);
+								color: #ffffff;
+							}
+						}
+					}
+
+					.card-info {
+						padding: 14px 14px 10px;
+						display: flex;
+						flex-direction: column;
+						gap: 5px;
+						flex: 1;
+
+						.card-name {
+							color: #181a20;
+							font-family: $font;
+							font-size: 14px;
+							font-weight: 600;
+							margin: 0;
+							overflow: hidden;
+							text-overflow: ellipsis;
+							white-space: nowrap;
+						}
+
+						.card-meta {
+							color: #8f8f8f;
+							font-family: $font;
+							font-size: 12px;
+							margin: 0;
+							text-transform: capitalize;
+						}
+
+						.card-details {
+							display: flex;
+							flex-direction: column;
+							gap: 6px;
+							margin-top: 8px;
+
+							.detail-row {
+								display: flex;
+								flex-direction: row;
+								align-items: center;
+								gap: 6px;
+
+								svg {
+									width: 14px;
+									height: 14px;
+									color: #2d5016;
+								}
+
+								p {
+									color: #666;
+									font-family: $font;
+									font-size: 12px;
+									margin: 0;
+								}
+
+								.people-count {
+									color: #2d5016;
+									font-weight: 600;
+								}
+							}
+						}
+					}
+
+					.card-actions {
+						display: flex;
+						flex-direction: row;
+						align-items: center;
+						gap: 6px;
+						padding: 10px 14px 14px;
+						border-top: 1px solid #f5f5f5;
+
+						.action-btn {
+							display: flex;
+							flex-direction: row;
+							align-items: center;
+							justify-content: center;
+							gap: 5px;
+							cursor: pointer;
+							border-radius: 8px;
+							transition: all 0.2s ease;
+
+							&.view {
+								flex: 1;
+								height: 32px;
+								border: 1px solid #e5e5e5;
+
+								p {
+									color: #666;
+									font-family: $font;
+									font-size: 12px;
+									font-weight: 500;
+									margin: 0;
+								}
+
+								&:hover {
+									border-color: #181a20;
+									background: #181a20;
+
+									p {
+										color: #ffffff;
+									}
+								}
+							}
+
+							&.cancel {
+								width: 32px;
+								height: 32px;
+								border: 1px solid #f0f0f0;
+								flex-shrink: 0;
+
+								svg {
+									width: 15px;
+									height: 15px;
+									color: #e74c3c;
+								}
+
+								&:hover {
+									border-color: #e74c3c;
+									background: #e74c3c;
+
+									svg {
+										color: #ffffff;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+
+			.pagination-config {
+				display: flex;
+				justify-content: center;
+				margin-top: 8px;
+			}
+		}
+	}
+}
