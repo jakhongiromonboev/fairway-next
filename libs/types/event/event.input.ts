@@ -21,6 +21,7 @@ export interface EventInput {
 }
 
 interface EISearch {
+	eventStatus?: EventStatus;
 	eventType?: EventType;
 	eventLocation?: EventLocation;
 	text?: string;
