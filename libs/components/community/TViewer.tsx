@@ -6,7 +6,6 @@ import { Box, Stack, CircularProgress } from '@mui/material';
 const TViewer = (props: any) => {
 	const [editorLoaded, setEditorLoaded] = useState(false);
 
-	/** LIFECYCLES **/
 	useEffect(() => {
 		if (props.markdown) {
 			setEditorLoaded(true);
@@ -16,8 +15,8 @@ const TViewer = (props: any) => {
 	}, [props.markdown]);
 
 	return (
-		<Stack sx={{ background: 'white', mt: '30px', borderRadius: '10px' }}>
-			<Box component={'div'} sx={{ m: '40px' }}>
+		<Stack className="tui-viewer-wrap">
+			<Box component={'div'} className="tui-viewer-content">
 				{editorLoaded ? (
 					<Viewer
 						initialValue={props.markdown}
@@ -53,7 +52,7 @@ const TViewer = (props: any) => {
 						}}
 					/>
 				) : (
-					<CircularProgress />
+					<CircularProgress size={24} sx={{ color: '#2d5016' }} />
 				)}
 			</Box>
 		</Stack>

@@ -30,7 +30,7 @@ const MyMenu = () => {
 	const isAgent = user?.memberType === 'AGENT';
 	const isAdmin = user?.memberType === 'ADMIN';
 
-	const profileImage = user?.memberImage ? `${REACT_APP_API_URL}/${user.memberImage}` : '/img/profile/defaultUser.svg';
+	const profileImage = user?.memberImage ? `${user.memberImage}` : '/img/profile/defaultUser.svg';
 
 	/** HANDLERS **/
 	const logoutHandler = async () => {

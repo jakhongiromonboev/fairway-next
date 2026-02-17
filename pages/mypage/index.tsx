@@ -23,7 +23,7 @@ import { sweetErrorHandling } from '../../libs/sweetAlert';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { SUBSCRIBE, UNSUBSCRIBE } from '../../apollo/user/mutation';
 import { useMutation } from '@apollo/client';
-import { T } from '../../libs/types/common';
+import { getJwtToken } from '../../libs/auth';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -43,7 +43,10 @@ const MyPage: NextPage = () => {
 
 	/** LIFECYCLES **/
 	useEffect(() => {
-		if (!user._id) router.push('/').then();
+		const token = getJwtToken();
+		if (!user._id && !token) {
+			router.push('/').then();
+		}
 	}, [user]);
 
 	/** HANDLERS **/
@@ -83,12 +86,10 @@ const MyPage: NextPage = () => {
 			<div className="container">
 				<Stack className={'my-page'}>
 					<Stack className={'back-frame'}>
-						{/* LEFT SIDEBAR */}
 						<Stack className={'left-config'}>
 							<MyMenu />
 						</Stack>
 
-						{/* RIGHT CONTENT */}
 						<Stack className={'main-config'}>
 							{category === 'myProfile' && <MyProfile />}
 							{category === 'myProducts' && <MyProducts />}

@@ -160,9 +160,9 @@ export const LIKE_TARGET_MEMBER = gql`
  *      AGENT STORE       *
  *************************/
 
-export const CREATE_AGENT_STORE = gql`
-	mutation CreateAgentStore($input: AgentStoreInput!) {
-		createAgentStore(input: $input) {
+export const COMPLETE_AGENT_STORE = gql`
+	mutation CompleteAgentStore($input: AgentStoreInput!) {
+		completeAgentStore(input: $input) {
 			_id
 			memberType
 			memberStatus

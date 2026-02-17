@@ -1,81 +1,270 @@
 #pc-wrap {
-	#write-article-page {
-		width: 100%;
-		height: auto;
-		.main-title-box {
-			width: auto;
-			height: auto;
-			flex-direction: row;
-			justify-content: space-between;
-			.right-box {
-				width: 315px;
-				.main-title {
+	#my-page {
+		#write-article-page {
+			width: 100%;
+			display: flex;
+			flex-direction: column;
+			gap: 24px;
+
+			.page-header {
+				display: flex;
+				flex-direction: column;
+				gap: 4px;
+
+				.page-title {
 					color: #181a20;
-					font-family: $font;
-					font-size: 30px;
-					font-style: normal;
+					font-family: $font-heading;
+					font-size: 26px;
 					font-weight: 600;
-					line-height: normal;
-					letter-spacing: 0.6px;
-					text-transform: capitalize;
+					margin: 0;
 				}
-				.sub-title {
-					color: #181a20;
+
+				.page-subtitle {
+					color: #8f8f8f;
 					font-family: $font;
 					font-size: 14px;
-					font-style: normal;
-					font-weight: 400;
-					line-height: 26px;
+					margin: 0;
+				}
+			}
+
+			/** TUI EDITOR WRAP **/
+			#tui-editor-wrap {
+				background: #ffffff;
+				border-radius: 16px;
+				border: 1px solid #f0f0f0;
+				overflow: hidden;
+				display: flex;
+				flex-direction: column;
+				gap: 0;
+
+				.editor-controls {
+					padding: 24px 28px;
+					display: flex;
+					flex-direction: column;
+					gap: 20px;
+					border-bottom: 1px solid #f0f0f0;
+
+					.control-group {
+						display: flex;
+						flex-direction: column;
+						gap: 10px;
+
+						.control-label {
+							color: #181a20;
+							font-family: $font;
+							font-size: 13px;
+							font-weight: 600;
+							margin: 0;
+						}
+
+						.category-tabs {
+							display: flex;
+							flex-direction: row;
+							flex-wrap: wrap;
+							gap: 8px;
+
+							.category-tab {
+								height: 34px;
+								padding: 0 18px;
+								border-radius: 20px;
+								border: 1.5px solid #ebebeb;
+								background: #fafafa;
+								color: #8f8f8f;
+								font-family: $font;
+								font-size: 12px;
+								font-weight: 500;
+								display: flex;
+								align-items: center;
+								cursor: pointer;
+								transition: all 0.2s ease;
+
+								&:hover {
+									border-color: #2d5016;
+									color: #2d5016;
+								}
+
+								&.active {
+									background: #2d5016;
+									border-color: #2d5016;
+									color: #ffffff;
+								}
+							}
+						}
+
+						.title-input {
+							height: 48px;
+							padding: 0 16px;
+							border: 1.5px solid #ebebeb;
+							border-radius: 10px;
+							font-family: $font;
+							font-size: 14px;
+							color: #181a20;
+							background: #fafafa;
+							outline: none;
+							transition: border-color 0.2s ease;
+							width: 100%;
+							box-sizing: border-box;
+
+							&::placeholder {
+								color: #bbb;
+							}
+
+							&:focus {
+								border-color: #2d5016;
+								background: #ffffff;
+							}
+						}
+					}
+				}
+				/** EMOJI TOOLBAR **/
+				.emoji-toolbar {
+					position: relative;
+					padding: 10px 28px;
+					border-bottom: 1px solid #f0f0f0;
+					background: #fafafa;
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+					gap: 8px;
+
+					.emoji-btn {
+						display: flex;
+						flex-direction: row;
+						align-items: center;
+						gap: 6px;
+						height: 32px;
+						padding: 0 14px;
+						border-radius: 8px;
+						border: 1.5px solid #ebebeb;
+						background: #ffffff;
+						cursor: pointer;
+						transition: all 0.2s ease;
+
+						svg {
+							width: 18px;
+							height: 18px;
+							color: #8f8f8f;
+						}
+
+						p {
+							font-family: $font;
+							font-size: 13px;
+							color: #8f8f8f;
+							margin: 0;
+						}
+
+						&:hover {
+							border-color: #2d5016;
+
+							svg,
+							p {
+								color: #2d5016;
+							}
+						}
+					}
+
+					.emoji-picker-wrap {
+						position: absolute;
+						top: 52px;
+						left: 28px;
+						z-index: 1000;
+						box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+						border-radius: 12px;
+						overflow: hidden;
+					}
+				}
+
+				.editor-wrap {
+					border-bottom: 1px solid #f0f0f0;
+
+					// Override TUI editor styles
+					.toastui-editor-defaultUI {
+						border: none;
+						border-radius: 0;
+					}
+
+					.toastui-editor-toolbar {
+						border-bottom: 1px solid #f0f0f0;
+						background: #fafafa;
+					}
+				}
+
+				.editor-footer {
+					padding: 20px 28px;
+					display: flex;
+					flex-direction: row;
+					justify-content: flex-end;
+					gap: 12px;
+
+					.cancel-btn {
+						height: 44px;
+						padding: 0 24px;
+						border-radius: 10px;
+						border: 1.5px solid #ebebeb;
+						background: #ffffff;
+						color: #8f8f8f;
+						font-family: $font;
+						font-size: 14px;
+						font-weight: 500;
+						display: flex;
+						align-items: center;
+						cursor: pointer;
+						transition: all 0.2s ease;
+
+						&:hover {
+							border-color: #181a20;
+							color: #181a20;
+						}
+					}
+
+					.submit-btn {
+						height: 44px;
+						padding: 0 28px;
+						background: #181a20;
+						color: #ffffff;
+						font-family: $font;
+						font-size: 14px;
+						font-weight: 600;
+						border-radius: 10px;
+						display: flex;
+						align-items: center;
+						cursor: pointer;
+						transition: background 0.2s ease;
+
+						&:hover {
+							background: #2d5016;
+						}
+
+						&.disabled {
+							background: #e5e5e5;
+							color: #aaa;
+							cursor: not-allowed;
+
+							&:hover {
+								background: #e5e5e5;
+							}
+						}
+					}
 				}
 			}
 		}
-		
-		.right-wrap {
-			width: 100%;
-			height: auto;
-			.cont_bd {
-				padding: 30px 0px;
-				.form_hd > div {
-					margin-bottom: 16px;
-				}
-			}
-			.flex-space {
-				.btn-next {
-					background: #87cdf9;
-					color: #000000;
-				}
-			}
-			.select {
-				width: 214px;
-				height: 40px;
-				font-size: 14px;
-			}
-			.input-tit {
-				font-size: 14px;
-				padding: 0 16px;
-				margin-top: 16px;
-				border: 1px solid #eee;
-				border-radius: 4px;
-			}
-			.btn-flex { margin-top: 40px; }
-		}
-		.css-guvl2y-MuiButtonBase-root-MuiButton-root {
-			background: #87cdf9;
-			svg {
-				fill: #000000;
-			}
-		}
-		.toastui-editor-popup-body { padding: 20px; }
-		.youtube-input {
-			padding: 8px 16px;
-			border: 1px solid #ddd;
-		}
-		.youtube-div {
-			display:flex;
-			flex-direction: column;
-		}
-		.toastui-editor-defaultUI button {
-			padding: 4px;
+	}
+}
+
+/** TUI VIEWER **/
+.tui-viewer-wrap {
+	background: #ffffff;
+	border-radius: 16px;
+	border: 1px solid #f0f0f0;
+
+	.tui-viewer-content {
+		padding: 32px 40px;
+
+		.toastui-editor-contents {
+			font-family: $font;
+			font-size: 15px;
+			line-height: 1.8;
+			color: #181a20;
 		}
 	}
 }
