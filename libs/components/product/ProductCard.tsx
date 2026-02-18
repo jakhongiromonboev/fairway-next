@@ -26,12 +26,12 @@ const ProductCard = (props: ProductCardProps) => {
 	const [isHovered, setIsHovered] = useState(false);
 
 	const primaryImage: string = product?.productImages[0]
-		? `${REACT_APP_API_URL}/${product?.productImages[0]}`
+		? `${product?.productImages[0]}`
 		: '/img/products/default.webp';
 
 	const secondaryImage: string =
 		product?.productImages[1] && product?.productImages[1] !== product?.productImages[0]
-			? `${REACT_APP_API_URL}/${product?.productImages[1]}`
+			? `${product?.productImages[1]}`
 			: primaryImage;
 
 	const hasMultipleImages = product?.productImages?.length > 1;

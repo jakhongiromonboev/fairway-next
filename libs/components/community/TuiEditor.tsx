@@ -10,6 +10,7 @@ import { CREATE_BOARD_ARTICLE, UPDATE_BOARD_ARTICLE } from '../../../apollo/user
 import { sweetErrorHandling, sweetTopSmallSuccessAlert } from '../../sweetAlert';
 import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
 import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt';
+import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
 
 const CATEGORIES = Object.values(BoardArticleCategory);
 
@@ -37,7 +38,8 @@ const TuiEditor = () => {
 	}, []);
 
 	/** HANDLERS **/
-	const uploadImage = async (image: any) => {
+
+	const uploadEditorImage = async (image: any) => {
 		try {
 			const formData = new FormData();
 			formData.append(
@@ -61,11 +63,44 @@ const TuiEditor = () => {
 			});
 
 			const responseImage = response.data.data.imageUploader;
-			console.log('+responseImage:', responseImage);
-			setArticleImage(responseImage);
+			console.log('+editorImage:', responseImage);
 			return responseImage;
 		} catch (err) {
-			console.log('Error, uploadImage:', err);
+			console.log('Error, uploadEditorImage:', err);
+		}
+	};
+
+	const uploadCoverImage = async (e: any) => {
+		try {
+			const image = e.target.files[0];
+			if (!image) return;
+
+			const formData = new FormData();
+			formData.append(
+				'operations',
+				JSON.stringify({
+					query: `mutation ImageUploader($file: Upload!, $target: String!) {
+						imageUploader(file: $file, target: $target) 
+					}`,
+					variables: { file: null, target: 'article' },
+				}),
+			);
+			formData.append('map', JSON.stringify({ '0': ['variables.file'] }));
+			formData.append('0', image);
+
+			const response = await axios.post(`${process.env.REACT_APP_API_GRAPHQL_URL}`, formData, {
+				headers: {
+					'Content-Type': 'multipart/form-data',
+					'apollo-require-preflight': true,
+					Authorization: `Bearer ${token}`,
+				},
+			});
+
+			const responseImage = response.data.data.imageUploader;
+			console.log('+coverImage:', responseImage);
+			setArticleImage(responseImage);
+		} catch (err) {
+			console.log('Error, uploadCoverImage:', err);
 		}
 	};
 
@@ -148,6 +183,34 @@ const TuiEditor = () => {
 						onChange={(e) => setArticleTitle(e.target.value)}
 					/>
 				</Stack>
+
+				<Stack className="control-group">
+					<Typography className="control-label">Cover Image</Typography>
+					<Stack className="cover-image-box">
+						<input
+							type="file"
+							hidden
+							id="cover-image-input"
+							onChange={uploadCoverImage}
+							accept="image/jpg, image/jpeg, image/png"
+						/>
+						{articleImage ? (
+							<Box className="cover-preview">
+								<img src={articleImage} alt="cover" />
+								<Box className="cover-overlay" onClick={() => document.getElementById('cover-image-input')?.click()}>
+									<CameraAltOutlinedIcon />
+									<Typography>Change Cover</Typography>
+								</Box>
+							</Box>
+						) : (
+							<Box className="cover-placeholder" onClick={() => document.getElementById('cover-image-input')?.click()}>
+								<CameraAltOutlinedIcon />
+								<Typography>Add Cover Image</Typography>
+								<span>JPG, JPEG or PNG</span>
+							</Box>
+						)}
+					</Stack>
+				</Stack>
 			</Stack>
 
 			<Stack className="emoji-toolbar">
@@ -175,7 +238,7 @@ const TuiEditor = () => {
 					placeholder={'Write your article content here...'}
 					previewStyle={'vertical'}
 					height={'460px'}
-					//@ts-ignore
+					// @ts-ignore
 					initialEditType={'wysiwyg'}
 					useCommandShortcut={true}
 					toolbarItems={[
@@ -186,7 +249,7 @@ const TuiEditor = () => {
 					ref={editorRef}
 					hooks={{
 						addImageBlobHook: async (image: any, callback: any) => {
-							const uploadedImageURL = await uploadImage(image);
+							const uploadedImageURL = await uploadEditorImage(image);
 							callback(uploadedImageURL);
 							return false;
 						},

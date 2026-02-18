@@ -14,9 +14,7 @@ const ProductImageGallery = (props: ProductImageGalleryProps) => {
 	const device = useDeviceDetect();
 	const [selectedImage, setSelectedImage] = useState<number>(0);
 
-	const mainImage = images[selectedImage]
-		? `${REACT_APP_API_URL}/${images[selectedImage]}`
-		: '/img/products/default.webp';
+	const mainImage = images[selectedImage] ? `${images[selectedImage]}` : '/img/products/default.webp';
 
 	if (device === 'mobile') {
 		return <div>IMAGE GALLERY (MOBILE)</div>;
@@ -33,7 +31,7 @@ const ProductImageGallery = (props: ProductImageGalleryProps) => {
 			{images.length > 1 && (
 				<Stack className="thumbnail-container">
 					{images.map((image: string, index: number) => {
-						const thumbImage = `${REACT_APP_API_URL}/${image}`;
+						const thumbImage = `${image}`;
 						return (
 							<Box
 								key={index}

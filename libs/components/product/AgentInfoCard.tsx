@@ -18,9 +18,7 @@ const AgentInfoCard = (props: AgentInfoCardProps) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
 
-	const agentImage = agent?.agentStoreImage
-		? `${REACT_APP_API_URL}/${agent.agentStoreImage}`
-		: '/img/agents/default.webp';
+	const agentImage = agent?.agentStoreImage ? `${agent.agentStoreImage}` : '/img/agents/default.webp';
 
 	/** HANDLERS **/
 	const handleVisitStore = () => {

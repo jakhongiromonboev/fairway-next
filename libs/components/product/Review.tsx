@@ -15,7 +15,7 @@ const Review = (props: ReviewProps) => {
 	const device = useDeviceDetect();
 
 	const memberImage = comment?.memberData?.memberImage
-		? `${REACT_APP_API_URL}/${comment?.memberData?.memberImage}`
+		? `${comment?.memberData?.memberImage}`
 		: '/img/profile/defaultUser.svg';
 
 	if (device === 'mobile') {

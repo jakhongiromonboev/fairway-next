@@ -189,9 +189,7 @@ const Top = () => {
 
 									<div className={'login-user'} onClick={(event: any) => setLogoutAnchor(event.currentTarget)}>
 										<img
-											src={
-												user?.memberImage ? `${REACT_APP_API_URL}/${user?.memberImage}` : '/img/profile/defaultUser.svg'
-											}
+											src={user?.memberImage ? `${user?.memberImage}` : '/img/profile/defaultUser.svg'}
 											alt="Profile"
 										/>
 									</div>

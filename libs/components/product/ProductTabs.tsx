@@ -50,7 +50,7 @@ const ProductTabs = (props: ProductTabsProps) => {
 		sort: 'createdAt',
 		direction: Direction.DESC,
 		search: {
-			commentRefId: product._id,
+			commentRefId: '',
 		},
 	});
 	const [insertCommentData, setInsertCommentData] = useState<CommentInput>({
@@ -78,6 +78,18 @@ const ProductTabs = (props: ProductTabsProps) => {
 	});
 
 	/** LIFECYCLES **/
+
+	useEffect(() => {
+		if (product?._id) {
+			setCommentInquiry((prev) => ({
+				...prev,
+				search: {
+					commentRefId: product._id,
+				},
+			}));
+		}
+	}, [product._id]);
+
 	useEffect(() => {
 		if (commentInquiry.search.commentRefId) {
 			getCommentsRefetch({ input: commentInquiry });

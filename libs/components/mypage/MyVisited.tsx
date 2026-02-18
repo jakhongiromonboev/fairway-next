@@ -29,8 +29,8 @@ const MyVisited = ({ initialInput, ...props }: any) => {
 		variables: { input: searchFilter },
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			setVisited(data?.getVisited?.list || []);
-			setTotal(data?.getVisited?.metaCounter[0]?.total || 0);
+			setVisited(data?.getVisitedProducts?.list || []);
+			setTotal(data?.getVisitedProducts?.metaCounter[0]?.total || 0);
 		},
 	});
 

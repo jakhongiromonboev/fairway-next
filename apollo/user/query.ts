@@ -339,7 +339,7 @@ export const GET_FAVORITES = gql`
 
 export const GET_VISITED = gql`
 	query GetVisited($input: OrdinaryInquiry!) {
-		getVisited(input: $input) {
+		getVisitedProducts(input: $input) {
 			list {
 				_id
 				productCategory
