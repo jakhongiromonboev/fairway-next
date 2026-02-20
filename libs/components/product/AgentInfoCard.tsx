@@ -1,4 +1,3 @@
-// libs/components/product/AgentInfoCard.tsx
 import React from 'react';
 import { Stack, Box, Button, Typography, Icon } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';

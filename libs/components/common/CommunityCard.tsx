@@ -1,100 +1,107 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import useDeviceDetect from '../../hooks/useDeviceDetect';
-import { Stack, Typography } from '@mui/material';
 import { BoardArticle } from '../../types/board-article/board-article';
-import Moment from 'react-moment';
-import { REACT_APP_API_URL } from '../../config';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
-import IconButton from '@mui/material/IconButton';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+import GolfCourseIcon from '@mui/icons-material/GolfCourse';
+import Moment from 'react-moment';
 
 interface CommunityCardProps {
 	boardArticle: BoardArticle;
-	size?: string;
-	likeArticleHandler: any;
+	likeArticleHandler: (e: any, user: any, id: string) => void;
 }
 
-const CommunityCard = (props: CommunityCardProps) => {
-	const { boardArticle, size = 'normal', likeArticleHandler } = props;
-	const device = useDeviceDetect();
+const CATEGORY_STYLES: Record<string, { bg: string; color: string }> = {
+	GENERAL: { bg: '#f0f4ef', color: '#4a6e46' },
+	TIPS: { bg: '#e8f4ff', color: '#0066cc' },
+	NEWS: { bg: '#fff4e6', color: '#e07b00' },
+	REVIEW: { bg: '#fff0f5', color: '#c7254e' },
+	HUMOR: { bg: '#fff9e6', color: '#d6a800' },
+};
+
+const CommunityCard = ({ boardArticle, likeArticleHandler }: CommunityCardProps) => {
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
-	const imagePath: string = boardArticle?.articleImage
-		? `${REACT_APP_API_URL}/${boardArticle?.articleImage}`
-		: '/img/community/communityImg.png';
 
-	/** HANDLERS **/
-	const chooseArticleHandler = (e: React.SyntheticEvent, boardArticle: BoardArticle) => {
-		router.push(
-			{
-				pathname: '/community/detail',
-				query: { articleCategory: boardArticle?.articleCategory, id: boardArticle?._id },
+	const catStyle = CATEGORY_STYLES[boardArticle.articleCategory] || CATEGORY_STYLES.GENERAL;
+	const memberImage = boardArticle?.memberData?.memberImage || '/img/profile/defaultUser.svg';
+
+	const goToDetail = () => {
+		router.push({
+			pathname: '/community/detail',
+			query: {
+				id: boardArticle._id,
+				articleCategory: boardArticle.articleCategory,
 			},
-			undefined,
-			{ shallow: true },
-		);
+		});
 	};
 
-	const goMemberPage = (id: string) => {
-		if (id === user?._id) router.push('/mypage');
-		else router.push(`/member?memberId=${id}`);
-	};
+	return (
+		<div className="community-card" onClick={goToDetail}>
+			{/* COVER */}
+			<div className="card-cover">
+				{boardArticle?.articleImage ? (
+					<img src={boardArticle.articleImage} alt={boardArticle.articleTitle} />
+				) : (
+					<div className="card-cover-placeholder">
+						<GolfCourseIcon />
+					</div>
+				)}
+				<span className="category-badge" style={{ background: catStyle.bg, color: catStyle.color }}>
+					{boardArticle.articleCategory}
+				</span>
+			</div>
 
-	if (device === 'mobile') {
-		return <div>COMMUNITY CARD MOBILE</div>;
-	} else {
-		return (
-			<Stack
-				sx={{ width: size === 'small' ? '285px' : '317px' }}
-				className="community-general-card-config"
-				onClick={(e) => chooseArticleHandler(e, boardArticle)}
-			>
-				<Stack className="image-box">
-					<img src={imagePath} alt="" className="card-img" />
-				</Stack>
-				<Stack className="desc-box" sx={{ marginTop: '-20px' }}>
-					<Stack>
-						<Typography
-							className="desc"
-							onClick={(e) => {
-								e.stopPropagation();
-								goMemberPage(boardArticle?.memberData?._id as string);
-							}}
-						>
-							{boardArticle?.memberData?.memberNick}
-						</Typography>
-						<Typography className="title">{boardArticle?.articleTitle}</Typography>
-					</Stack>
-					<Stack className={'buttons'}>
-						<IconButton color={'default'}>
-							<RemoveRedEyeIcon />
-						</IconButton>
-						<Typography className="view-cnt">{boardArticle?.articleViews}</Typography>
-						<IconButton color={'default'} onClick={(e: any) => likeArticleHandler(e, user, boardArticle?._id)}>
-							{boardArticle?.meLiked && boardArticle?.meLiked[0]?.myFavorite ? (
-								<FavoriteIcon color={'primary'} />
-							) : (
-								<FavoriteBorderIcon />
-							)}
-						</IconButton>
-						<Typography className="view-cnt">{boardArticle?.articleLikes}</Typography>
-					</Stack>
-				</Stack>
-				<Stack className="date-box">
-					<Moment className="month" format={'MMMM'}>
-						{boardArticle?.createdAt}
-					</Moment>
-					<Typography className="day">
-						<Moment format={'DD'}>{boardArticle?.createdAt}</Moment>
-					</Typography>
-				</Stack>
-			</Stack>
-		);
-	}
+			{/* BODY */}
+			<div className="card-body">
+				<p className="card-title">{boardArticle.articleTitle}</p>
+
+				{boardArticle.articleContent && (
+					<p className="card-excerpt">
+						{boardArticle.articleContent.replace(/[#*`_>\[\]!]/g, '').substring(0, 100)}...
+					</p>
+				)}
+
+				{/* AUTHOR */}
+				<div className="card-author">
+					<img src={memberImage} alt={boardArticle?.memberData?.memberNick} className="author-avatar" />
+					<div className="author-info">
+						<span className="author-name">{boardArticle?.memberData?.memberNick}</span>
+						<Moment className="article-date" format="MMM DD, YYYY">
+							{boardArticle?.createdAt}
+						</Moment>
+					</div>
+				</div>
+
+				{/* STATS */}
+				<div className="card-stats">
+					<div
+						className={`stat-item like ${boardArticle?.meLiked?.[0]?.myFavorite ? 'liked' : ''}`}
+						onClick={(e) => likeArticleHandler(e, user, boardArticle._id)}
+					>
+						{boardArticle?.meLiked?.[0]?.myFavorite ? (
+							<FavoriteIcon sx={{ fontSize: 14 }} />
+						) : (
+							<FavoriteBorderIcon sx={{ fontSize: 14 }} />
+						)}
+						<span>{boardArticle?.articleLikes}</span>
+					</div>
+					<div className="stat-item">
+						<VisibilityOutlinedIcon sx={{ fontSize: 14 }} />
+						<span>{boardArticle?.articleViews}</span>
+					</div>
+					<div className="stat-item">
+						<ChatBubbleOutlineIcon sx={{ fontSize: 14 }} />
+						<span>{boardArticle?.articleComments}</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	);
 };
 
 export default CommunityCard;

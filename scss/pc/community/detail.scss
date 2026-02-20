@@ -1,439 +1,558 @@
-#pc-wrap {
-	#community-detail-page {
-		position: relative;
-		padding-bottom: 135px;
-		.container {
-			padding-top: 100px;
+#community-detail-page {
+	background: #fff;
+	min-height: 100vh;
+	margin-top: 108px;
+
+	// ─── TOP NAV BAR ──────────────────────────────────────────
+	.detail-topbar {
+		background: #fff;
+		border-bottom: 1px solid #f0ede8;
+		position: sticky;
+		top: 108px;
+		z-index: 10;
+
+		.topbar-inner {
+			max-width: 1240px;
+			margin: 0 auto;
+			padding: 0 60px;
+			display: flex;
+			align-items: center;
+			height: 64px;
+		}
+
+		.back-btn {
+			display: flex;
+			align-items: center;
+			gap: 6px;
+			background: none;
+			border: none;
+			cursor: pointer;
+			padding: 0;
+			font-family: $font;
+			font-size: 13px;
+			color: #888;
+			transition: color 0.2s;
+			margin-right: 32px;
+			flex-shrink: 0;
+
+			&:hover {
+				color: #111;
+			}
+		}
+
+		.tab-nav {
+			display: flex;
+			align-items: center;
+			gap: 6px;
+			flex: 1;
+
+			.tab-btn {
+				background: none;
+				border: none;
+				cursor: pointer;
+				padding: 6px 14px;
+				border-radius: 20px;
+				font-family: $font;
+				font-size: 13px;
+				font-weight: 400;
+				color: #888;
+				transition: all 0.2s ease;
+
+				&:hover {
+					background: #f5f3ef;
+					color: #333;
+				}
+
+				&.active {
+					background: #2d5016;
+					color: #fff;
+					font-weight: 500;
+				}
+			}
+		}
+
+		.write-btn {
+			display: flex;
+			align-items: center;
+			gap: 7px;
+			background: #111;
+			color: #fff;
+			border: none;
+			cursor: pointer;
+			padding: 8px 18px;
+			border-radius: 20px;
+			font-family: $font;
+			font-size: 12px;
+			font-weight: 500;
+			transition: background 0.2s ease;
+			flex-shrink: 0;
+
+			&:hover {
+				background: #2d5016;
+			}
+		}
+	}
+
+	// ─── DETAIL CONTAINER ─────────────────────────────────────
+	.detail-container {
+		max-width: 1240px;
+		margin: 0 auto;
+		padding: 52px 60px 100px;
+	}
+
+	// ─── MAGAZINE HERO - image left, info right ────────────────
+	.article-magazine-hero {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 60px;
+		align-items: center;
+		margin-bottom: 56px;
+		padding-bottom: 52px;
+		border-bottom: 1px solid #f0ede8;
+
+		.hero-image-wrap {
+			position: relative;
+			width: 100%;
+			height: 420px;
+			border-radius: 8px;
+			overflow: hidden;
+			background: #f0ede8;
+
+			img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+			}
+
+			.hero-image-placeholder {
+				width: 100%;
+				height: 100%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				background: linear-gradient(145deg, #edeae4 0%, #dedad2 100%);
+
+				svg {
+					font-size: 64px !important;
+					color: #c5bfb5;
+				}
+			}
+		}
+
+		.hero-content {
+			display: flex;
 			flex-direction: column;
-			gap: 64px;
-			.main-box {
-				flex-direction: row;
-				gap: 31px;
-				.left-config {
-					width: 266px;
-					height: fit-content;
-					gap: 30px;
-					padding: 30px 15px 57px 21px;
-					margin-top: 100px;
-					border-radius: 12px;
-					border: 1px solid rgba(196, 196, 196, 0.79);
-					background: #fff;
-					box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
-					.image-info {
-						width: 100%;
-						flex-direction: row;
-						gap: 11px;
-						img {
-							width: 80px;
-							height: 80px;
-							border-radius: 50%;
-							object-fit: cover;
-						}
-						.community-name {
-							.name {
-								margin-top: 15px;
-								color: #181a20;
-								font-family: $font;
-								font-size: 15px;
-								font-style: normal;
-								font-weight: 600;
-								line-height: normal;
-							}
-						}
-					}
-					.tab-button {
-						width: 216.612px;
-						height: 36px;
-						padding: 0;
-						justify-content: center;
-						align-items: center;
-						border-radius: 6px;
-						border: 1px solid #181a20;
-						margin-bottom: 10px;
-						color: #181a20;
+			justify-content: center;
+			gap: 20px;
+
+			.article-category {
+				display: inline-flex;
+				align-self: flex-start;
+				font-family: $font;
+				font-size: 9px;
+				font-weight: 700;
+				letter-spacing: 2.5px;
+				text-transform: uppercase;
+				padding: 4px 12px;
+				border-radius: 12px;
+			}
+
+			.article-title {
+				font-family: $font-heading;
+				font-size: 36px;
+				font-weight: 500;
+				color: #111;
+				line-height: 1.25;
+				letter-spacing: -0.5px;
+				margin: 0;
+			}
+
+			.article-meta {
+				display: flex;
+				align-items: center;
+				gap: 12px;
+				padding-top: 4px;
+
+				.author-avatar {
+					width: 40px;
+					height: 40px;
+					border-radius: 50%;
+					object-fit: cover;
+					cursor: pointer;
+					flex-shrink: 0;
+				}
+
+				.author-info {
+					flex: 1;
+
+					.author-name {
 						font-family: $font;
 						font-size: 14px;
-						font-style: normal;
-						font-weight: 500;
-						line-height: 150%;
-						letter-spacing: -0.266px;
+						font-weight: 600;
+						color: #222;
+						cursor: pointer;
+						display: block;
+						transition: color 0.2s;
+
+						&:hover {
+							color: #2d5016;
+						}
 					}
-					.tab-button.active {
-						width: 216.612px;
-						height: 36px;
-						padding: 0;
-						justify-content: center;
-						align-items: center;
-						background-color: #000000;
-						color: #ffffff;
-						border-radius: 6px;
-						margin-bottom: 10px;
+
+					.article-date {
 						font-family: $font;
-						font-size: 14px;
-						font-style: normal;
-						font-weight: 500;
-						line-height: 150%;
-						letter-spacing: -0.266px;
+						font-size: 12px;
+						color: #bbb;
+						display: block;
 					}
 				}
-				.community-detail-config {
-					.title-box {
-						width: 100%;
-						height: auto;
-						flex-direction: row;
-						justify-content: space-between;
-						align-items: center;
-						margin-bottom: 45px;
-						.left {
-							width: 60%;
-							height: auto;
-							.title {
-								color: #000;
-								font-family: $font;
-								font-size: 24px;
-								font-style: normal;
-								font-weight: 600;
-								line-height: normal;
-								letter-spacing: 0.24px;
-							}
-							.sub-title {
-								color: #757575;
-								font-family: $font;
-								font-size: 13px;
-								font-style: normal;
-								font-weight: 700;
-								line-height: normal;
-								letter-spacing: 0.325px;
-							}
-						}
-						.right {
-							width: 91px;
-							height: 32px;
-							border-radius: 4px;
-							background: #eb6753;
-							color: #fff;
-							font-family: $font;
-							font-size: 13px;
-							font-style: normal;
-							font-weight: 500;
-							line-height: normal;
-							letter-spacing: 0.39px;
-						}
+			}
+
+			.article-stats {
+				display: flex;
+				align-items: center;
+				gap: 20px;
+				padding-top: 8px;
+				border-top: 1px solid #f0ede8;
+
+				.stat {
+					display: flex;
+					align-items: center;
+					gap: 6px;
+					color: #bbb;
+
+					span {
+						font-family: $font;
+						font-size: 13px;
 					}
-					.config {
-						.first-box-config {
-							width: 1012px;
-							min-height: 500px;
-							border-radius: 8px 8px 0px 0px;
-							border: 1px solid #eee;
-							box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-							.content-and-info {
-								width: 100%;
-								height: 126px;
-								padding: 35px 25px;
-								flex-direction: row;
-								justify-content: space-between;
-								border-bottom: 1px solid #eee;
-								.content {
-									gap: 12px;
-									.content-data {
-										color: #000;
-										font-family: $font;
-										font-size: 18px;
-										font-style: normal;
-										font-weight: 700;
-										line-height: normal;
-									}
-									.member-info {
-										width: auto;
-										height: auto;
-										flex-direction: row;
-										align-items: center;
-										gap: 5px;
-										.member-img {
-											width: 30.023px;
-											height: 30px;
-											cursor: pointer;
-										}
-										.member-nick {
-											color: #000;
-											font-family: $font;
-											font-size: 13px;
-											font-style: normal;
-											font-weight: 400;
-											line-height: normal;
-											letter-spacing: 0.13px;
-											cursor: pointer;
-										}
-										.divider {
-											width: 1px;
-											height: 16px;
-											background: #eee;
-										}
-										.time-added {
-											color: #bdbdbd;
-											font-family: $font;
-											font-size: 12px;
-											font-style: normal;
-											font-weight: 400;
-											line-height: normal;
-											letter-spacing: 0.12px;
-										}
-									}
-								}
-								.info {
-									width: auto;
-									height: auto;
-									gap: 15px;
-									flex-direction: row;
-									align-items: flex-end;
-									.icon-info {
-										flex-direction: row;
-										align-items: center;
-										justify-content: center;
-										gap: 4px;
-										img {
-											width: 18.714px;
-											height: 16.15px;
-										}
-										.text {
-											padding-top: 2 px;
-											color: #000;
-											font-family: $font;
-											font-size: 11px;
-											font-style: normal;
-											font-weight: 400;
-											line-height: normal;
-											letter-spacing: -0.22px;
-										}
-									}
-									.divider {
-										width: 1px;
-										height: 21px;
-										background: #eeeeee;
-									}
-								}
-							}
-							.like-and-dislike {
-								width: 100%;
-								height: 100%;
-								align-items: center;
-								justify-content: flex-end;
-								gap: 60px;
-								padding: 25px 25px;
-								.top {
-									width: 100%;
-									height: auto;
-									flex-direction: row;
-									align-items: center;
-									justify-content: center;
-									gap: 17px;
-									button {
-										width: 105.081px;
-										height: 45px;
-										gap: 5px;
-										border-radius: 2px;
-										border: 1px solid #eee;
-										background: #eb6753;
-										p {
-											color: #fff;
-											font-family: $font;
-											font-size: 13px;
-											font-style: normal;
-											font-weight: 700;
-											line-height: normal;
-											letter-spacing: -0.26px;
-										}
-									}
-								}
-							}
-						}
-						.second-box-config {
-							width: 1012px;
-							height: auto;
-							padding: 30px 24px;
-							gap: 11px;
-							.title-text {
-								align-self: flex-start;
-								color: #000;
-								text-align: center;
-								font-family: $font;
-								font-size: 17px;
-								font-style: normal;
-								font-weight: 700;
-								line-height: normal;
-								letter-spacing: -0.34px;
-							}
-							.leave-comment {
-								input {
-									width: 100%;
-									height: 61px;
-									outline: none;
-									padding: 22px 17px;
-									border: 1px solid #eee;
-									::placeholder {
-										color: #c0c0c0;
-										font-family: $font;
-										font-size: 14px;
-										font-style: normal;
-										font-weight: 500;
-										line-height: normal;
-										letter-spacing: -0.56px;
-									}
-								}
-								.button-box {
-									width: 100%;
-									height: 42px;
-									flex-direction: row;
-									justify-content: space-between;
-									align-items: center;
-									padding-left: 17px;
-									border: 1px solid #eee;
-									border-top: none;
-									p {
-										color: #000;
-										font-family: $font;
-										font-size: 14px;
-										font-style: normal;
-										font-weight: 400;
-										line-height: normal;
-										letter-spacing: 0.56px;
-									}
-									button {
-										width: 100.077px;
-										height: 100%;
-										border-radius: 0;
-										background: #eb6753;
-										color: #fff;
-										font-family: $font;
-										font-size: 14px;
-										font-style: normal;
-										font-weight: 400;
-										line-height: normal;
-										letter-spacing: 0.56px;
-									}
-								}
-							}
-						}
-						.comments {
-							width: 100%;
-							height: auto;
-							border: 1px solid #efefef;
-							border-top: none;
-							.comments-title {
-								width: 112.087px;
-								display: flex;
-								align-items: center;
-								justify-content: center;
-								padding: 16px 15px;
-								border-bottom: 2px solid #eb6753;
-								color: #eb6753;
-								font-family: $font;
-								font-size: 14px;
-								font-style: normal;
-								font-weight: 700;
-								line-height: normal;
-								letter-spacing: 0.56px;
-							}
-						}
-						.pagination-box {
-							width: 100%;
-							height: auto;
-							margin-top: 30px;
-							align-items: center;
-							justify-content: center;
-						}
-						.comments-box {
-							.main-comment {
-								width: 100%;
-								height: auto;
-								padding: 20px 24px;
-								gap: 17px;
-								border: 1px solid #efefef;
-								border-top: none;
-								.member-info {
-									width: 100%;
-									height: auto;
-									flex-direction: row;
-									justify-content: space-between;
-									.name-date {
-										width: auto;
-										height: auto;
-										flex-direction: row;
-										gap: 8px;
-										cursor: pointer;
-										img {
-											width: 45.035px;
-											height: 45px;
-											border-radius: 50%;
-											cursor: pointer;
-											object-fit: cover;
-										}
-										.name-date-column {
-											.name {
-												color: #000;
-												font-family: $font;
-												font-size: 16px;
-												font-style: normal;
-												font-weight: 700;
-												line-height: normal;
-												cursor: pointer;
-											}
-											.date {
-												color: #757575;
-												font-family: $font;
-												font-size: 13px;
-												font-style: normal;
-												font-weight: 400;
-												line-height: normal;
-												letter-spacing: -0.39px;
-												cursor: pointer;
-											}
-										}
-									}
-									.buttons {
-										flex-direction: row;
-									}
-								}
-								.content {
-									width: 100%;
-									height: auto;
-									p {
-										color: #000;
-										font-family: $font;
-										font-size: 16px;
-										font-style: normal;
-										font-weight: 400;
-										line-height: normal;
-										letter-spacing: -0.48px;
-									}
-								}
-							}
+
+					svg {
+						font-size: 16px;
+					}
+				}
+			}
+		}
+	}
+
+	// ─── NO IMAGE - full width header ─────────────────────────
+	.article-header-simple {
+		margin-bottom: 48px;
+		padding-bottom: 36px;
+		border-bottom: 1px solid #f0ede8;
+
+		.article-category {
+			display: inline-block;
+			font-family: $font;
+			font-size: 9px;
+			font-weight: 700;
+			letter-spacing: 2.5px;
+			text-transform: uppercase;
+			padding: 4px 12px;
+			border-radius: 12px;
+			margin-bottom: 18px;
+		}
+
+		.article-title {
+			font-family: $font-heading;
+			font-size: 40px;
+			font-weight: 500;
+			color: #111;
+			line-height: 1.2;
+			letter-spacing: -0.5px;
+			margin: 0 0 24px;
+			max-width: 780px;
+		}
+
+		.article-meta {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+
+			.author-avatar {
+				width: 40px;
+				height: 40px;
+				border-radius: 50%;
+				object-fit: cover;
+				cursor: pointer;
+				flex-shrink: 0;
+			}
+
+			.author-info {
+				flex: 1;
+
+				.author-name {
+					font-family: $font;
+					font-size: 14px;
+					font-weight: 600;
+					color: #222;
+					cursor: pointer;
+					display: block;
+					transition: color 0.2s;
+
+					&:hover {
+						color: #2d5016;
+					}
+				}
+
+				.article-date {
+					font-family: $font;
+					font-size: 12px;
+					color: #bbb;
+					display: block;
+				}
+			}
+
+			.article-stats {
+				display: flex;
+				align-items: center;
+				gap: 18px;
+
+				.stat {
+					display: flex;
+					align-items: center;
+					gap: 5px;
+					color: #ccc;
+
+					span {
+						font-family: $font;
+						font-size: 12px;
+					}
+				}
+			}
+		}
+	}
+
+	// ─── ARTICLE BODY ─────────────────────────────────────────
+	.article-body {
+		max-width: 780px;
+		margin: 0 auto 52px;
+
+		.toastui-editor-contents {
+			font-family: $font;
+			font-size: 16px;
+			line-height: 1.85;
+			color: #333;
+		}
+	}
+
+	// ─── LIKE ROW ─────────────────────────────────────────────
+	.article-like-row {
+		display: flex;
+		justify-content: center;
+		padding: 28px 0;
+		border-top: 1px solid #f0ede8;
+		border-bottom: 1px solid #f0ede8;
+		margin-bottom: 52px;
+
+		.like-btn {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			background: none;
+			border: 1.5px solid #e0ddd8;
+			color: #aaa;
+			font-family: $font;
+			font-size: 13px;
+			padding: 10px 40px;
+			border-radius: 40px;
+			cursor: pointer;
+			transition: all 0.2s ease;
+
+			span {
+				font-weight: 500;
+			}
+
+			&:hover {
+				border-color: #2d5016;
+				color: #2d5016;
+			}
+
+			&.liked {
+				border-color: #2d5016;
+				color: #2d5016;
+				background: #f0f4ef;
+			}
+		}
+	}
+
+	// ─── COMMENTS ─────────────────────────────────────────────
+	.comments-section {
+		max-width: 780px;
+		margin: 0 auto;
+
+		.comments-heading {
+			font-family: $font-heading;
+			font-size: 20px;
+			font-weight: 500;
+			color: #111;
+			margin-bottom: 28px;
+
+			.count {
+				font-family: $font;
+				color: #bbb;
+				font-weight: 400;
+				font-size: 16px;
+			}
+		}
+
+		.comment-input-box {
+			display: flex;
+			gap: 12px;
+			margin-bottom: 36px;
+			align-items: flex-start;
+
+			.comment-avatar {
+				width: 36px;
+				height: 36px;
+				border-radius: 50%;
+				object-fit: cover;
+				flex-shrink: 0;
+				margin-top: 2px;
+			}
+
+			.comment-input-wrap {
+				flex: 1;
+				border: 1px solid #e8e5e0;
+				border-radius: 8px;
+				overflow: hidden;
+				background: #fff;
+				transition: border-color 0.2s;
+
+				&:focus-within {
+					border-color: #2d5016;
+				}
+
+				input {
+					width: 100%;
+					border: none;
+					outline: none;
+					padding: 12px 14px;
+					font-family: $font;
+					font-size: 14px;
+					color: #222;
+					background: transparent;
+					box-sizing: border-box;
+
+					&::placeholder {
+						color: #ccc;
+					}
+				}
+
+				.input-footer {
+					display: flex;
+					align-items: center;
+					justify-content: space-between;
+					padding: 6px 10px 8px;
+					background: #fafaf8;
+					border-top: 1px solid #f0ede8;
+
+					.word-count {
+						font-family: $font;
+						font-size: 11px;
+						color: #ccc;
+					}
+
+					.submit-btn {
+						background: #2d5016;
+						color: #fff;
+						font-family: $font;
+						font-size: 12px;
+						font-weight: 500;
+						padding: 4px 16px;
+						border-radius: 14px;
+						text-transform: none;
+						min-width: auto;
+						min-height: auto;
+						transition: background 0.2s;
+
+						&:hover {
+							background: #4a6e46;
 						}
 					}
 				}
 			}
-			.similar-articles-config {
-				width: 100%;
-				height: auto;
-				gap: 75px;
-				padding: 30px 9px 28px 9px;
-				border-radius: 10px;
-				border: 1px solid #c4c4c4;
-				.similar-articles-title {
-					padding-left: 56px;
-					color: #000;
-					font-family: $font;
-					font-size: 30px;
-					font-style: normal;
-					font-weight: 600;
-					line-height: normal;
+		}
+
+		.comments-list {
+			display: flex;
+			flex-direction: column;
+		}
+
+		.comment-item {
+			display: flex;
+			gap: 12px;
+			padding: 18px 0;
+			border-bottom: 1px solid #f5f3ef;
+
+			.comment-avatar {
+				width: 34px;
+				height: 34px;
+				border-radius: 50%;
+				object-fit: cover;
+				flex-shrink: 0;
+				cursor: pointer;
+				margin-top: 2px;
+			}
+
+			.comment-body {
+				flex: 1;
+				min-width: 0;
+
+				.comment-header {
+					display: flex;
+					align-items: center;
+					gap: 8px;
+					margin-bottom: 6px;
+
+					.comment-nick {
+						font-family: $font;
+						font-size: 13px;
+						font-weight: 600;
+						color: #222;
+						cursor: pointer;
+						transition: color 0.2s;
+
+						&:hover {
+							color: #2d5016;
+						}
+					}
+
+					.comment-date {
+						font-family: $font;
+						font-size: 11px;
+						color: #ccc;
+						flex: 1;
+					}
+
+					.comment-actions {
+						display: flex;
+						gap: 2px;
+					}
 				}
-				.articles-box-row {
-					width: 100%;
-					height: auto;
-					flex-direction: row;
-					gap: 5px;
+
+				.comment-content {
+					font-family: $font;
+					font-size: 14px;
+					color: #444;
+					line-height: 1.65;
+					margin: 0;
+				}
+			}
+		}
+
+		.comments-pagination {
+			display: flex;
+			justify-content: center;
+			padding-top: 36px;
+
+			.MuiPaginationItem-root {
+				font-family: $font;
+				font-size: 13px;
+				color: #666;
+
+				&.Mui-selected {
+					background: #2d5016;
+					color: #fff;
 				}
 			}
 		}
