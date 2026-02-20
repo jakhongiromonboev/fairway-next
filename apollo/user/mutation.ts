@@ -423,8 +423,8 @@ export const LIKE_TARGET_EVENT = gql`
  *************************/
 
 export const CREATE_EVENT_RESERVATION = gql`
-	mutation CreateEventReservation($input: EventReservationInput!) {
-		createEventReservation(input: $input) {
+	mutation CreateReservation($input: EventReservationInput!) {
+		createReservation(input: $input) {
 			_id
 			memberId
 			eventId
@@ -438,8 +438,8 @@ export const CREATE_EVENT_RESERVATION = gql`
 `;
 
 export const UPDATE_EVENT_RESERVATION = gql`
-	mutation UpdateEventReservation($input: EventReservationUpdate!) {
-		updateEventReservation(input: $input) {
+	mutation UpdateReservation($input: EventReservationUpdate!) {
+		updateReservation(input: $input) {
 			_id
 			memberId
 			eventId
