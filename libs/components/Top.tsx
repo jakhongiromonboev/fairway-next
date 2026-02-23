@@ -30,7 +30,6 @@ const Top = () => {
 	const [logoutAnchor, setLogoutAnchor] = useState<null | HTMLElement>(null);
 	const logoutOpen = Boolean(logoutAnchor);
 
-	/** LIFECYCLES **/
 	useEffect(() => {
 		if (localStorage.getItem('locale') === null) {
 			localStorage.setItem('locale', 'en');
@@ -45,14 +44,8 @@ const Top = () => {
 		if (jwt) updateUserInfo(jwt);
 	}, []);
 
-	/** HANDLERS **/
-	const langClick = (e: any) => {
-		setAnchorEl2(e.currentTarget);
-	};
-
-	const langClose = () => {
-		setAnchorEl2(null);
-	};
+	const langClick = (e: any) => setAnchorEl2(e.currentTarget);
+	const langClose = () => setAnchorEl2(null);
 
 	const langChoice = useCallback(
 		async (e: any) => {
@@ -65,24 +58,15 @@ const Top = () => {
 	);
 
 	const changeNavbarColor = () => {
-		if (window.scrollY >= 50) {
-			setColorChange(true);
-		} else {
-			setColorChange(false);
-		}
+		if (window.scrollY >= 50) setColorChange(true);
+		else setColorChange(false);
 	};
 
 	const StyledMenu = styled((props: MenuProps) => (
 		<Menu
 			elevation={0}
-			anchorOrigin={{
-				vertical: 'bottom',
-				horizontal: 'right',
-			}}
-			transformOrigin={{
-				vertical: 'top',
-				horizontal: 'right',
-			}}
+			anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+			transformOrigin={{ vertical: 'top', horizontal: 'right' }}
 			{...props}
 		/>
 	))(({ theme }) => ({
@@ -94,9 +78,7 @@ const Top = () => {
 			color: theme.palette.mode === 'light' ? 'rgb(55, 65, 81)' : theme.palette.grey[300],
 			boxShadow:
 				'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
-			'& .MuiMenu-list': {
-				padding: '4px 0',
-			},
+			'& .MuiMenu-list': { padding: '4px 0' },
 			'& .MuiMenuItem-root': {
 				'& .MuiSvgIcon-root': {
 					fontSize: 18,
@@ -120,8 +102,8 @@ const Top = () => {
 				<Link href={'/'}>
 					<div>{t('Home')}</div>
 				</Link>
-				<Link href={'/products'}>
-					<div>{t('Products')}</div>
+				<Link href={'/product'}>
+					<div>{t('Shop')}</div>
 				</Link>
 				<Link href={'/events'}>
 					<div>{t('Events')}</div>
@@ -129,7 +111,7 @@ const Top = () => {
 				<Link href={'/agent'}>
 					<div>{t('Agents')}</div>
 				</Link>
-				<Link href={'/community?articleCategory=FREE'}>
+				<Link href={'/community'}>
 					<div>{t('Community')}</div>
 				</Link>
 				<Link href={'/cs'}>
@@ -140,7 +122,6 @@ const Top = () => {
 	} else {
 		return (
 			<Stack className={'navbar'}>
-				{/* ANNOUNCEMENT BAR */}
 				{showAnnouncement && (
 					<Box className={'announcement-bar'}>
 						<p>
@@ -153,14 +134,12 @@ const Top = () => {
 					</Box>
 				)}
 
-				{/* MAIN NAVBAR */}
 				<Stack className={`navbar-main ${colorChange ? 'scrolled' : ''}`}>
 					<Stack className={'container'}>
-						{/* LEFT LINKS */}
 						<Box component={'div'} className={'nav-left'}>
-							<Link href={'/'}>
+							{/* <Link href={'/'}>
 								<div className={router.pathname === '/' ? 'active' : ''}>{t('Home')}</div>
-							</Link>
+							</Link> */}
 							<Link href={'/product'}>
 								<div className={router.pathname.includes('/product') ? 'active' : ''}>{t('Shop')}</div>
 							</Link>
@@ -170,30 +149,30 @@ const Top = () => {
 							<Link href={'/agent'}>
 								<div className={router.pathname.includes('/agent') ? 'active' : ''}>{t('Agents')}</div>
 							</Link>
+							<Link href={'/community'}>
+								<div className={router.pathname.includes('/community') ? 'active' : ''}>{t('Community')}</div>
+							</Link>
 						</Box>
 
-						{/* CENTER LOGO*/}
 						<Box component={'div'} className={'logo-box'}>
 							<Link href={'/'}>
 								<span className={'logo-text'}>FAIRWAY</span>
 							</Link>
 						</Box>
 
-						{/* RIGHT LINKS */}
+						{/* RIGHT */}
 						<Box component={'div'} className={'nav-right'}>
 							{user?._id ? (
 								<>
 									<div className={'notification-box'}>
 										<NotificationsOutlinedIcon className={'notification-icon'} />
 									</div>
-
 									<div className={'login-user'} onClick={(event: any) => setLogoutAnchor(event.currentTarget)}>
 										<img
 											src={user?.memberImage ? `${user?.memberImage}` : '/img/profile/defaultUser.svg'}
 											alt="Profile"
 										/>
 									</div>
-
 									<Menu
 										id="profile-menu"
 										anchorEl={logoutAnchor}
@@ -224,14 +203,11 @@ const Top = () => {
 									</Menu>
 								</>
 							) : (
-								<>
-									<Link href={'/account/join'}>
-										<div className={'nav-account'}>{t('LOGIN')}</div>
-									</Link>
-								</>
+								<Link href={'/account/join'}>
+									<div className={'nav-account'}>{t('LOGIN')}</div>
+								</Link>
 							)}
 
-							{/* LANGUAGE SELECTOR */}
 							<div className={'lan-box'}>
 								<Button
 									disableRipple
@@ -259,6 +235,7 @@ const Top = () => {
 										/>
 										{t('English')}
 									</MenuItem>
+
 									<MenuItem disableRipple onClick={langChoice} id="kr">
 										<img
 											className="img-flag"
@@ -269,21 +246,11 @@ const Top = () => {
 										/>
 										{t('Korean')}
 									</MenuItem>
-									<MenuItem disableRipple onClick={langChoice} id="ru">
-										<img
-											className="img-flag"
-											src={'/img/flag/langru.png'}
-											onClick={langChoice}
-											id="ru"
-											alt={'Russian'}
-										/>
-										{t('Russian')}
-									</MenuItem>
 								</StyledMenu>
 							</div>
 
-							{/* SEARCH ICON */}
-							<div className={'search-icon'} onClick={() => router.push('/products')}>
+							{/* SEARCH */}
+							<div className={'search-icon'} onClick={() => router.push('/product')}>
 								<MagnifyingGlass size={18} color="#181a20" weight="regular" />
 							</div>
 						</Box>

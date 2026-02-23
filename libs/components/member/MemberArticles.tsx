@@ -5,8 +5,10 @@ import { useQuery } from '@apollo/client';
 import { GET_BOARD_ARTICLES } from '../../../apollo/user/query';
 import { T } from '../../types/common';
 import { BoardArticle } from '../../types/board-article/board-article';
-import { REACT_APP_API_URL } from '../../config';
 import moment from 'moment';
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 
 const MemberArticles = ({ initialInput }: any) => {
 	const router = useRouter();
@@ -46,10 +48,9 @@ const MemberArticles = ({ initialInput }: any) => {
 						<Typography>No articles found!</Typography>
 					</Stack>
 				)}
+
 				{articles.map((article: BoardArticle) => {
-					const img = article?.articleImage
-						? `${REACT_APP_API_URL}/${article.articleImage}`
-						: '/img/banner/golf-hero.jpg';
+					const img = article?.articleImage ? `${article.articleImage}` : '/img/banner/golf-hero.jpg';
 					return (
 						<Stack
 							key={article._id}
@@ -65,14 +66,26 @@ const MemberArticles = ({ initialInput }: any) => {
 								<Typography className="row-date">{moment(article.createdAt).format('MMM DD, YYYY')}</Typography>
 							</Stack>
 							<Stack className="row-stats-simple">
-								<span>👁 {article.articleViews}</span>
-								<span>❤️ {article.articleLikes}</span>
-								<span>💬 {article.articleComments}</span>
+								<Stack direction="row" alignItems="center" gap={0.5}>
+									<VisibilityOutlinedIcon sx={{ fontSize: 14 }} />
+									<span>{article.articleViews}</span>
+								</Stack>
+
+								<Stack direction="row" alignItems="center" gap={0.5}>
+									<FavoriteBorderIcon sx={{ fontSize: 14 }} />
+									<span>{article.articleLikes}</span>
+								</Stack>
+
+								<Stack direction="row" alignItems="center" gap={0.5}>
+									<ChatBubbleOutlineIcon sx={{ fontSize: 14 }} />
+									<span>{article.articleComments}</span>
+								</Stack>
 							</Stack>
 						</Stack>
 					);
 				})}
 			</Stack>
+
 			{total > searchFilter.limit && (
 				<Stack className="pagination-config">
 					<Pagination
@@ -91,4 +104,5 @@ const MemberArticles = ({ initialInput }: any) => {
 MemberArticles.defaultProps = {
 	initialInput: { page: 1, limit: 6, sort: 'createdAt', direction: 'DESC', search: {} },
 };
+
 export default MemberArticles;

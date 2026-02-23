@@ -792,11 +792,13 @@
 								align-items: flex-end;
 								gap: 4px;
 								flex-shrink: 0;
+								color: #8f8f8f;
 
 								span {
 									color: #8f8f8f;
 									font-family: $font;
 									font-size: 13px;
+									padding: 3px;
 								}
 							}
 						}
