@@ -1,37 +1,26 @@
 import React from 'react';
+import { Stack, Box } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
-import { Stack } from '@mui/material';
 
 const Advertisement = () => {
 	const device = useDeviceDetect();
 
-	if (device == 'mobile') {
+	const videoSrc =
+		'https://res.cloudinary.com/dcqedfoc8/video/upload/v1771934498/5455877-uhd_3840_2160_30fps_fcoiqh.mp4';
+
+	if (device === 'mobile') {
 		return (
-			<Stack className={'video-frame'}>
-				<video
-					autoPlay
-					muted
-					loop
-					playsInline
-					preload="auto"
-					style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-				>
-					<source src="/video/events-hero.mp4" type="video/mp4" />
+			<Stack className={'advertisement'}>
+				<video className={'ad-video'} autoPlay muted loop playsInline>
+					<source src={videoSrc} type="video/mp4" />
 				</video>
 			</Stack>
 		);
 	} else {
 		return (
-			<Stack className={'video-frame'}>
-				<video
-					autoPlay
-					muted
-					loop
-					playsInline
-					preload="auto"
-					style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-				>
-					<source src="/video/events-hero.mp4" type="video/mp4" />
+			<Stack className={'advertisement'}>
+				<video className={'ad-video'} autoPlay muted loop playsInline>
+					<source src={videoSrc} type="video/mp4" />
 				</video>
 			</Stack>
 		);

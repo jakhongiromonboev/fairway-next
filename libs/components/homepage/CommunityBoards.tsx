@@ -1,4 +1,3 @@
-// CommunityBoards.tsx
 import React, { useState } from 'react';
 import { Stack, Box } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
@@ -8,120 +7,30 @@ import WestIcon from '@mui/icons-material/West';
 import EastIcon from '@mui/icons-material/East';
 import CommunityCard from './CommunityCard';
 import { BoardArticle } from '../../types/board-article/board-article';
-import { BoardArticleCategory, BoardArticleStatus } from '../../enums/board-article.enum';
 import { useRouter } from 'next/router';
-
-// TODO: Uncomment after Apollo setup
-// import { useQuery } from '@apollo/client';
-// import { GET_BOARD_ARTICLES } from '../../../apollo/user/query';
+import { useQuery } from '@apollo/client';
+import { GET_BOARD_ARTICLES } from '../../../apollo/user/query';
+import { T } from '../../types/common';
 
 const CommunityBoards = () => {
 	const device = useDeviceDetect();
 	const router = useRouter();
-
-	// STATIC MOCK DATA
-	const [communityArticles] = useState<BoardArticle[]>([
-		{
-			_id: '1',
-			articleCategory: BoardArticleCategory.NEWS,
-			articleStatus: BoardArticleStatus.ACTIVE,
-			articleTitle: 'Breaking Par in Every Era',
-			articleContent: 'Exploring the evolution of golf equipment and techniques...',
-			articleImage: '/img/events/event-example2.webp',
-			articleViews: 1240,
-			articleLikes: 89,
-			articleComments: 20,
-			memberId: 'member1',
-			createdAt: new Date('2026-02-01'),
-			updatedAt: new Date('2026-02-01'),
-		},
-		{
-			_id: '2',
-			articleCategory: BoardArticleCategory.HUMOR,
-			articleStatus: BoardArticleStatus.ACTIVE,
-			articleTitle: 'A New King Inside the M25',
-			articleContent: 'Tiger Woods discusses his latest comeback...',
-			articleImage: '/img/events/event-example2.webp',
-			articleViews: 2340,
-			articleLikes: 156,
-			articleComments: 20,
-			memberId: 'member2',
-			createdAt: new Date('2026-01-28'),
-			updatedAt: new Date('2026-01-28'),
-		},
-		{
-			_id: '2',
-			articleCategory: BoardArticleCategory.HUMOR,
-			articleStatus: BoardArticleStatus.ACTIVE,
-			articleTitle: 'A New King Inside the M25',
-			articleContent: 'Tiger Woods discusses his latest comeback...',
-			articleImage: '/img/events/event-example2.webp',
-			articleViews: 2340,
-			articleLikes: 156,
-			articleComments: 20,
-			memberId: 'member2',
-			createdAt: new Date('2026-01-28'),
-			updatedAt: new Date('2026-01-28'),
-		},
-		{
-			_id: '2',
-			articleCategory: BoardArticleCategory.HUMOR,
-			articleStatus: BoardArticleStatus.ACTIVE,
-			articleTitle: 'A New King Inside the M25',
-			articleContent: 'Tiger Woods discusses his latest comeback...',
-			articleImage: '/img/events/event-example2.webp',
-			articleViews: 2340,
-			articleLikes: 156,
-			articleComments: 20,
-			memberId: 'member2',
-			createdAt: new Date('2026-01-28'),
-			updatedAt: new Date('2026-01-28'),
-		},
-		{
-			_id: '2',
-			articleCategory: BoardArticleCategory.HUMOR,
-			articleStatus: BoardArticleStatus.ACTIVE,
-			articleTitle: 'A New King Inside the M25',
-			articleContent: 'Tiger Woods discusses his latest comeback...',
-			articleImage: '/img/events/event-example2.webp',
-			articleViews: 2340,
-			articleLikes: 156,
-			articleComments: 20,
-			memberId: 'member2',
-			createdAt: new Date('2026-01-28'),
-			updatedAt: new Date('2026-01-28'),
-		},
-		{
-			_id: '2',
-			articleCategory: BoardArticleCategory.HUMOR,
-			articleStatus: BoardArticleStatus.ACTIVE,
-			articleTitle: 'A New King Inside the M25',
-			articleContent: 'Tiger Woods discusses his latest comeback...',
-			articleImage: '/img/events/event-example2.webp',
-			articleViews: 2340,
-			articleLikes: 156,
-			articleComments: 20,
-			memberId: 'member2',
-			createdAt: new Date('2026-01-28'),
-			updatedAt: new Date('2026-01-28'),
-		},
-	]);
+	const [communityArticles, setCommunityArticles] = useState<BoardArticle[]>([]);
 
 	/** APOLLO REQUESTS **/
-	// TODO: Uncomment after Apollo setup
-	// const {
-	// 	loading: getArticlesLoading,
-	// 	data: getArticlesData,
-	// 	error: getArticlesError,
-	// 	refetch: getArticlesRefetch,
-	// } = useQuery(GET_BOARD_ARTICLES, {
-	// 	fetchPolicy: 'network-only',
-	// 	variables: { input: { page: 1, limit: 6, sort: 'articleViews', direction: 'DESC', search: {} } },
-	// 	notifyOnNetworkStatusChange: true,
-	// 	onCompleted: (data: T) => {
-	// 		setCommunityArticles(data?.getBoardArticles?.list);
-	// 	},
-	// });
+	const {
+		loading: getArticlesLoading,
+		data: getArticlesData,
+		error: getArticlesError,
+		refetch: getArticlesRefetch,
+	} = useQuery(GET_BOARD_ARTICLES, {
+		fetchPolicy: 'network-only',
+		variables: { input: { page: 1, limit: 6, sort: 'articleViews', direction: 'DESC', search: {} } },
+		notifyOnNetworkStatusChange: true,
+		onCompleted: (data: T) => {
+			setCommunityArticles(data?.getBoardArticles?.list);
+		},
+	});
 
 	/** HANDLERS **/
 	const handleViewAll = () => {

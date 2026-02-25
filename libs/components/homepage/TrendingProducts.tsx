@@ -23,39 +23,70 @@ const TrendingProducts = (props: TrendingProductsProps) => {
 	const router = useRouter();
 	const [trendingProducts, setTrendingProducts] = useState<Product[]>([]);
 
-	/** APOLLO **/
-	const { loading } = useQuery(GET_PRODUCTS, {
+	/** APOLLO REQUESTS **/
+	const {
+		loading: getProductsLoading,
+		data: getProductsData,
+		error: getProductsError,
+		refetch: getProductsRefetch,
+	} = useQuery(GET_PRODUCTS, {
 		fetchPolicy: 'cache-and-network',
 		variables: { input: initialInput },
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			setTrendingProducts(data?.getProducts?.list ?? []);
+			setTrendingProducts(data?.getProducts?.list);
 		},
 	});
 
-	if (device === 'mobile') return <div>TRENDING PRODUCTS (MOBILE)</div>;
+	/** HANDLERS **/
+	const handleViewAll = () => {
+		router.push('/products');
+	};
 
-	return (
-		<Stack className={'trending-products'}>
-			<Stack className={'container'}>
-				<Stack className={'info-box'}>
-					<Box component={'div'} className={'left'}>
-						<span>Trending Now</span>
-						<p>Premium equipment for every golfer</p>
-					</Box>
-					<Box component={'div'} className={'right'}>
-						<Stack className={'pagination-box'}>
-							<WestIcon className={'swiper-trending-prev'} />
-							<EastIcon className={'swiper-trending-next'} />
-						</Stack>
-					</Box>
+	if (device === 'mobile') {
+		return (
+			<Stack className={'trending-products'}>
+				<Stack className={'container'}>
+					<Stack className={'info-box'}>
+						<Box component={'div'} className={'left'}>
+							<span>Trending Now</span>
+							<p>Premium equipment for every golfer</p>
+						</Box>
+					</Stack>
+					<Stack className={'card-box'}>
+						<Swiper
+							className={'trending-product-swiper'}
+							slidesPerView={'auto'}
+							centeredSlides={true}
+							spaceBetween={16}
+							modules={[Autoplay]}
+						>
+							{trendingProducts.map((product: Product) => (
+								<SwiperSlide key={product._id} className={'trending-product-slide'}>
+									<TrendingProductCard product={product} />
+								</SwiperSlide>
+							))}
+						</Swiper>
+					</Stack>
 				</Stack>
-
-				{loading ? (
-					<Box className={'empty-list'}>Loading...</Box>
-				) : trendingProducts.length === 0 ? (
-					<Box className={'empty-list'}>No products available</Box>
-				) : (
+			</Stack>
+		);
+	} else {
+		return (
+			<Stack className={'trending-products'}>
+				<Stack className={'container'}>
+					<Stack className={'info-box'}>
+						<Box component={'div'} className={'left'}>
+							<span>Trending Now</span>
+							<p>Premium equipment for every golfer</p>
+						</Box>
+						<Box component={'div'} className={'right'}>
+							<Stack className={'pagination-box'}>
+								<WestIcon className={'swiper-trending-prev'} />
+								<EastIcon className={'swiper-trending-next'} />
+							</Stack>
+						</Box>
+					</Stack>
 					<Stack className={'card-box'}>
 						<Swiper
 							className={'trending-product-swiper'}
@@ -66,7 +97,11 @@ const TrendingProducts = (props: TrendingProductsProps) => {
 								nextEl: '.swiper-trending-next',
 								prevEl: '.swiper-trending-prev',
 							}}
-							mousewheel={{ forceToAxis: true, sensitivity: 1, releaseOnEdges: true }}
+							mousewheel={{
+								forceToAxis: true,
+								sensitivity: 1,
+								releaseOnEdges: true,
+							}}
 							grabCursor={true}
 						>
 							{trendingProducts.map((product: Product) => (
@@ -76,10 +111,10 @@ const TrendingProducts = (props: TrendingProductsProps) => {
 							))}
 						</Swiper>
 					</Stack>
-				)}
+				</Stack>
 			</Stack>
-		</Stack>
-	);
+		);
+	}
 };
 
 TrendingProducts.defaultProps = {

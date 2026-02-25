@@ -35,7 +35,8 @@ const withLayoutBasic = (Component: any) => {
 					title = 'JOIN EXCITING TOURNAMENTS';
 					bgImage = '/img/banner/golf-hero.jpg';
 					mediaType = 'video';
-					videoSrc = '/video/events-hero3.mp4';
+					videoSrc =
+						'https://res.cloudinary.com/dcqedfoc8/video/upload/v1771934498/5455877-uhd_3840_2160_30fps_fcoiqh.mp4';
 					break;
 				case '/agent':
 					title = 'MEET OUR PRO SHOPS';
@@ -45,10 +46,8 @@ const withLayoutBasic = (Component: any) => {
 				case '/about':
 					title = 'ABOUT FAIRWAY';
 					bgImage = '/img/banner/about.jpg';
-					mediaType = 'video';
-					videoSrc = '/videos/about-hero.mp4';
+					mediaType = 'image';
 					break;
-
 				case '/agent/detail':
 				case '/mypage':
 				case '/community':
@@ -102,29 +101,28 @@ const withLayoutBasic = (Component: any) => {
 							<Top />
 						</Stack>
 
-						{memoizedValues.mediaType !== 'none' && (
+						{memoizedValues.mediaType !== 'none' ? (
 							<Stack
 								className={`header-basic ${memoizedValues.mediaType === 'video' ? 'has-video' : ''}`}
-								style={
-									memoizedValues.mediaType === 'image'
-										? {
-												backgroundImage: `url(${memoizedValues.bgImage})`,
-										  }
-										: {}
-								}
+								style={{
+									marginTop: '108px',
+									...(memoizedValues.mediaType === 'image'
+										? { backgroundImage: `url(${memoizedValues.bgImage})` }
+										: {}),
+								}}
 							>
 								{memoizedValues.mediaType === 'video' && memoizedValues.videoSrc && (
 									<video className="header-video" autoPlay muted loop playsInline poster={memoizedValues.bgImage}>
 										<source src={memoizedValues.videoSrc} type="video/mp4" />
 									</video>
 								)}
-
 								<Box className={'header-overlay'} />
-
 								<Box className={'container'}>
 									<strong>{memoizedValues.title}</strong>
 								</Box>
 							</Stack>
+						) : (
+							<Box sx={{ height: '108px' }} />
 						)}
 
 						<Stack id={'main'}>

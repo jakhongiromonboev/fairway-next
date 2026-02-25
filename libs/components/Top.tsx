@@ -217,9 +217,17 @@ const Top = () => {
 								>
 									<Box component={'div'} className={'flag'}>
 										{lang !== null ? (
-											<img src={`/img/flag/lang${lang}.png`} alt={'flag'} />
+											<img
+												src={`/img/flag/lang${lang}.png`}
+												alt={'flag'}
+												style={{ width: '22px', height: '15px', borderRadius: '2px', objectFit: 'cover' }}
+											/>
 										) : (
-											<img src={`/img/flag/langen.png`} alt={'flag'} />
+											<img
+												src={`/img/flag/langen.png`}
+												alt={'flag'}
+												style={{ width: '22px', height: '15px', borderRadius: '2px', objectFit: 'cover' }}
+											/>
 										)}
 									</Box>
 								</Button>
@@ -232,6 +240,13 @@ const Top = () => {
 											onClick={langChoice}
 											id="en"
 											alt={'English'}
+											style={{
+												width: '22px',
+												height: '15px',
+												borderRadius: '2px',
+												marginRight: '8px',
+												objectFit: 'cover',
+											}}
 										/>
 										{t('English')}
 									</MenuItem>
@@ -243,6 +258,13 @@ const Top = () => {
 											onClick={langChoice}
 											id="kr"
 											alt={'Korean'}
+											style={{
+												width: '22px',
+												height: '15px',
+												borderRadius: '2px',
+												marginRight: '8px',
+												objectFit: 'cover',
+											}}
 										/>
 										{t('Korean')}
 									</MenuItem>

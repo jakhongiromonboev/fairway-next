@@ -1,21 +1,20 @@
-// CommunityCard.tsx
 import React from 'react';
 import { Stack, Box } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { BoardArticle } from '../../types/board-article/board-article';
 import { useRouter } from 'next/router';
+import moment from 'moment';
 
 interface CommunityCardProps {
 	article: BoardArticle;
-	variant?: 'small' | 'large'; // To support different card sizes
 }
 
 const CommunityCard = (props: CommunityCardProps) => {
-	const { article, variant = 'small' } = props;
+	const { article } = props;
 	const device = useDeviceDetect();
 	const router = useRouter();
 
-	const articleImage = article?.articleImage || '/img/events/event-example2.webp';
+	const articleImage = article?.articleImage;
 
 	/** HANDLERS **/
 	const handleArticleClick = () => {
@@ -23,16 +22,28 @@ const CommunityCard = (props: CommunityCardProps) => {
 	};
 
 	if (device === 'mobile') {
-		return <div>COMMUNITY CARD (MOBILE)</div>;
+		return (
+			<Stack className={'community-card-mobile'} onClick={handleArticleClick}>
+				<Box component={'div'} className={'card-image'} style={{ backgroundImage: `url(${articleImage})` }} />
+				<Box component={'div'} className={'card-info'}>
+					<span className={'card-category'}>{article.articleCategory}</span>
+					<h3 className={'card-title'}>{article.articleTitle}</h3>
+					<span className={'card-date'}>{moment(article.createdAt).format('MMM DD, YYYY')}</span>
+				</Box>
+			</Stack>
+		);
 	} else {
 		return (
-			<Stack className={`community-card ${variant}`} onClick={handleArticleClick}>
-				<Box component={'div'} className={'card-image'} style={{ backgroundImage: `url(${articleImage})` }}>
-					<Box component={'div'} className={'card-overlay'}>
-						<Box component={'div'} className={'card-content'}>
-							<h3 className={'card-title'}>{article.articleTitle}</h3>
-							<span className={'read-more'}>Read more</span>
-						</Box>
+			<Stack className={'community-card'} onClick={handleArticleClick}>
+				<Box component={'div'} className={'card-image'} style={{ backgroundImage: `url(${articleImage})` }} />
+
+				<Box component={'div'} className={'card-info'}>
+					<span className={'card-category'}>{article.articleCategory}</span>
+					<h3 className={'card-title'}>{article.articleTitle}</h3>
+					<p className={'card-desc'}>{article.articleContent}</p>
+					<Box component={'div'} className={'card-footer'}>
+						<span className={'card-date'}>{moment(article.createdAt).format('MMM DD, YYYY')}</span>
+						<span className={'read-more'}>Read more →</span>
 					</Box>
 				</Box>
 			</Stack>
