@@ -5,7 +5,7 @@ export default function Document() {
 		<Html lang="en">
 			<Head>
 				<meta name="robots" content="index,follow" />
-				<link rel="icon" type="image/png" href="/img/logo/favicon.svg" />
+				<link rel="icon" type="image/png" href="/img/logo/Fairway-logo_main.png" />
 				{/* SEO */}
 				<meta name="keyword" content={'fairway, golf equipment, golf events, golf community, golf shop, golf korea'} />
 				<meta
