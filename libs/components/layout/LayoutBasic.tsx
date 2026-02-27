@@ -33,7 +33,7 @@ const withLayoutBasic = (Component: any) => {
 					break;
 				case '/events':
 					title = 'JOIN EXCITING TOURNAMENTS';
-					bgImage = '/img/banner/golf-hero.jpg';
+					bgImage = '/img/banner/agents-store.png';
 					mediaType = 'video';
 					videoSrc =
 						'https://res.cloudinary.com/dcqedfoc8/video/upload/v1771934498/5455877-uhd_3840_2160_30fps_fcoiqh.mp4';
