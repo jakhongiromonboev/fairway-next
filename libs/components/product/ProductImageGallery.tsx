@@ -1,4 +1,3 @@
-// libs/components/product/ProductImageGallery.tsx
 import React, { useState } from 'react';
 import { Stack, Box } from '@mui/material';
 import { REACT_APP_API_URL } from '../../config';

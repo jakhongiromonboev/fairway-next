@@ -1,4 +1,3 @@
-// libs/components/product/RelatedProducts.tsx
 import React, { useState } from 'react';
 import { Stack, Typography } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';

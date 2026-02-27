@@ -1,4 +1,3 @@
-// libs/components/product/ContactAgentModal.tsx - FIXED VERSION
 import React from 'react';
 import { Modal, Stack, Box, Button, Typography, IconButton } from '@mui/material';
 import { Member } from '../../types/member/member';

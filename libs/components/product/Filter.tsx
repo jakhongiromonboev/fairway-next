@@ -51,7 +51,6 @@ const Filter = (props: FilterProps) => {
 
 	/** LIFECYCLES **/
 	useEffect(() => {
-		// Cleanup empty arrays from search filter
 		if (searchFilter?.search?.categoryList?.length === 0) {
 			delete searchFilter.search.categoryList;
 			updateRouter();
@@ -258,7 +257,6 @@ const Filter = (props: FilterProps) => {
 	} else {
 		return (
 			<Stack className={'filter-main'}>
-				{/* Search */}
 				<Stack className={'find-your-product'} mb={'40px'}>
 					<Typography className={'title-main'}>Find Your Gear</Typography>
 					<Stack className={'input-box'}>
@@ -299,7 +297,6 @@ const Filter = (props: FilterProps) => {
 					</Stack>
 				</Stack>
 
-				{/* Categories */}
 				<Stack className={'find-your-product'} mb={'30px'}>
 					<Typography className={'title'}>Category</Typography>
 					<Stack
@@ -333,7 +330,6 @@ const Filter = (props: FilterProps) => {
 					</Stack>
 				</Stack>
 
-				{/* Gender */}
 				{showGenderFilter && (
 					<Stack className={'find-your-product'} mb={'30px'}>
 						<Typography className={'title'}>Gender</Typography>
@@ -358,7 +354,6 @@ const Filter = (props: FilterProps) => {
 					</Stack>
 				)}
 
-				{/* Brands */}
 				{availableBrands && availableBrands.length > 0 && (
 					<Stack className={'find-your-product'} mb={'30px'}>
 						<Typography className={'title'}>Brand</Typography>
@@ -383,7 +378,6 @@ const Filter = (props: FilterProps) => {
 					</Stack>
 				)}
 
-				{/* Price Range */}
 				<Stack className={'find-your-product'}>
 					<Typography className={'title'}>Price Range</Typography>
 					<Stack className="price-input">

@@ -131,7 +131,6 @@ const ProductTabs = (props: ProductTabsProps) => {
 				</Tabs>
 			</Box>
 
-			{/* Description Tab */}
 			<TabPanel value={tabValue} index={0}>
 				<Stack className="description-content">
 					<Typography className="section-title">Product Description</Typography>
@@ -139,7 +138,6 @@ const ProductTabs = (props: ProductTabsProps) => {
 				</Stack>
 			</TabPanel>
 
-			{/* Specifications Tab */}
 			<TabPanel value={tabValue} index={1}>
 				<Stack className="specs-content">
 					<Typography className="section-title">Specifications</Typography>
@@ -198,7 +196,6 @@ const ProductTabs = (props: ProductTabsProps) => {
 						</Stack>
 					)}
 
-					{/* Leave Review Form */}
 					<Stack className="leave-review-section">
 						<Typography className="form-title">Leave a Review</Typography>
 						<textarea

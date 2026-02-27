@@ -10,7 +10,6 @@ import { Product } from '../../libs/types/product/product';
 import { Event } from '../../libs/types/event/event';
 import { Comment } from '../../libs/types/comment/comment';
 import { userVar } from '../../apollo/store';
-import { REACT_APP_API_URL } from '../../libs/config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { GET_MEMBER, GET_PRODUCTS, GET_EVENTS, GET_COMMENTS } from '../../apollo/user/query';
 import {
@@ -24,6 +23,7 @@ import { T } from '../../libs/types/common';
 import { Message } from '../../libs/enums/common.enum';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert, sweetErrorHandling } from '../../libs/sweetAlert';
 import ProductCard from '../../libs/components/product/ProductCard';
+import EventCard from '../../libs/components/event/EventCard';
 import Review from '../../libs/components/product/Review';
 import { CommentGroup } from '../../libs/enums/comment.enum';
 import { CommentInput } from '../../libs/types/comment/comment.input';
@@ -101,7 +101,7 @@ const AgentDetail: NextPage = () => {
 		data: getProductsData,
 		refetch: getProductsRefetch,
 	} = useQuery(GET_PRODUCTS, {
-		fetchPolicy: 'cache-and-network',
+		fetchPolicy: 'network-only',
 		variables: {
 			input: {
 				page: productPage,
@@ -123,7 +123,7 @@ const AgentDetail: NextPage = () => {
 		data: getEventsData,
 		refetch: getEventsRefetch,
 	} = useQuery(GET_EVENTS, {
-		fetchPolicy: 'cache-and-network',
+		fetchPolicy: 'network-only',
 		variables: {
 			input: {
 				page: eventPage,
@@ -145,7 +145,7 @@ const AgentDetail: NextPage = () => {
 		data: getCommentsData,
 		refetch: getCommentsRefetch,
 	} = useQuery(GET_COMMENTS, {
-		fetchPolicy: 'cache-and-network',
+		fetchPolicy: 'network-only',
 		variables: {
 			input: {
 				page: reviewPage,
@@ -213,11 +213,16 @@ const AgentDetail: NextPage = () => {
 		}
 	};
 
-	const likeEventHandler = async (user: T, id: string) => {
+	const likeEventHandler = async (e: any, user: T, id: string) => {
+		e.stopPropagation();
 		try {
 			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
 			await likeTargetEvent({ variables: { input: id } });
-			await getEventsRefetch();
+			const result = await getEventsRefetch();
+			if (result?.data?.getEvents) {
+				setAgentEvents(result.data.getEvents.list || []);
+				setEventTotal(result.data.getEvents.metaCounter[0]?.total || 0);
+			}
 			await sweetTopSmallSuccessAlert('Success', 800);
 		} catch (err: any) {
 			sweetMixinErrorAlert(err.message).then();
@@ -252,18 +257,13 @@ const AgentDetail: NextPage = () => {
 		return <div>Loading...</div>;
 	}
 
-	const storeImage = agent?.agentStoreImage
-		? `${REACT_APP_API_URL}/${agent.agentStoreImage}`
-		: '/img/banner/agents-store1.jpg';
+	const storeImage = agent?.agentStoreImage ? `${agent.agentStoreImage}` : '/img/banner/agents-store1.jpg';
 
-	const profileImage = agent?.memberImage
-		? `${REACT_APP_API_URL}/${agent.memberImage}`
-		: '/img/profile/defaultUser.svg';
+	const profileImage = agent?.memberImage ? `${agent.memberImage}` : '/img/profile/defaultUser.svg';
 
 	return (
 		<div id="agent-detail-page">
 			<Stack className="container">
-				{/* Store Header */}
 				<Stack className="store-header">
 					<Box className="store-banner">
 						<img src={storeImage} alt={agent.agentStoreName} />
@@ -308,7 +308,6 @@ const AgentDetail: NextPage = () => {
 					</Stack>
 				</Stack>
 
-				{/* Tabs */}
 				<Stack className="store-tabs">
 					<Tabs value={tabValue} onChange={handleTabChange} className="tabs-nav">
 						<Tab label={`Products (${productTotal})`} />
@@ -317,7 +316,6 @@ const AgentDetail: NextPage = () => {
 						<Tab label={`Reviews (${reviewTotal})`} />
 					</Tabs>
 
-					{/* Products Tab */}
 					<TabPanel value={tabValue} index={0}>
 						<Stack className="products-grid">
 							{agentProducts.length === 0 ? (
@@ -340,18 +338,28 @@ const AgentDetail: NextPage = () => {
 						)}
 					</TabPanel>
 
-					{/* Events Tab */}
 					<TabPanel value={tabValue} index={1}>
 						<Stack className="events-grid">
 							{agentEvents.length === 0 ? (
 								<Typography className="no-data">No events yet</Typography>
 							) : (
-								<Typography>Events coming soon...</Typography>
+								agentEvents.map((event: Event) => (
+									<EventCard key={event._id} event={event} likeEventHandler={likeEventHandler} />
+								))
 							)}
 						</Stack>
+						{eventTotal > 9 && (
+							<Box className="pagination-box">
+								<Pagination
+									page={eventPage}
+									count={Math.ceil(eventTotal / 9)}
+									onChange={(e, page) => setEventPage(page)}
+									color="primary"
+								/>
+							</Box>
+						)}
 					</TabPanel>
 
-					{/* About Tab */}
 					<TabPanel value={tabValue} index={2}>
 						<Stack className="about-content">
 							<Typography className="section-title">About the Store</Typography>
@@ -368,7 +376,6 @@ const AgentDetail: NextPage = () => {
 						</Stack>
 					</TabPanel>
 
-					{/* Reviews Tab */}
 					<TabPanel value={tabValue} index={3}>
 						<Stack className="reviews-content">
 							{agentReviews.length === 0 ? (
@@ -381,7 +388,6 @@ const AgentDetail: NextPage = () => {
 								</Stack>
 							)}
 
-							{/* Leave Review */}
 							<Stack className="leave-review-section">
 								<Typography className="form-title">Leave a Review</Typography>
 								<textarea

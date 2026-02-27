@@ -1,5 +1,3 @@
-// pages/agent/index.tsx
-
 import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
@@ -15,7 +13,6 @@ import { GET_AGENTS } from '../../apollo/user/query';
 import { T } from '../../libs/types/common';
 import { Message } from '../../libs/enums/common.enum';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
-import { REACT_APP_API_URL } from '../../libs/config';
 import { userVar } from '../../apollo/store';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import StorefrontIcon from '@mui/icons-material/Storefront';
@@ -186,13 +183,9 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 						</Stack>
 					) : (
 						agents.map((agent: Member) => {
-							const storeImage = agent?.agentStoreImage
-								? `${REACT_APP_API_URL}/${agent.agentStoreImage}`
-								: '/img/banner/hero_shop6.jpg';
+							const storeImage = agent?.agentStoreImage ? `${agent.agentStoreImage}` : '/img/banner/hero_shop6.jpg';
 
-							const profileImage = agent?.memberImage
-								? `${REACT_APP_API_URL}/${agent.memberImage}`
-								: '/img/profile/defaultUser.svg';
+							const profileImage = agent?.memberImage ? `${agent.memberImage}` : '/img/profile/defaultUser.svg';
 
 							const isLiked = agent?.meLiked?.[0]?.myFavorite;
 

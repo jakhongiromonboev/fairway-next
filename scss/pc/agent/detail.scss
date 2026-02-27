@@ -201,9 +201,18 @@
 
 					/** EVENTS GRID **/
 					.events-grid {
-						display: grid;
-						grid-template-columns: repeat(3, 1fr);
+						display: flex;
+						flex-direction: row;
+						flex-wrap: wrap;
 						gap: 24px;
+
+						.upcoming-event-card {
+							width: calc(33.333% - 16px);
+
+							.event-image {
+								height: 380px;
+							}
+						}
 					}
 
 					/** ABOUT CONTENT **/

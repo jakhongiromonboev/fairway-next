@@ -1,4 +1,3 @@
-// ProductCard.tsx - FIXED VERSION
 import React, { useState } from 'react';
 import { Stack, Typography, IconButton } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
@@ -77,7 +76,6 @@ const ProductCard = (props: ProductCardProps) => {
 
 				<Stack className="product-info">
 					<Stack className="product-header">
-						{/* Keep text link as is */}
 						<Typography className="product-name" onClick={handleProductClick} style={{ cursor: 'pointer' }}>
 							{product.productName}
 						</Typography>
