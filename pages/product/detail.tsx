@@ -1,4 +1,3 @@
-// pages/product/detail.tsx
 import React, { useState } from 'react';
 import { NextPage } from 'next';
 import { Stack, Box } from '@mui/material';

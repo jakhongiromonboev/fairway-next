@@ -21,12 +21,10 @@ const ProductImageGallery = (props: ProductImageGalleryProps) => {
 
 	return (
 		<Stack className="product-image-gallery">
-			{/* Main Large Image */}
 			<Box className="main-image-container">
 				<img src={mainImage} alt={productName} className="main-image" />
 			</Box>
 
-			{/* Thumbnail Images */}
 			{images.length > 1 && (
 				<Stack className="thumbnail-container">
 					{images.map((image: string, index: number) => {

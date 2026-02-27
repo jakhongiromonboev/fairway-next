@@ -19,9 +19,9 @@ const ContactAgentModal = (props: ContactAgentModalProps) => {
 	const router = useRouter();
 
 	const agentImage = agent?.agentStoreImage
-		? `${REACT_APP_API_URL}/${agent.agentStoreImage}`
+		? `${agent.agentStoreImage}`
 		: agent?.memberImage
-		? `${REACT_APP_API_URL}/${agent.memberImage}`
+		? `${agent.memberImage}`
 		: '/img/profile/defaultUser.svg';
 
 	/** HANDLERS **/
