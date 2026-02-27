@@ -1,37 +1,32 @@
 import type { ComponentType } from 'react';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import MenuList from '../admin/AdminMenuList';
-import Toolbar from '@mui/material/Toolbar';
+import AdminMenuList from '../admin/AdminMenuList';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import { Menu, MenuItem } from '@mui/material';
 import Drawer from '@mui/material/Drawer';
-import AppBar from '@mui/material/AppBar';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
-import Tooltip from '@mui/material/Tooltip';
 import { getJwtToken, logOut, updateUserInfo } from '../../auth';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
-import { REACT_APP_API_URL } from '../../config';
 import { MemberType } from '../../enums/member.enum';
-const drawerWidth = 280;
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import GolfCourseIcon from '@mui/icons-material/GolfCourse';
+
+const drawerWidth = 260;
 
 const withAdminLayout = (Component: ComponentType) => {
 	return (props: object) => {
 		const router = useRouter();
 		const user = useReactiveVar(userVar);
-		const [settingsState, setSettingsStateState] = useState(false);
 		const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
-		const [openMenu, setOpenMenu] = useState(false);
-		const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
-		const [title, setTitle] = useState('admin');
 		const [loading, setLoading] = useState(true);
 
-		/** LIFECYCLES **/
 		useEffect(() => {
 			const jwt = getJwtToken();
 			if (jwt) updateUserInfo(jwt);
@@ -44,15 +39,6 @@ const withAdminLayout = (Component: ComponentType) => {
 			}
 		}, [loading, user, router]);
 
-		/** HANDLERS **/
-		const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-			setAnchorElUser(event.currentTarget);
-		};
-
-		const handleCloseUserMenu = () => {
-			setAnchorElUser(null);
-		};
-
 		const logoutHandler = () => {
 			logOut();
 			router.push('/').then();
@@ -60,120 +46,88 @@ const withAdminLayout = (Component: ComponentType) => {
 
 		if (!user || user?.memberType !== MemberType.ADMIN) return null;
 
+		const profileImage = user?.memberImage ? `${user.memberImage}` : '/img/profile/defaultUser.svg';
+
 		return (
-			<main id="pc-wrap" className="admin">
-				<Box component={'div'} sx={{ display: 'flex' }}>
-					<AppBar
-						position="fixed"
-						sx={{
-							width: `calc(100% - ${drawerWidth}px)`,
-							ml: `${drawerWidth}px`,
-							boxShadow: 'rgb(100 116 139 / 12%) 0px 1px 4px',
-							background: 'none',
-						}}
-					>
-						<Toolbar>
-							<Tooltip title="Open settings">
-								<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-									<Avatar
-										src={
-											user?.memberImage ? `${REACT_APP_API_URL}/${user?.memberImage}` : '/img/profile/defaultUser.svg'
-										}
-									/>
-								</IconButton>
-							</Tooltip>
-							<Menu
-								sx={{ mt: '45px' }}
-								id="menu-appbar"
-								className={'pop-menu'}
-								anchorEl={anchorElUser}
-								anchorOrigin={{
-									vertical: 'top',
-									horizontal: 'right',
-								}}
-								keepMounted
-								transformOrigin={{
-									vertical: 'top',
-									horizontal: 'right',
-								}}
-								open={Boolean(anchorElUser)}
-								onClose={handleCloseUserMenu}
-							>
-								<Box
-									component={'div'}
-									onClick={handleCloseUserMenu}
-									sx={{
-										width: '200px',
-									}}
-								>
-									<Stack sx={{ px: '20px', my: '12px' }}>
-										<Typography variant={'h6'} component={'h6'} sx={{ mb: '4px' }}>
-											{user?.memberNick}
-										</Typography>
-										<Typography variant={'subtitle1'} component={'p'} color={'#757575'}>
-											{user?.memberPhone}
-										</Typography>
-									</Stack>
-									<Divider />
-									<Box component={'div'} sx={{ p: 1, py: '6px' }} onClick={logoutHandler}>
-										<MenuItem sx={{ px: '16px', py: '6px' }}>
-											<Typography variant={'subtitle1'} component={'span'}>
-												Logout
-											</Typography>
-										</MenuItem>
-									</Box>
-								</Box>
-							</Menu>
-						</Toolbar>
-					</AppBar>
-
-					<Drawer
-						sx={{
+			<main id="admin-wrap">
+				<Drawer
+					variant="permanent"
+					anchor="left"
+					className="admin-sidebar"
+					sx={{
+						width: drawerWidth,
+						flexShrink: 0,
+						'& .MuiDrawer-paper': {
 							width: drawerWidth,
-							flexShrink: 0,
-							'& .MuiDrawer-paper': {
-								width: drawerWidth,
-								boxSizing: 'border-box',
-							},
-						}}
-						variant="permanent"
-						anchor="left"
-						className="aside"
-					>
-						<Toolbar sx={{ flexDirection: 'column', alignItems: 'flexStart' }}>
-							<Stack className={'logo-box'}>
-								<img src={'/img/logo/logoText.svg'} alt={'logo'} />
-							</Stack>
+							boxSizing: 'border-box',
+							border: 'none',
+						},
+					}}
+				>
+					<Stack className="sidebar-logo">
+						<Box className="logo-icon">
+							<GolfCourseIcon />
+						</Box>
+						<Stack className="logo-text">
+							<span className="logo-title">FAIRWAY</span>
+							<span className="logo-sub">Admin Console</span>
+						</Stack>
+					</Stack>
 
-							<Stack
-								className="user"
-								direction={'row'}
-								alignItems={'center'}
-								sx={{
-									bgcolor: openMenu ? 'rgba(255, 255, 255, 0.04)' : 'none',
-									borderRadius: '8px',
-									px: '24px',
-									py: '11px',
-								}}
+					<Divider className="sidebar-divider" />
+
+					<Box className="sidebar-menu">
+						<AdminMenuList />
+					</Box>
+
+					<Stack className="sidebar-user">
+						<Avatar src={profileImage} className="sidebar-avatar" />
+						<Stack className="sidebar-user-info">
+							<span className="user-name">{user?.memberNick}</span>
+							<span className="user-role">Administrator</span>
+						</Stack>
+					</Stack>
+				</Drawer>
+
+				<Box className="admin-main">
+					<Stack className="admin-topbar">
+						<Stack className="topbar-left">
+							<Typography className="page-title">
+								{router.pathname.split('/').filter(Boolean).pop()?.replace(/-/g, ' ').toUpperCase() || 'DASHBOARD'}
+							</Typography>
+						</Stack>
+						<Stack className="topbar-right">
+							<IconButton className="topbar-icon-btn">
+								<NotificationsNoneIcon />
+							</IconButton>
+							<Stack className="topbar-user" onClick={(e: any) => setAnchorElUser(e.currentTarget)}>
+								<Avatar src={profileImage} sx={{ width: 32, height: 32 }} />
+								<span>{user?.memberNick}</span>
+								<KeyboardArrowDownIcon sx={{ fontSize: 16 }} />
+							</Stack>
+							<Menu
+								anchorEl={anchorElUser}
+								open={Boolean(anchorElUser)}
+								onClose={() => setAnchorElUser(null)}
+								className="admin-user-menu"
+								sx={{ mt: '8px' }}
 							>
-								<Avatar
-									src={user?.memberImage ? `${REACT_APP_API_URL}/${user?.memberImage}` : '/img/profile/defaultUser.svg'}
-								/>
-								<Typography variant={'body2'} p={1} ml={1}>
-									{user?.memberNick} <br />
-									{user?.memberPhone}
-								</Typography>
-							</Stack>
-						</Toolbar>
+								<Box sx={{ px: 2, py: 1.5, minWidth: 180 }}>
+									<Typography sx={{ fontWeight: 600, fontSize: 14, color: '#181a20' }}>{user?.memberNick}</Typography>
+									<Typography sx={{ fontSize: 12, color: '#9ca3af', mt: 0.5 }}>{user?.memberPhone}</Typography>
+								</Box>
+								<Divider />
+								<MenuItem onClick={logoutHandler} sx={{ fontSize: 14, color: '#ef4444', py: 1.5 }}>
+									Sign Out
+								</MenuItem>
+							</Menu>
+						</Stack>
+					</Stack>
 
-						<Divider />
-
-						<MenuList />
-					</Drawer>
-
-					<Box component={'div'} id="bunker" sx={{ flexGrow: 1 }}>
+					{/** CONTENT **/}
+					<Box className="admin-content">
 						{/*@ts-ignore*/}
-						<Component {...props} setSnackbar={setSnackbar} setTitle={setTitle} />
+						<Component {...props} />
 					</Box>
 				</Box>
 			</main>

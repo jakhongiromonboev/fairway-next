@@ -15,119 +15,32 @@ import {
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import { Stack } from '@mui/material';
+import Moment from 'react-moment';
 import { Member } from '../../../types/member/member';
 import { REACT_APP_API_URL } from '../../../config';
 import { MemberStatus, MemberType } from '../../../enums/member.enum';
 
-interface Data {
-	id: string;
-	nickname: string;
-	fullname: string;
-	phone: string;
-	type: string;
-	state: string;
-	warning: string;
-	block: string;
-}
-
-function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
-	if (b[orderBy] < a[orderBy]) {
-		return -1;
-	}
-	if (b[orderBy] > a[orderBy]) {
-		return 1;
-	}
-	return 0;
-}
-
-type Order = 'asc' | 'desc';
-
-interface HeadCell {
-	disablePadding: boolean;
-	id: keyof Data;
-	label: string;
-	numeric: boolean;
-}
-
-const headCells: readonly HeadCell[] = [
-	{
-		id: 'id',
-		numeric: true,
-		disablePadding: false,
-		label: 'MB ID',
-	},
-	{
-		id: 'nickname',
-		numeric: true,
-		disablePadding: false,
-		label: 'NICK NAME',
-	},
-	{
-		id: 'fullname',
-		numeric: false,
-		disablePadding: false,
-		label: 'FULL NAME',
-	},
-	{
-		id: 'phone',
-		numeric: true,
-		disablePadding: false,
-		label: 'PHONE NUM',
-	},
-	{
-		id: 'type',
-		numeric: false,
-		disablePadding: false,
-		label: 'MEMBER TYPE',
-	},
-	{
-		id: 'warning',
-		numeric: false,
-		disablePadding: false,
-		label: 'WARNING',
-	},
-	{
-		id: 'block',
-		numeric: false,
-		disablePadding: false,
-		label: 'BLOCK CRIMES',
-	},
-	{
-		id: 'state',
-		numeric: false,
-		disablePadding: false,
-		label: 'STATE',
-	},
+const headCells = [
+	{ id: 'nickname', label: 'MEMBER', numeric: true },
+	{ id: 'phone', label: 'PHONE', numeric: true },
+	{ id: 'type', label: 'TYPE', numeric: false },
+	{ id: 'warnings', label: 'WARNINGS', numeric: false },
+	{ id: 'blocks', label: 'BLOCKS', numeric: false },
+	{ id: 'created', label: 'JOINED', numeric: true },
+	{ id: 'state', label: 'STATUS', numeric: false },
 ];
 
-interface EnhancedTableProps {
-	numSelected: number;
-	onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data) => void;
-	onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
-	order: Order;
-	orderBy: string;
-	rowCount: number;
-}
+const statusClass: Record<string, string> = {
+	ACTIVE: 'badge success',
+	BLOCK: 'badge error',
+	DELETE: 'badge delete',
+};
 
-function EnhancedTableHead(props: EnhancedTableProps) {
-	const { onSelectAllClick } = props;
-
-	return (
-		<TableHead>
-			<TableRow>
-				{headCells.map((headCell) => (
-					<TableCell
-						key={headCell.id}
-						align={headCell.numeric ? 'left' : 'center'}
-						padding={headCell.disablePadding ? 'none' : 'normal'}
-					>
-						{headCell.label}
-					</TableCell>
-				))}
-			</TableRow>
-		</TableHead>
-	);
-}
+const typeClass: Record<string, string> = {
+	USER: 'badge up',
+	AGENT: 'badge warning',
+	ADMIN: 'badge block',
+};
 
 interface MemberPanelListType {
 	members: Member[];
@@ -143,109 +56,108 @@ export const MemberPanelList = (props: MemberPanelListType) => {
 	return (
 		<Stack>
 			<TableContainer>
-				<Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={'medium'}>
-					{/*@ts-ignore*/}
-					<EnhancedTableHead />
+				<Table sx={{ minWidth: 750 }} size="medium">
+					<TableHead>
+						<TableRow>
+							{headCells.map((cell) => (
+								<TableCell key={cell.id} align={cell.numeric ? 'left' : 'center'}>
+									{cell.label}
+								</TableCell>
+							))}
+						</TableRow>
+					</TableHead>
 					<TableBody>
 						{members.length === 0 && (
 							<TableRow>
-								<TableCell align="center" colSpan={8}>
-									<span className={'no-data'}>data not found!</span>
+								<TableCell align="center" colSpan={7}>
+									<span className="no-data">No members found</span>
 								</TableCell>
 							</TableRow>
 						)}
-
-						{members.length !== 0 &&
-							members.map((member: Member, index: number) => {
-								const member_image = member.memberImage
-									? `${REACT_APP_API_URL}/${member.memberImage}`
-									: '/img/profile/defaultUser.svg';
-								return (
-									<TableRow hover key={member?._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-										<TableCell align="left">{member._id}</TableCell>
-
-										<TableCell align="left" className={'name'}>
-											<Stack direction={'row'}>
+						{members.map((member: Member, index: number) => {
+							const memberImage = member.memberImage ? `${member.memberImage}` : '/img/profile/defaultUser.svg';
+							return (
+								<TableRow hover key={member._id}>
+									<TableCell align="left">
+										<Stack direction="row" alignItems="center" gap={1.5}>
+											<Avatar src={memberImage} sx={{ width: 36, height: 36 }} />
+											<Stack>
 												<Link href={`/member?memberId=${member._id}`}>
-													<div>
-														<Avatar alt="Remy Sharp" src={member_image} sx={{ ml: '2px', mr: '10px' }} />
-													</div>
+													<Typography
+														sx={{
+															fontSize: 14,
+															fontWeight: 600,
+															color: '#181a20',
+															cursor: 'pointer',
+															'&:hover': { color: '#2d5016' },
+														}}
+													>
+														{member.memberNick}
+													</Typography>
 												</Link>
-												<Link href={`/member?memberId=${member._id}`}>
-													<div>{member.memberNick}</div>
-												</Link>
+												<Typography sx={{ fontSize: 12, color: '#9ca3af' }}>{member.memberFullName ?? '—'}</Typography>
 											</Stack>
-										</TableCell>
-
-										<TableCell align="center">{member.memberFullName ?? '-'}</TableCell>
-										<TableCell align="left">{member.memberPhone}</TableCell>
-
-										<TableCell align="center">
-											<Button onClick={(e: any) => menuIconClickHandler(e, index)} className={'badge success'}>
-												{member.memberType}
-											</Button>
-
-											<Menu
-												className={'menu-modal'}
-												MenuListProps={{
-													'aria-labelledby': 'fade-button',
-												}}
-												anchorEl={anchorEl[index]}
-												open={Boolean(anchorEl[index])}
-												onClose={menuIconCloseHandler}
-												TransitionComponent={Fade}
-												sx={{ p: 1 }}
-											>
-												{Object.values(MemberType)
-													.filter((ele) => ele !== member?.memberType)
-													.map((type: string) => (
-														<MenuItem
-															onClick={() => updateMemberHandler({ _id: member._id, memberType: type })}
-															key={type}
-														>
-															<Typography variant={'subtitle1'} component={'span'}>
-																{type}
-															</Typography>
-														</MenuItem>
-													))}
-											</Menu>
-										</TableCell>
-
-										<TableCell align="center">{member.memberWarnings}</TableCell>
-										<TableCell align="center">{member.memberBlocks}</TableCell>
-										<TableCell align="center">
-											<Button onClick={(e: any) => menuIconClickHandler(e, member._id)} className={'badge success'}>
-												{member.memberStatus}
-											</Button>
-
-											<Menu
-												className={'menu-modal'}
-												MenuListProps={{
-													'aria-labelledby': 'fade-button',
-												}}
-												anchorEl={anchorEl[member._id]}
-												open={Boolean(anchorEl[member._id])}
-												onClose={menuIconCloseHandler}
-												TransitionComponent={Fade}
-												sx={{ p: 1 }}
-											>
-												{Object.values(MemberStatus)
-													.filter((ele: string) => ele !== member?.memberStatus)
-													.map((status: string) => (
-														<MenuItem
-															onClick={() => updateMemberHandler({ _id: member._id, memberStatus: status })}
-															key={status}
-														>
-															<Typography variant={'subtitle1'} component={'span'}>
-																{status}
-															</Typography>
-														</MenuItem>
-													))}
-											</Menu>
-										</TableCell>
-									</TableRow>
-								);
-							})}
+										</Stack>
+									</TableCell>
+									<TableCell align="left">{member.memberPhone}</TableCell>
+									<TableCell align="center">
+										<Button
+											onClick={(e: any) => menuIconClickHandler(e, `type_${index}`)}
+											className={typeClass[member.memberType] ?? 'badge'}
+										>
+											{member.memberType}
+										</Button>
+										<Menu
+											anchorEl={anchorEl[`type_${index}`]}
+											open={Boolean(anchorEl[`type_${index}`])}
+											onClose={menuIconCloseHandler}
+											TransitionComponent={Fade}
+										>
+											{Object.values(MemberType)
+												.filter((t) => t !== member.memberType)
+												.map((type) => (
+													<MenuItem
+														key={type}
+														onClick={() => updateMemberHandler({ _id: member._id, memberType: type })}
+													>
+														<Typography variant="subtitle1">{type}</Typography>
+													</MenuItem>
+												))}
+										</Menu>
+									</TableCell>
+									<TableCell align="center">{member.memberWarnings ?? 0}</TableCell>
+									<TableCell align="center">{member.memberBlocks ?? 0}</TableCell>
+									<TableCell align="left">
+										<Moment format="DD.MM.YY">{member.createdAt}</Moment>
+									</TableCell>
+									<TableCell align="center">
+										<Button
+											onClick={(e: any) => menuIconClickHandler(e, `status_${member._id}`)}
+											className={statusClass[member.memberStatus] ?? 'badge'}
+										>
+											{member.memberStatus}
+										</Button>
+										<Menu
+											anchorEl={anchorEl[`status_${member._id}`]}
+											open={Boolean(anchorEl[`status_${member._id}`])}
+											onClose={menuIconCloseHandler}
+											TransitionComponent={Fade}
+										>
+											{Object.values(MemberStatus)
+												.filter((s) => s !== member.memberStatus)
+												.map((status) => (
+													<MenuItem
+														key={status}
+														onClick={() => updateMemberHandler({ _id: member._id, memberStatus: status })}
+													>
+														<Typography variant="subtitle1">{status}</Typography>
+													</MenuItem>
+												))}
+										</Menu>
+									</TableCell>
+								</TableRow>
+							);
+						})}
 					</TableBody>
 				</Table>
 			</TableContainer>
