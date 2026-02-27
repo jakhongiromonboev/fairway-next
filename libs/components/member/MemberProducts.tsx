@@ -24,10 +24,15 @@ const MemberProducts = ({ initialInput }: any) => {
 		search: { memberId: memberId as string },
 	});
 
+	/** APOLLO REQUESTS **/
 	const [likeTargetProduct] = useMutation(LIKE_TARGET_PRODUCT);
 
-	const { refetch } = useQuery(GET_PRODUCTS, {
-		fetchPolicy: 'cache-and-network',
+	const {
+		loading: getProductsLoading,
+		data: getProductsData,
+		refetch: getProductsRefetch,
+	} = useQuery(GET_PRODUCTS, {
+		fetchPolicy: 'network-only',
 		variables: { input: searchFilter },
 		skip: !memberId,
 		onCompleted: (data: T) => {
@@ -36,18 +41,24 @@ const MemberProducts = ({ initialInput }: any) => {
 		},
 	});
 
+	/** LIFECYCLE **/
 	useEffect(() => {
 		if (memberId) {
 			setSearchFilter((prev: any) => ({ ...prev, search: { memberId } }));
 		}
 	}, [memberId]);
 
+	/** HANDLERS **/
 	const likeHandler = async (e: any, id: string) => {
 		e.stopPropagation();
 		try {
 			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
 			await likeTargetProduct({ variables: { input: id } });
-			await refetch();
+			const result = await getProductsRefetch({ input: searchFilter });
+			if (result?.data?.getProducts) {
+				setProducts(result.data.getProducts.list || []);
+				setTotal(result.data.getProducts.metaCounter[0]?.total || 0);
+			}
 			await sweetTopSmallSuccessAlert('Success', 800);
 		} catch (err: any) {
 			sweetMixinErrorAlert(err.message);

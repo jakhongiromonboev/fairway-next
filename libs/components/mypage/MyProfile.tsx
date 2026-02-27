@@ -180,6 +180,8 @@ const MyProfile: NextPage = ({ initialValues, ...props }: any) => {
 		try {
 			setLoading(true);
 			await completeAgentStore({ variables: { input: storeData } });
+			const jwt = getJwtToken();
+			if (jwt) updateUserInfo(jwt);
 			await sweetTopSmallSuccessAlert('Store updated!', 800);
 		} catch (err: any) {
 			await sweetErrorHandling(err);

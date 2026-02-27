@@ -55,8 +55,12 @@ const MemberEvents = ({ initialInput }: MemberEventsProps) => {
 
 	const [likeTargetEvent] = useMutation(LIKE_TARGET_EVENT);
 
-	const { refetch: refetchEvents } = useQuery(GET_EVENTS, {
-		fetchPolicy: 'cache-and-network',
+	const {
+		loading: getEventsLoading,
+		error: getEventsError,
+		refetch: getEventsRefetch,
+	} = useQuery(GET_EVENTS, {
+		fetchPolicy: 'network-only',
 		variables: { input: searchFilter },
 		skip: !memberId || memberType === 'USER',
 		onCompleted: (data: T) => {
@@ -86,7 +90,11 @@ const MemberEvents = ({ initialInput }: MemberEventsProps) => {
 		try {
 			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
 			await likeTargetEvent({ variables: { input: id } });
-			await refetchEvents();
+			const result = await getEventsRefetch({ input: searchFilter });
+			if (result?.data?.getEvents) {
+				setEvents(result.data.getEvents.list || []);
+				setTotal(result.data.getEvents.metaCounter[0]?.total || 0);
+			}
 			await sweetTopSmallSuccessAlert('Success', 800);
 		} catch (err: any) {
 			sweetMixinErrorAlert(err.message);

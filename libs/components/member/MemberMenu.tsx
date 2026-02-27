@@ -93,13 +93,9 @@ const MemberMenu = (props: MemberMenuProps) => {
 		}
 	};
 
-	const profileImage = member?.memberImage
-		? `${REACT_APP_API_URL}/${member.memberImage}`
-		: '/img/profile/defaultUser.svg';
+	const profileImage = member?.memberImage ? `${member.memberImage}` : '/img/profile/defaultUser.svg';
 
-	const bannerImage = member?.agentStoreImage
-		? `${REACT_APP_API_URL}/${member.agentStoreImage}`
-		: '/img/banner/hero_shop6.jpg';
+	const bannerImage = member?.agentStoreImage ? `${member.agentStoreImage}` : '/img/banner/hero_shop6.jpg';
 
 	const isFollowing = member?.meFollowed?.[0]?.myFollowing;
 	const isLiked = member?.meLiked?.[0]?.myFavorite ?? false;
