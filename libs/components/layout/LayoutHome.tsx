@@ -38,6 +38,28 @@ const withLayoutMain = (Component: any) => {
 							<Top />
 						</Stack>
 						<Stack id={'main'}>
+							{/** ── MOBILE HERO ── **/}
+							<Stack className={'hero-section'}>
+								<Box className={'hero-overlay'} />
+								<Stack className={'hero-content'}>
+									<Box className={'hero-left'}>
+										{/* <h1 className={'hero-title'}>ELEVATE YOUR GOLF GAME</h1> */}
+										<div className={'hero-subtitle'}>
+											<p>PREMIUM EQUIPMENT</p>
+											<p>EXPERT COACHING</p>
+											<p>EXCITING TOURNAMENTS</p>
+										</div>
+									</Box>
+									<Box className={'hero-right'}>
+										<div className={'hero-link'} onClick={() => router.push('/product')}>
+											PRODUCTS <span className={'arrow'}>→</span>
+										</div>
+										<div className={'hero-link'} onClick={() => router.push('/events')}>
+											EVENTS <span className={'arrow'}>→</span>
+										</div>
+									</Box>
+								</Stack>
+							</Stack>
 							<Component {...props} />
 						</Stack>
 						<Stack id={'footer'}>
@@ -58,7 +80,6 @@ const withLayoutMain = (Component: any) => {
 						<Stack id={'top'}>
 							<Top />
 						</Stack>
-
 						<Stack className={'hero-section'}>
 							<Box className={'hero-overlay'} />
 							<Stack className={'hero-content'}>
@@ -80,13 +101,10 @@ const withLayoutMain = (Component: any) => {
 								</Box>
 							</Stack>
 						</Stack>
-
 						<Stack id={'main'}>
 							<Component {...props} />
 						</Stack>
-
 						{user?._id && <Chat />}
-
 						<Stack id={'footer'}>
 							<Footer />
 						</Stack>
