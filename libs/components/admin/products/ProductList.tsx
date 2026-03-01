@@ -52,9 +52,9 @@ export const ProductPanelList = (props: ProductPanelListType) => {
 		props;
 
 	return (
-		<Stack>
-			<TableContainer>
-				<Table sx={{ minWidth: 750 }} size="medium">
+		<Stack sx={{ width: '100%' }}>
+			<TableContainer sx={{ width: '100%', overflowX: 'auto' }}>
+				<Table sx={{ minWidth: 650, width: '100%' }} size="medium">
 					<TableHead>
 						<TableRow>
 							{headCells.map((cell) => (
@@ -74,7 +74,7 @@ export const ProductPanelList = (props: ProductPanelListType) => {
 						)}
 						{products.map((product: Product, index: number) => {
 							const productImage = product?.productImages?.[0]
-								? `${REACT_APP_API_URL}/${product.productImages[0]}`
+								? `${product.productImages[0]}`
 								: '/img/banner/shop_hero_main.avif';
 							return (
 								<TableRow hover key={product._id}>

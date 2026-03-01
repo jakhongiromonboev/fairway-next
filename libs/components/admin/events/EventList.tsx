@@ -71,9 +71,7 @@ export const EventPanelList = (props: EventPanelListType) => {
 							</TableRow>
 						)}
 						{events.map((event: Event, index: number) => {
-							const eventImage = event?.eventImages?.[0]
-								? `${REACT_APP_API_URL}/${event.eventImages[0]}`
-								: '/img/banner/golf-hero.jpg';
+							const eventImage = event?.eventImages?.[0] ? `${event.eventImages[0]}` : '/img/banner/golf-hero.jpg';
 							return (
 								<TableRow hover key={event._id}>
 									<TableCell align="left">
@@ -107,7 +105,7 @@ export const EventPanelList = (props: EventPanelListType) => {
 											<Avatar
 												src={
 													event.memberData?.memberImage
-														? `${REACT_APP_API_URL}/${event.memberData.memberImage}`
+														? `${event.memberData.memberImage}`
 														: '/img/profile/defaultUser.svg'
 												}
 												sx={{ width: 28, height: 28 }}
