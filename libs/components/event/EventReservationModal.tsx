@@ -84,10 +84,11 @@ const ReservationModal = ({ event, open, onClose, memberId }: ReservationModalPr
 				},
 			});
 
-			await sweetMixinSuccessAlert('Reservation confirmed!');
 			onClose();
+			await sweetMixinSuccessAlert('Reservation confirmed!');
 			router.push('/mypage?tab=reservations');
 		} catch (err: any) {
+			onClose();
 			sweetMixinErrorAlert(err.message).then();
 		} finally {
 			setReserving(false);
