@@ -123,7 +123,7 @@ const Top = () => {
 		return (
 			<Stack className={'navbar'}>
 				{showAnnouncement && (
-					<Box className={'announcement-bar'}>
+					<Box component={'div'} className={'announcement-bar'}>
 						<p>
 							{t('New arrivals in premium golf clubs this season —')}
 							<span onClick={() => router.push('/product')}>{t('EXPLORE NOW')}</span>
@@ -160,7 +160,6 @@ const Top = () => {
 							</Link>
 						</Box>
 
-						{/* RIGHT */}
 						<Box component={'div'} className={'nav-right'}>
 							{user?._id ? (
 								<>
@@ -271,7 +270,6 @@ const Top = () => {
 								</StyledMenu>
 							</div>
 
-							{/* SEARCH */}
 							<div className={'search-icon'} onClick={() => router.push('/product')}>
 								<MagnifyingGlass size={18} color="#181a20" weight="regular" />
 							</div>

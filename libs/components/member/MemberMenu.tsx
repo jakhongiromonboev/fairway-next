@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import { Stack, Typography, Box, Button } from '@mui/material';
 import Link from 'next/link';
 import { Member } from '../../types/member/member';
-import { REACT_APP_API_URL } from '../../config';
 import { useQuery, useMutation, useReactiveVar } from '@apollo/client';
 import { GET_MEMBER } from '../../../apollo/user/query';
 import { LIKE_TARGET_MEMBER } from '../../../apollo/user/mutation';
@@ -20,7 +19,6 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import { ConnectingAirportsOutlined } from '@mui/icons-material';
 
 interface MemberMenuProps {
 	subscribeHandler: (id: string, refetch: any, inquiry: any) => void;
@@ -167,10 +165,8 @@ const MemberMenu = (props: MemberMenuProps) => {
 						>
 							{isFollowing ? 'Following' : 'Follow'}
 						</Button>
-						<Box className={`like-btn ${isLiked ? 'liked' : ''}`} onClick={handleLike}>
+						<Box component={'div'} className={`like-btn ${isLiked ? 'liked' : ''}`} onClick={handleLike}>
 							{isLiked ? <FavoriteIcon sx={{ color: '#e74c3c' }} /> : <FavoriteBorderIcon sx={{ color: '#8f8f8f' }} />}
-							{console.log(isLiked)}
-							{console.log(member)}
 						</Box>
 					</Stack>
 				)}

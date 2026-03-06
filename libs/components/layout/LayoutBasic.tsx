@@ -122,7 +122,7 @@ const withLayoutBasic = (Component: any) => {
 								</Box>
 							</Stack>
 						) : (
-							<Box sx={{ height: '108px' }} />
+							<Box component={'div'} sx={{ height: '108px' }} />
 						)}
 
 						<Stack id={'main'}>

@@ -73,7 +73,7 @@ const MemberFollowings = ({
 			<Stack className="follow-cards-grid">
 				{followings.map((following: Following) => {
 					const img = following?.followingData?.memberImage
-						? `${REACT_APP_API_URL}/${following.followingData.memberImage}`
+						? `${following.followingData.memberImage}`
 						: '/img/profile/defaultUser.svg';
 					const isFollowing = following?.meFollowed?.[0]?.myFollowing;
 					const followingId = following?.followingData?._id;
