@@ -1,5 +1,3 @@
-version: '3.3'
-
 services:
   fairway-next:
     container_name: fairway-next
