@@ -47,7 +47,7 @@ function createIsomorphicLink() {
 
 		/* WEBSOCKET SUBSCRIPTION LINK */
 		const wsLink = new WebSocketLink({
-			uri: process.env.REACT_APP_API_WS ?? 'ws://127.0.0.1:3009',
+			uri: process.env.REACT_APP_API_WS ?? 'ws://187.77.128.50/4004',
 			options: {
 				reconnect: false,
 				timeout: 30000,

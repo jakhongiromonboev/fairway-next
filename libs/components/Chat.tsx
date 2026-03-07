@@ -9,7 +9,6 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import SportsGolfOutlinedIcon from '@mui/icons-material/SportsGolfOutlined';
 import { useRouter } from 'next/router';
 
-/** TYPES **/
 interface Message {
 	id: string;
 	role: 'user' | 'assistant';
@@ -32,7 +31,6 @@ const SUGGESTIONS: Suggestion[] = [
 	{ icon: <InfoOutlinedIcon />, label: 'Platform', text: 'How do I follow an agent on Fairway?' },
 ];
 
-/** TYPING INDICATOR **/
 const TypingIndicator = () => (
 	<div className="birdie-typing">
 		<span />
