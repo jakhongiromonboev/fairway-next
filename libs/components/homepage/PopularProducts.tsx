@@ -40,7 +40,7 @@ const PopularProducts = (props: PopularProductsProps) => {
 
 	/** HANDLERS **/
 	const handleViewAll = () => {
-		router.push('/products');
+		router.push('/product');
 	};
 
 	if (device === 'mobile') {
