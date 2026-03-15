@@ -19,7 +19,7 @@ const PopularProductCard = (props: PopularProductCardProps) => {
 
 	/** HANDLERS **/
 	const handleProductClick = () => {
-		router.push(`/products/${product._id}`);
+		router.push(`/product/${product._id}`);
 	};
 
 	if (device === 'mobile') {
